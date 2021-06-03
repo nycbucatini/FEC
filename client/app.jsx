@@ -1,5 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import ProductDetail from './ProductDetail.jsx';
 class App extends React.Component {
   constructor(props) {
     super(props);
@@ -25,7 +26,7 @@ class App extends React.Component {
       //put your components in the div!
       <div>
 
-        <p>Hello World</p>
+        <ProductDetail productId={productId}/>
 
       </div>
     );
