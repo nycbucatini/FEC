@@ -25,7 +25,7 @@ class App extends React.Component {
       //put your components in the div!
       <div>
 
-
+        <p>Hello World</p>
 
       </div>
     );
