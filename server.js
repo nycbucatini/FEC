@@ -11,7 +11,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 app.use('/product/:id', express.static(__dirname + "/public"));
 app.get('/', (req, res) => {
-  res.redirect('/product/1');
+  res.redirect('/product/11001');
 });
 
 app.listen(PORT, () => {
