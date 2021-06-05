@@ -14,35 +14,63 @@ class ProductDetail extends React.Component {
     super(props);
 
     this.loadBasicInfo = this.loadBasicInfo.bind(this);
+    this.loadStyles = this.loadStyles.bind(this);
 
     this.state = {
       category: '',
       name: '',
       price: '',
       description: '',
-      slogan: ''
+      slogan: '',
+
+      styles: []
     };
   }
 
   componentDidMount() {
+    // window.addEventListener('storage', function(e) {
+    //   var newOutfitList = Object.keys(window.localStorage);
+    //   console.log(newOutfitList);
+    // }.bind(this));
+
+    // window.localStorage.setItem('11002', 'saved');
+    // var event = new Event('storage');
+    // window.dispatchEvent(event);
+
+
     this.loadBasicInfo();
+    this.loadStyles();
   }
 
   loadBasicInfo() {
     axios.get(API_ROOT + `/products/${this.props.productId}`, HEADERS)
       .then((response) => {
-        console.log(response.data);
+        console.log('Line 34', response.data);
         var infopacket = response.data;
         this.setState({
           category: infopacket.category,
           name: infopacket.name,
-          price: infopacket.price,
+          price: infopacket.default_price,
           description: infopacket.description,
           slogan: infopacket.slogan
         });
       })
       .catch((err) => {
         console.log('darn');
+      });
+  }
+
+  loadStyles() {
+    axios.get(API_ROOT + `/products/${this.props.productId}/styles`, HEADERS)
+      .then((response) => {
+        console.log('Line 52', response.data);
+        var styles = response.data.results;
+        this.setState({
+          styles: styles
+        });
+      })
+      .catch((err) => {
+        console.log(darn);
       });
   }
 
