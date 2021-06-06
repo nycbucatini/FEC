@@ -1,3 +1,5 @@
+import DefaultGallery from './DefaultGallery.jsx';
+import ExpandedGallery from './ExpandedGallery.jsx';
 import React from 'react';
 import axios from 'axios';
 import KEY from '../config.js';
@@ -23,7 +25,11 @@ class ProductDetail extends React.Component {
       description: '',
       slogan: '',
 
-      styles: []
+      styles: [],
+      currentStyle: undefined,
+      expanded: true,
+
+      dataReceived: false
     };
   }
 
@@ -40,6 +46,8 @@ class ProductDetail extends React.Component {
 
     this.loadBasicInfo();
     this.loadStyles();
+
+    console.log(window.innerHeight);
   }
 
   loadBasicInfo() {
@@ -65,8 +73,16 @@ class ProductDetail extends React.Component {
       .then((response) => {
         console.log('Line 52', response.data);
         var styles = response.data.results;
+        var currentStyle = styles[0];
+        for (var i = 0; i < styles.length; i++) {
+          if (styles[i]['default?'] === true ) {
+            currentStyle = styles[i];
+          }
+        }
         this.setState({
-          styles: styles
+          styles: styles,
+          currentStyle: currentStyle,
+          dataReceived: true
         });
       })
       .catch((err) => {
@@ -77,12 +93,19 @@ class ProductDetail extends React.Component {
   render() {
     return (
       <div>
-        <h3>{this.state.name}</h3>
-        <p>{this.state.category}</p>
-        <p>{this.state.price}</p>
-        <p>{this.state.slogan}</p>
-        <p>{this.state.description}</p>
+        {this.state.dataReceived &&
+          <ExpandedGallery photos={this.state.currentStyle.photos}/>
+        }
+        <br/>
+        <div>
+          <h3>{this.state.name}</h3>
+          <p>{this.state.category}</p>
+          <p>{this.state.price}</p>
+          <p>{this.state.slogan}</p>
+          <p>{this.state.description}</p>
+        </div>
       </div>
+
     );
   }
 }
