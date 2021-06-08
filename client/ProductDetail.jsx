@@ -47,7 +47,6 @@ class ProductDetail extends React.Component {
     this.loadBasicInfo();
     this.loadStyles();
 
-    console.log(window.innerHeight);
   }
 
   loadBasicInfo() {
@@ -96,7 +95,6 @@ class ProductDetail extends React.Component {
         {this.state.dataReceived &&
           <ExpandedGallery photos={this.state.currentStyle.photos}/>
         }
-        <br/>
         <div>
           <h3>{this.state.name}</h3>
           <p>{this.state.category}</p>
