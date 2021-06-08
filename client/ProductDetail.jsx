@@ -18,6 +18,8 @@ class ProductDetail extends React.Component {
     this.loadBasicInfo = this.loadBasicInfo.bind(this);
     this.loadStyles = this.loadStyles.bind(this);
 
+    this.switchGallery = this.switchGallery.bind(this);
+
     this.state = {
       category: '',
       name: '',
@@ -27,7 +29,8 @@ class ProductDetail extends React.Component {
 
       styles: [],
       currentStyle: undefined,
-      expanded: true,
+      currentPhotoIndex: 0,
+      expanded: false,
 
       dataReceived: false
     };
@@ -89,19 +92,32 @@ class ProductDetail extends React.Component {
       });
   }
 
+  switchGallery(index) {
+    this.setState({
+      currentPhotoIndex: index,
+      expanded: !this.state.expanded
+    });
+  }
+
   render() {
     return (
       <div>
-        {this.state.dataReceived &&
-          <ExpandedGallery photos={this.state.currentStyle.photos}/>
+        {this.state.dataReceived && !this.state.expanded &&
+          <DefaultGallery photos={this.state.currentStyle.photos} switchGallery={this.switchGallery} startingIndex={this.state.currentPhotoIndex}/>
         }
-        <div>
-          <h3>{this.state.name}</h3>
-          <p>{this.state.category}</p>
-          <p>{this.state.price}</p>
-          <p>{this.state.slogan}</p>
-          <p>{this.state.description}</p>
-        </div>
+        {this.state.dataReceived && this.state.expanded &&
+          <ExpandedGallery photos={this.state.currentStyle.photos} switchGallery={this.switchGallery} startingIndex={this.state.currentPhotoIndex}/>
+        }
+        {!this.state.expanded &&
+          <div>
+            <h3>{this.state.name}</h3>
+            <p>{this.state.category}</p>
+            <p>{this.state.price}</p>
+            <p>{this.state.slogan}</p>
+            <p>{this.state.description}</p>
+          </div>
+        }
+
       </div>
 
     );

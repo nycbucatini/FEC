@@ -1,20 +1,18 @@
 import React from 'react';
 import ExpandedIconImage from './ExpandedIconImage.jsx';
-const OUTER_WIDTH = 0.8 * window.innerWidth;
-const OUTER_HEIGHT = 0.73 * window.innerHeight;
-const INNER_WIDTH  = 0.7 * window.innerWidth;
-const INNER_HEIGHT = 0.65 * window.innerHeight;
-const LEFT_OUTER_OFFSET = 0.1 * window.innerWidth;
+const OUTER_WIDTH = 1 * window.innerWidth;
+const OUTER_HEIGHT = 1 * window.innerHeight;
+const INNER_WIDTH  = 0.9 * window.innerWidth;
+const INNER_HEIGHT = 0.87 * window.innerHeight;
+const LEFT_OUTER_OFFSET = 0 * window.innerWidth;
 const LEFT_INNER_OFFSET = 0.05 * window.innerWidth; //using css relative position
-const TOP_OUTER_OFFSET = 50; //inner and outer share this edge
+const TOP_OUTER_OFFSET = 0; //inner and outer share this edge
 const FRAME_ASPECT = INNER_WIDTH / INNER_HEIGHT;
 
 /**
- * FULL BOUNDS -> 1/10 to 9/10 of the window.innerWidth
- * IMAGE BOUNDS -> 2/10 to 8/10 of Screen
- * INNER constants are just the photo, OUTER for entire gallery widget
- *
- * Will receive this.props.photos, array of photos for selected style.
+ * Will receive this.props.photos, array of photos for selected style.,
+ * this.props.switchGallery, handler function for switching the gallery
+ * this.props.startingIndex: Photo to start on. used if you switched from another gallery
  */
 
 const outerCSS = {
@@ -23,7 +21,7 @@ const outerCSS = {
   left: LEFT_OUTER_OFFSET,
   height: OUTER_HEIGHT,
   width: OUTER_WIDTH,
-  backgroundColor: '#e7e7e7',
+  backgroundColor: '#ffffff',
 };
 
 const innerCSS = {
@@ -31,7 +29,7 @@ const innerCSS = {
   left: LEFT_INNER_OFFSET,
   height: INNER_HEIGHT,
   width: INNER_WIDTH,
-  backgroundColor: '#e7e7e7',
+  backgroundColor: '#ffffff',
   overflow: 'hidden'
 };
 
@@ -40,7 +38,7 @@ const iconRowCSS = {
   left: LEFT_INNER_OFFSET,
   height: OUTER_HEIGHT - INNER_HEIGHT,
   width: INNER_WIDTH,
-  backgroundColor: '#e7e7e7',
+  backgroundColor: '#ffffff',
   display: 'flex',
   justifyContent: 'center',
   alignItems: 'center'
@@ -49,14 +47,21 @@ const iconRowCSS = {
 const leftArrowCSS = {
   position: 'absolute',
   top: TOP_OUTER_OFFSET + INNER_HEIGHT * 0.5 - LEFT_OUTER_OFFSET * 0.3,
-  left: LEFT_INNER_OFFSET * 0.4,
+  left: LEFT_INNER_OFFSET * 0.2,
   zIndex: 3
 };
 
 const rightArrowCSS = {
   position: 'absolute',
   top: TOP_OUTER_OFFSET + INNER_HEIGHT * 0.5 - LEFT_OUTER_OFFSET * 0.3,
-  left: LEFT_INNER_OFFSET + INNER_WIDTH,
+  left: LEFT_INNER_OFFSET * 1.1 + INNER_WIDTH,
+  zIndex: 3
+};
+
+const closeCSS = {
+  position: 'absolute',
+  top: 0,
+  left: window.innerWidth - LEFT_INNER_OFFSET * 0.7,
   zIndex: 3
 };
 
@@ -77,13 +82,14 @@ class ExpandedGallery extends React.Component {
     this.getImageCSS = this.getImageCSS.bind(this);
 
     //this.props.photos
+    //this.props.switchGallery
     this.state = {
       zoomedIn: false,
       mouseX: LEFT_INNER_OFFSET + LEFT_OUTER_OFFSET,
       mouseY: TOP_OUTER_OFFSET,
       imageAspect: 1,
-      currentIndex: 0,
-      iconIndex: 0
+      currentIndex: this.props.startingIndex,
+      iconIndex: this.props.startingIndex
     };
   }
 
@@ -99,8 +105,6 @@ class ExpandedGallery extends React.Component {
         imageAspect: aspect
       });
     };
-
-    console.log(this.props.photos[this.state.currentIndex].url);
   }
 
   _onMouseMove(e) {
@@ -204,31 +208,28 @@ class ExpandedGallery extends React.Component {
     var imageCSS = this.getImageCSS(this.state.mouseX, this.state.mouseY);
     var icons = this.getIconArray();
     var iconComponents = [];
-    if (this.props.photos.length > 7) { //leftArrow
-      iconComponents.push(<svg width={LEFT_OUTER_OFFSET * 0.3} height={LEFT_OUTER_OFFSET * 0.3} onClick={this.shiftIconsLeft} data-name="arrow_left" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 51.65 97.99"><path d="M51.66 2.65L49 0 2.66 46.34h-.01L0 48.99h.01L0 49l2.65 2.66.01-.01L49 97.99l2.66-2.65L5.31 48.99 51.66 2.65z"/></svg>);
+    if (this.props.photos.length > 7) { //leftIconArrow
+      iconComponents.push(<svg width={LEFT_INNER_OFFSET * 0.4} height={LEFT_INNER_OFFSET * 0.4} onClick={this.shiftIconsLeft} data-name="arrow_left" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 51.65 97.99"><path d="M51.66 2.65L49 0 2.66 46.34h-.01L0 48.99h.01L0 49l2.65 2.66.01-.01L49 97.99l2.66-2.65L5.31 48.99 51.66 2.65z"/></svg>);
     }
     for (var i = 0; i< icons.length; i++) {
       var index = this.getPhotoIndexFromIconPosition(i);
       iconComponents.push(<ExpandedIconImage image={icons[i].thumbnail_url} index={index} isSelected={index === this.state.currentIndex} clickHandler={this.iconClicked}/>);
     }
-    if (this.props.photos.length > 7) { //rightArrow
-      iconComponents.push(<svg width={LEFT_OUTER_OFFSET * 0.3} height={LEFT_OUTER_OFFSET * 0.3} onClick={this.shiftIconsRight} data-name="arrow-right" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 51.65 97.99"><path d="M0 95.34l2.65 2.65 46.34-46.34.01.01L51.66 49l-.01-.01h.01L49 46.34h-.01L2.65 0 0 2.65l46.34 46.34L0 95.34z"/></svg>);
+    if (this.props.photos.length > 7) { //rightIconArrow
+      iconComponents.push(<svg width={LEFT_INNER_OFFSET * 0.4} height={LEFT_INNER_OFFSET * 0.4} onClick={this.shiftIconsRight} data-name="arrow-right" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 51.65 97.99"><path d="M0 95.34l2.65 2.65 46.34-46.34.01.01L51.66 49l-.01-.01h.01L49 46.34h-.01L2.65 0 0 2.65l46.34 46.34L0 95.34z"/></svg>);
     }
 
     return (
       <div style={outerCSS}>
-        <svg style={leftArrowCSS} width={LEFT_OUTER_OFFSET * 0.3} height={LEFT_OUTER_OFFSET * 0.3} onClick={this.cycleLeft} data-name="arrow_left" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 51.65 97.99"><path d="M51.66 2.65L49 0 2.66 46.34h-.01L0 48.99h.01L0 49l2.65 2.66.01-.01L49 97.99l2.66-2.65L5.31 48.99 51.66 2.65z"/></svg>
+        <svg style={leftArrowCSS} width={LEFT_INNER_OFFSET * 0.7} height={LEFT_INNER_OFFSET * 0.7} onClick={this.cycleLeft} data-name="arrow_left" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 51.65 97.99"><path d="M51.66 2.65L49 0 2.66 46.34h-.01L0 48.99h.01L0 49l2.65 2.66.01-.01L49 97.99l2.66-2.65L5.31 48.99 51.66 2.65z"/></svg>
         <div id="imagePanel"style={innerCSS} onMouseMove={this._onMouseMove} onClick={this._onClick}>
-          {/* {this.props.photos.map(photo =>
-            <div>{JSON.stringify(photo)}</div>
-          )} */}
           <img id="expandedImage" style={imageCSS} src={this.props.photos[this.state.currentIndex].url} />
         </div>
-        <svg style={rightArrowCSS} width={LEFT_OUTER_OFFSET * 0.3} height={LEFT_OUTER_OFFSET * 0.3} onClick={this.cycleRight} data-name="arrow-right" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 51.65 97.99"><path d="M0 95.34l2.65 2.65 46.34-46.34.01.01L51.66 49l-.01-.01h.01L49 46.34h-.01L2.65 0 0 2.65l46.34 46.34L0 95.34z"/></svg>
+        <svg style={rightArrowCSS} width={LEFT_INNER_OFFSET * 0.7} height={LEFT_INNER_OFFSET * 0.7} onClick={this.cycleRight} data-name="arrow-right" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 51.65 97.99"><path d="M0 95.34l2.65 2.65 46.34-46.34.01.01L51.66 49l-.01-.01h.01L49 46.34h-.01L2.65 0 0 2.65l46.34 46.34L0 95.34z"/></svg>
         <div id="expandedIconRow" style={iconRowCSS}>
           {iconComponents}
         </div>
-
+        <svg style={closeCSS} width={LEFT_INNER_OFFSET * 0.5} height={LEFT_INNER_OFFSET * 0.5} onClick={() => {this.props.switchGallery(this.state.currentIndex)}} data-name="close" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 72 72"><path d="M72 11.77L60.23 0 36 24.23 11.77 0 0 11.77 24.23 36 0 60.23 11.77 72 36 47.77 60.23 72 72 60.23 47.77 36 72 11.77z"/></svg>
       </div>
 
     );
