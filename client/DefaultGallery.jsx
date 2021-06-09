@@ -82,6 +82,7 @@ class DefaultGallery extends React.Component {
   }
 
   iconClicked(index) {
+    this.props.logInteraction('defaultIcon');
     this.setState({
       currentIndex: index,
       zoomedIn: false
@@ -89,6 +90,7 @@ class DefaultGallery extends React.Component {
   }
 
   cycleLeft() {
+    this.props.logInteraction('defaultGalleryArrow');
     var newIndex = this.state.currentIndex - 1;
     if (newIndex < 0) {
       newIndex = this.props.photos.length - 1;
@@ -101,6 +103,7 @@ class DefaultGallery extends React.Component {
   }
 
   cycleRight() {
+    this.props.logInteraction('defaultGalleryArrow');
     var newIndex = (this.state.currentIndex + 1) % this.props.photos.length;
     var newIconIndex = Math.min(newIndex, this.props.photos.length - 5);
     this.setState({
@@ -110,6 +113,7 @@ class DefaultGallery extends React.Component {
   }
 
   shiftIconsLeft() {
+    this.props.logInteraction('defaultIconArrow');
     var newIndex = this.state.iconIndex - 1;
     if (newIndex < 0) {
       newIndex += this.props.photos.length;
@@ -120,6 +124,7 @@ class DefaultGallery extends React.Component {
   }
 
   shiftIconsRight() {
+    this.props.logInteraction('defaultIconArrow');
     var newIndex = this.state.iconIndex + 1;
     newIndex %= this.props.photos.length;
     this.setState({
@@ -150,13 +155,13 @@ class DefaultGallery extends React.Component {
             {iconComponents}
           </div>
           {this.state.iconIndex > 0 &&
-            <svg style={topArrowCSS} width={ICON_COL_WIDTH * 0.4} height={ICON_COL_WIDTH * 0.4} onClick={this.shiftIconsLeft} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 330 330"><path d="M324 209.3L174 96.8c-5.3-4-12.7-4-18 0L6 209.3c-6.6 5-8 14.4-3 21 2.9 3.9 7.5 6 12 6 3.1 0 6.3-1 9-3L165 127.5l141 105.8c6.6 5 16 3.6 21-3C332 223.6 330.6 214.2 324 209.3z"/></svg>
+            <svg className="defaultIconArrow" style={topArrowCSS} width={ICON_COL_WIDTH * 0.4} height={ICON_COL_WIDTH * 0.4} onClick={this.shiftIconsLeft} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 330 330"><path d="M324 209.3L174 96.8c-5.3-4-12.7-4-18 0L6 209.3c-6.6 5-8 14.4-3 21 2.9 3.9 7.5 6 12 6 3.1 0 6.3-1 9-3L165 127.5l141 105.8c6.6 5 16 3.6 21-3C332 223.6 330.6 214.2 324 209.3z"/></svg>
           }
           {this.state.iconIndex < (this.props.photos.length - 5) &&
-            <svg style={downArrowCSS} transform="rotate(180)" width={ICON_COL_WIDTH * 0.4} height={ICON_COL_WIDTH * 0.4} onClick={this.shiftIconsRight} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 330 330"><path d="M324 209.3L174 96.8c-5.3-4-12.7-4-18 0L6 209.3c-6.6 5-8 14.4-3 21 2.9 3.9 7.5 6 12 6 3.1 0 6.3-1 9-3L165 127.5l141 105.8c6.6 5 16 3.6 21-3C332 223.6 330.6 214.2 324 209.3z"/></svg>
+            <svg className="defaultIconArrow" style={downArrowCSS} transform="rotate(180)" width={ICON_COL_WIDTH * 0.4} height={ICON_COL_WIDTH * 0.4} onClick={this.shiftIconsRight} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 330 330"><path d="M324 209.3L174 96.8c-5.3-4-12.7-4-18 0L6 209.3c-6.6 5-8 14.4-3 21 2.9 3.9 7.5 6 12 6 3.1 0 6.3-1 9-3L165 127.5l141 105.8c6.6 5 16 3.6 21-3C332 223.6 330.6 214.2 324 209.3z"/></svg>
           }
-          <svg style={leftArrowCSS} width={LEFT_OFFSET * 0.4} height={LEFT_OFFSET * 0.4} onClick={this.cycleLeft} data-name="arrow_left" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 51.65 97.99"><path fill="#ff0000" d="M51.66 2.65L49 0 2.66 46.34h-.01L0 48.99h.01L0 49l2.65 2.66.01-.01L49 97.99l2.66-2.65L5.31 48.99 51.66 2.65z"/></svg>
-          <svg style={rightArrowCSS} width={LEFT_OFFSET * 0.4} height={LEFT_OFFSET * 0.4} onClick={this.cycleRight} data-name="arrow-right" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 51.65 97.99"><path fill="#ff0000" d="M0 95.34l2.65 2.65 46.34-46.34.01.01L51.66 49l-.01-.01h.01L49 46.34h-.01L2.65 0 0 2.65l46.34 46.34L0 95.34z"/></svg>
+          <svg className="defaultGalleryArrow" style={leftArrowCSS} width={LEFT_OFFSET * 0.4} height={LEFT_OFFSET * 0.4} onClick={this.cycleLeft} data-name="arrow_left" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 51.65 97.99"><path fill="#ff0000" d="M51.66 2.65L49 0 2.66 46.34h-.01L0 48.99h.01L0 49l2.65 2.66.01-.01L49 97.99l2.66-2.65L5.31 48.99 51.66 2.65z"/></svg>
+          <svg className="defaultGalleryArrow" style={rightArrowCSS} width={LEFT_OFFSET * 0.4} height={LEFT_OFFSET * 0.4} onClick={this.cycleRight} data-name="arrow-right" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 51.65 97.99"><path fill="#ff0000" d="M0 95.34l2.65 2.65 46.34-46.34.01.01L51.66 49l-.01-.01h.01L49 46.34h-.01L2.65 0 0 2.65l46.34 46.34L0 95.34z"/></svg>
       </div>
 
     );

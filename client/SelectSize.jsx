@@ -39,7 +39,7 @@ class SelectSize extends React.Component {
     }
     optionTags.unshift(<option value='none' disabled>{optionTags.length > 0 ? 'SELECT SIZE' : 'OUT OF STOCK'}</option>);
     return (
-      <select style={css} value={this.state.value} onChange={this._onChange}>
+      <select id="selectSize" style={css} value={this.state.value} onChange={this._onChange}>
         {optionTags}
       </select>
     );

@@ -7,7 +7,6 @@ const css = {
   height: 0.1 * RIGHT_PANEL_WIDTH,
   marginLeft: 0.04 * RIGHT_PANEL_WIDTH,
   paddingLeft: 0.03 * RIGHT_PANEL_WIDTH,
-  paddingRight: 0.02 * RIGHT_PANEL_WIDTH,
   marginTop: 0.02 * RIGHT_PANEL_WIDTH,
   borderRadius: 0,
   border: 'solid 1px',
@@ -47,7 +46,7 @@ class SelectQuantity extends React.Component {
     }
 
     return (
-      <select style={css} value={this.state.value} onChange={this._onChange}>
+      <select id="selectQuantity" style={css} value={this.state.value} onChange={this._onChange}>
           {optionTags}
       </select>
     );

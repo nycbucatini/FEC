@@ -45,6 +45,7 @@ class ProductDetail extends React.Component {
     this.selectQuantity = this.selectQuantity.bind(this);
     this.addToCart = this.addToCart.bind(this);
     this.addOutfit = this.addOutfit.bind(this);
+    this.logInteraction = this.logInteraction.bind(this);
 
     this.state = {
       rating: 5,
@@ -52,6 +53,7 @@ class ProductDetail extends React.Component {
       name: '',
       description: '',
       slogan: '',
+      features: [],
 
       styles: [],
       currentStyleIndex: 0,
@@ -94,12 +96,21 @@ class ProductDetail extends React.Component {
       .then((response) => {
         console.log('LoadBasicInfo()', response.data);
         var infopacket = response.data;
+        var parseFeatures = function(input) {
+          var output = [];
+          for (var i = 0; i < input.length; i++) {
+            output.push(`✓ ${input[i].value} ${input[i].feature}`);
+          }
+          return output;
+        }
+        var features = parseFeatures(infopacket.features);
         this.setState({
           category: infopacket.category,
           name: infopacket.name,
           price: infopacket.default_price,
           description: infopacket.description,
-          slogan: infopacket.slogan
+          slogan: infopacket.slogan,
+          features: features
         });
       })
       .catch((err) => {
@@ -153,7 +164,26 @@ class ProductDetail extends React.Component {
       });
   }
 
+  logInteraction(element) {
+    return axios.post(API_ROOT + '/interactions', {
+      element: element,
+      widget: 'ProductDetail',
+      time: Date.now().toString()
+    }, HEADERS)
+      .then((response) => {
+        // console.log('Interaction logged ' + element, response);
+      })
+      .catch((err) => {
+        console.log('danggit');
+      });
+  }
+
   switchGallery(index) {
+    if (this.state.expanded) {
+      this.logInteraction('expandedGalleryClose');
+    } else {
+      this.logInteraction('expandedGalleryOpen');
+    }
     this.setState({
       currentPhotoIndex: index,
       expanded: !this.state.expanded
@@ -161,6 +191,7 @@ class ProductDetail extends React.Component {
   }
 
   changeStyle(index) {
+    this.logInteraction('styleIcons');
     this.setState({
       currentStyleIndex: index,
       currentPhotoIndex: 0,
@@ -170,6 +201,7 @@ class ProductDetail extends React.Component {
   }
 
   selectSku(sku) {
+    this.logInteraction('selectSize');
     this.setState({
       selectedSku: sku,
       quantity: 1
@@ -177,12 +209,14 @@ class ProductDetail extends React.Component {
   }
 
   selectQuantity(quantity) {
+    this.logInteraction('selectQuantity');
     this.setState({
       quantity: quantity
     });
   }
 
   addToCart() {
+    this.logInteraction('bagButton');
     if (this.state.quantity > 0) {
       return axios.post(API_ROOT + '/cart', {
         sku_id: this.state.selectedSku,
@@ -213,6 +247,7 @@ class ProductDetail extends React.Component {
     window.localStorage.setItem(this.props.productId, 'saved');
     var event = new Event('storage');
     window.dispatchEvent(event);
+    this.logInteraction('addOutfitButton');
     alert('Added to saved outfits');
   }
 
@@ -225,18 +260,18 @@ class ProductDetail extends React.Component {
     }
 
     return (
-      <div id="productDetail">
+      <div id="productDetail" style={{position: 'relative'}}>
         {this.state.dataReceived && !this.state.expanded &&
-          <DefaultGallery photos={this.state.styles[this.state.currentStyleIndex].photos} switchGallery={this.switchGallery} startingIndex={this.state.currentPhotoIndex}/>
+          <DefaultGallery photos={this.state.styles[this.state.currentStyleIndex].photos} switchGallery={this.switchGallery} startingIndex={this.state.currentPhotoIndex} logInteraction={this.logInteraction}/>
         }
         {this.state.dataReceived && this.state.expanded &&
-          <ExpandedGallery photos={this.state.styles[this.state.currentStyleIndex].photos} switchGallery={this.switchGallery} startingIndex={this.state.currentPhotoIndex}/>
+          <ExpandedGallery photos={this.state.styles[this.state.currentStyleIndex].photos} switchGallery={this.switchGallery} startingIndex={this.state.currentPhotoIndex} logInteraction={this.logInteraction}/>
         }
         {!this.state.expanded && this.state.dataReceived &&
           <div id="rightPanel" style={rightPanelCSS}>
             <div id="productInfoReviewStar"style={{display: 'flex', alignItems: 'center'}}>
               <img style={{width: 75, height: 15}} src={starsURL}/>
-              <a href="/" style={{fontFamily: 'Verdana', fontSize: 12, color: 'black', marginLeft: 10}}>Read All Reviews</a>
+              <a href="/" id="reviewLink" onClick={() => {this.logInteraction('reviewLink');}} style={{fontFamily: 'Verdana', fontSize: 12, color: 'black', marginLeft: 10}}>Read All Reviews</a>
             </div>
             <p id="categoryName" style={{fontFamily: 'Verdana', fontWeight: 'lighter', fontVariant: 'small-caps', marginBottom: 0}}>{this.state.category}</p>
             <h2 id="productName" style={{fontFamily: 'Copperplate', marginTop: 0, marginBottom: 0, fontSize: 40 * window.innerHeight / 820}}>{this.state.name}</h2>
@@ -262,11 +297,23 @@ class ProductDetail extends React.Component {
               <button id="bagButton" onClick={this.addToCart} style={{zIndex: 4, width: RIGHT_PANEL_WIDTH * 0.65, height: 0.1 * RIGHT_PANEL_WIDTH, marginTop: 0.04 * RIGHT_PANEL_WIDTH, marginRight: 0.04 * RIGHT_PANEL_WIDTH, backgroundColor: '#ffffff', border: 'solid 1px', fontFamily: 'Verdana', fontWeight: 'bold', color: '#555555'}}>ADD TO BAG</button>
               <button id="addOutfitButton" onClick={this.addOutfit} style={{zIndex: 4, height: 0.1 * RIGHT_PANEL_WIDTH, width: 0.1 * RIGHT_PANEL_WIDTH, borderRadius: 0, backgroundColor: '#ffffff', border: 'solid 1px'}}>☆</button>
             </div>
-            {/* <p>{this.state.slogan}</p>
-            <p>{this.state.description}</p> */}
           </div>
         }
-
+        {!this.state.expanded && this.state.dataReceived &&
+          <div id="detailPanel" style={{display: 'flex', position: 'relative', marginTop: 0.1 * window.innerHeight}}>
+            <div id="descriptionPanel" style={{position: 'relative', left: 0.12 * window.innerWidth, width: 0.5 * window.innerWidth, paddingRight: 0.015 * window.innerWidth, borderRight: 'solid 2px #222222'}}>
+              <h4 style={{fontFamily: 'Verdana', color: '#555555', marginTop: 0}}>{this.state.slogan}</h4>
+              <p style={{fontFamily: 'Verdana', fontSize: 15, fontWeight: 'lighter', color: '#222222'}}>{this.state.description}</p>
+            </div>
+            <div id="featurePanel" style={{position: 'relative', left: .12 * window.innerWidth, paddingLeft: 0.03 * window.innerWidth}}>
+              <ul style={{listStyleType: 'none', padding: 0}}>
+                {this.state.features.map(feature =>
+                  <li style={{fontFamily: 'Verdana', fontVariant: 'small-caps', padding: '2px'}}>{feature}</li>
+                )}
+              </ul>
+            </div>
+          </div>
+        }
       </div>
 
     );
