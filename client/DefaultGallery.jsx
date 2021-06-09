@@ -93,17 +93,19 @@ class DefaultGallery extends React.Component {
     if (newIndex < 0) {
       newIndex = this.props.photos.length - 1;
     }
+    var newIconIndex = Math.min(newIndex, this.props.photos.length - 5);
     this.setState({
       currentIndex: newIndex,
-      iconIndex: newIndex
+      iconIndex: newIconIndex
     });
   }
 
   cycleRight() {
     var newIndex = (this.state.currentIndex + 1) % this.props.photos.length;
+    var newIconIndex = Math.min(newIndex, this.props.photos.length - 5);
     this.setState({
       currentIndex: newIndex,
-      iconIndex: newIndex
+      iconIndex: newIconIndex
     });
   }
 

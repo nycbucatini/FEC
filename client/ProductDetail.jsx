@@ -1,5 +1,6 @@
 import DefaultGallery from './DefaultGallery.jsx';
 import ExpandedGallery from './ExpandedGallery.jsx';
+import StyleIcon from './StyleIcon.jsx';
 import React from 'react';
 import axios from 'axios';
 import KEY from '../config.js';
@@ -13,15 +14,16 @@ const HEADERS = {
 
 const TOP_OFFSET = 50;
 const HEIGHT = 0.73 * window.innerHeight;
+const RIGHT_PANEL_WIDTH = 0.3 * window.innerWidth;
 
 const rightPanelCSS = {
   position: 'absolute',
   top: TOP_OFFSET,
   left: 0.65 * window.innerWidth,
-  width: 0.3 * window.innerWidth,
+  width: RIGHT_PANEL_WIDTH,
   height: HEIGHT -1.5 * TOP_OFFSET,
   backgroundColor: '#ffffff',
-  marginTop: TOP_OFFSET * 1.5,
+  marginTop: 0,
   display: 'flex',
   flexDirection: 'column',
   justifyContent: 'flex-start'
@@ -36,18 +38,17 @@ class ProductDetail extends React.Component {
     this.loadReviews = this.loadReviews.bind(this);
 
     this.switchGallery = this.switchGallery.bind(this);
+    this.changeStyle = this.changeStyle.bind(this);
 
     this.state = {
       rating: 5,
       category: '',
       name: '',
-      price: '',
-      salePrice: null,
       description: '',
       slogan: '',
 
       styles: [],
-      currentStyle: undefined,
+      currentStyleIndex: 0,
       currentPhotoIndex: 0,
       expanded: false,
 
@@ -103,18 +104,18 @@ class ProductDetail extends React.Component {
       .then((response) => {
         console.log('LoadStyles()', response.data);
         var styles = response.data.results;
-        var currentStyle = styles[0];
+        var currentIndex = 0;
         for (var i = 0; i < styles.length; i++) {
           if (styles[i]['default?'] === true ) {
-            currentStyle = styles[i];
+            currentIndex = i;
           }
         }
         // currentStyle = styles[2]; ///delete this line!
         this.setState({
           styles: styles,
-          currentStyle: currentStyle,
-          price: currentStyle.original_price,
-          salePrice: currentStyle.sale_price,
+          currentStyleIndex: currentIndex,
+          price: styles[currentIndex].original_price,
+          salePrice: styles[currentIndex].sale_price,
         });
       })
       .catch((err) => {
@@ -151,16 +152,28 @@ class ProductDetail extends React.Component {
     });
   }
 
+  changeStyle(index) {
+    this.setState({
+      currentStyleIndex: index,
+      currentPhotoIndex: 0
+    });
+  }
+
   render() {
 
     var starsURL = this.props.getReviewImage(this.state.rating);
+    var styleIconComponents = [];
+    for (var i = 0; i < this.state.styles.length; i++) {
+      styleIconComponents.push(<StyleIcon icon={this.state.styles[i].photos[0].thumbnail_url} index={i} isSelected={i === this.state.currentStyleIndex} changeStyle={this.changeStyle}/>);
+    }
+
     return (
       <div id="productDetail">
         {this.state.dataReceived && !this.state.expanded &&
-          <DefaultGallery photos={this.state.currentStyle.photos} switchGallery={this.switchGallery} startingIndex={this.state.currentPhotoIndex}/>
+          <DefaultGallery photos={this.state.styles[this.state.currentStyleIndex].photos} switchGallery={this.switchGallery} startingIndex={this.state.currentPhotoIndex}/>
         }
         {this.state.dataReceived && this.state.expanded &&
-          <ExpandedGallery photos={this.state.currentStyle.photos} switchGallery={this.switchGallery} startingIndex={this.state.currentPhotoIndex}/>
+          <ExpandedGallery photos={this.state.styles[this.state.currentStyleIndex].photos} switchGallery={this.switchGallery} startingIndex={this.state.currentPhotoIndex}/>
         }
         {!this.state.expanded && this.state.dataReceived &&
           <div id="rightPanel" style={rightPanelCSS}>
@@ -169,16 +182,19 @@ class ProductDetail extends React.Component {
               <a href="/" style={{fontFamily: 'Verdana', fontSize: 12, color: 'black', marginLeft: 10}}>Read All Reviews</a>
             </div>
             <p id="categoryName" style={{fontFamily: 'Verdana', fontWeight: 'lighter', fontVariant: 'small-caps', marginBottom: 0}}>{this.state.category}</p>
-            <h2 id="productName" style={{fontFamily: 'Copperplate', marginTop: 0, marginBottom: 0, fontSize: 40}}>{this.state.name}</h2>
+            <h2 id="productName" style={{fontFamily: 'Copperplate', marginTop: 0, marginBottom: 0, fontSize: 40 * window.innerHeight / 820}}>{this.state.name}</h2>
             <div id="prices" style={{display: 'flex'}}>
-              {this.state.salePrice &&
-                <p style={{color: 'red', fontFamily: 'Verdana', fontVariant: 'small-caps', fontWeight: 'bold', marginRight: 20, marginTop: 10, marginBottom: 0}}>{'$' + Math.floor(this.state.salePrice) + ' On sale!'}</p>
+              {this.state.styles[this.state.currentStyleIndex].sale_price &&
+                <p style={{color: 'red', fontFamily: 'Verdana', fontVariant: 'small-caps', fontWeight: 'bold', marginRight: 20, marginTop: 10, marginBottom: 0}}>{'$' + Math.floor(this.state.styles[this.state.currentStyleIndex].sale_price) + ' On sale!'}</p>
               }
-              <p style={this.state.salePrice ? {fontFamily: 'Verdana', textDecoration: 'line-through', marginTop: 10, marginBottom: 0} : {fontFamily: 'Verdana', marginTop: 10, marginBottom: 0, fontWeight: 'bold'}}>{'$' + Math.floor(this.state.price)}</p>
+              <p style={this.state.styles[this.state.currentStyleIndex].sale_price ? {fontFamily: 'Verdana', textDecoration: 'line-through', marginTop: 10, marginBottom: 0} : {fontFamily: 'Verdana', marginTop: 10, marginBottom: 0, fontWeight: 'bold'}}>{'$' + Math.floor(this.state.styles[this.state.currentStyleIndex].original_price)}</p>
             </div>
             <div id="stylesHeader" style={{display: 'flex', alignItems: 'center'}}>
               <p style={{fontFamily: 'Verdana', fontWeight: 'bold'}}>STYLE >  </p>
-              <p style={{fontFamily: 'Verdana', marginLeft: 6}}>{this.state.currentStyle.name.toUpperCase()}</p>
+              <p style={{fontFamily: 'Verdana', marginLeft: 6}}>{this.state.styles[this.state.currentStyleIndex].name.toUpperCase()}</p>
+            </div>
+            <div id="styleIcons" style={{width: RIGHT_PANEL_WIDTH * 0.8, display: 'flex', flexFlow: 'row wrap', justifyContent: 'flex-start', alignContent: 'flex-start', alignItems: 'center'}}>
+              {styleIconComponents}
             </div>
             {/* <p>{this.state.slogan}</p>
             <p>{this.state.description}</p> */}
