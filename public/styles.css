@@ -1,0 +1,9 @@
+#bagButton:hover {
+  color: purple !important;
+  font-weight: bold !important;
+  border: solid 2px purple !important;
+}
+#addOutfitButton:hover {
+  color: purple !important;
+  border: solid 2px purple !important;
+}

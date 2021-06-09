@@ -1,6 +1,8 @@
 import DefaultGallery from './DefaultGallery.jsx';
 import ExpandedGallery from './ExpandedGallery.jsx';
 import StyleIcon from './StyleIcon.jsx';
+import SelectSize from './SelectSize.jsx';
+import SelectQuantity from './SelectQuantity.jsx';
 import React from 'react';
 import axios from 'axios';
 import KEY from '../config.js';
@@ -21,9 +23,9 @@ const rightPanelCSS = {
   top: TOP_OFFSET,
   left: 0.65 * window.innerWidth,
   width: RIGHT_PANEL_WIDTH,
-  height: HEIGHT -1.5 * TOP_OFFSET,
+  height: HEIGHT - 1.5 * TOP_OFFSET,
   backgroundColor: '#ffffff',
-  marginTop: 0,
+  marginTop: 0.05 * window.innerHeight,
   display: 'flex',
   flexDirection: 'column',
   justifyContent: 'flex-start'
@@ -39,6 +41,10 @@ class ProductDetail extends React.Component {
 
     this.switchGallery = this.switchGallery.bind(this);
     this.changeStyle = this.changeStyle.bind(this);
+    this.selectSku = this.selectSku.bind(this);
+    this.selectQuantity = this.selectQuantity.bind(this);
+    this.addToCart = this.addToCart.bind(this);
+    this.addOutfit = this.addOutfit.bind(this);
 
     this.state = {
       rating: 5,
@@ -50,6 +56,8 @@ class ProductDetail extends React.Component {
       styles: [],
       currentStyleIndex: 0,
       currentPhotoIndex: 0,
+      selectedSku: 'none',
+      quantity: 0,
       expanded: false,
 
       dataReceived: false
@@ -155,8 +163,57 @@ class ProductDetail extends React.Component {
   changeStyle(index) {
     this.setState({
       currentStyleIndex: index,
-      currentPhotoIndex: 0
+      currentPhotoIndex: 0,
+      quantity: 0,
+      selectedSku: 'none'
     });
+  }
+
+  selectSku(sku) {
+    this.setState({
+      selectedSku: sku,
+      quantity: 1
+    });
+  }
+
+  selectQuantity(quantity) {
+    this.setState({
+      quantity: quantity
+    });
+  }
+
+  addToCart() {
+    if (this.state.quantity > 0) {
+      return axios.post(API_ROOT + '/cart', {
+        sku_id: this.state.selectedSku,
+        quantity: this.state.quantity
+      }, HEADERS)
+      .then((response) => {
+        alert(`Added ${this.state.quantity} items to cart.`);
+        var oldSku = this.state.selectedSku;
+        this.setState({
+          selectedSku: 'none'
+        }, () => {
+          this.setState({
+            selectedSku: oldSku,
+            quantity: 0
+          });
+        });
+      })
+      .catch((err) => {
+        console.log('oops');
+      });
+    }
+    else {
+      alert('Please select a size.');
+    }
+  }
+
+  addOutfit() {
+    window.localStorage.setItem(this.props.productId, 'saved');
+    var event = new Event('storage');
+    window.dispatchEvent(event);
+    alert('Added to saved outfits');
   }
 
   render() {
@@ -193,8 +250,17 @@ class ProductDetail extends React.Component {
               <p style={{fontFamily: 'Verdana', fontWeight: 'bold'}}>STYLE >  </p>
               <p style={{fontFamily: 'Verdana', marginLeft: 6}}>{this.state.styles[this.state.currentStyleIndex].name.toUpperCase()}</p>
             </div>
-            <div id="styleIcons" style={{width: RIGHT_PANEL_WIDTH * 0.8, display: 'flex', flexFlow: 'row wrap', justifyContent: 'flex-start', alignContent: 'flex-start', alignItems: 'center'}}>
+            <div id="styleIcons" style={{minHeight: RIGHT_PANEL_WIDTH * 0.45, width: RIGHT_PANEL_WIDTH * 0.8, display: 'flex', flexFlow: 'row wrap', justifyContent: 'flex-start', alignContent: 'center', alignItems: 'center'}}>
               {styleIconComponents}
+            </div>
+            <div id="dropdownRow">
+              {/* When the key prop changes, React knows to rerender the dropdown from scratch. Without key prop, React only partially rebuilds the dropdown, which is not ok here! */}
+              <SelectSize key={this.state.currentStyleIndex} skus={this.state.styles[this.state.currentStyleIndex].skus} selectSku={this.selectSku}/>
+              <SelectQuantity key={this.state.selectedSku + (this.state.quantity === 0 ? 1 : 0)} quantity={this.state.styles[this.state.currentStyleIndex].skus[this.state.selectedSku] ? this.state.styles[this.state.currentStyleIndex].skus[this.state.selectedSku].quantity : 0} selectQuantity={this.selectQuantity}/>
+            </div>
+            <div id="bagRow">
+              <button id="bagButton" onClick={this.addToCart} style={{zIndex: 4, width: RIGHT_PANEL_WIDTH * 0.65, height: 0.1 * RIGHT_PANEL_WIDTH, marginTop: 0.04 * RIGHT_PANEL_WIDTH, marginRight: 0.04 * RIGHT_PANEL_WIDTH, backgroundColor: '#ffffff', border: 'solid 1px', fontFamily: 'Verdana', fontWeight: 'bold', color: '#555555'}}>ADD TO BAG</button>
+              <button id="addOutfitButton" onClick={this.addOutfit} style={{zIndex: 4, height: 0.1 * RIGHT_PANEL_WIDTH, width: 0.1 * RIGHT_PANEL_WIDTH, borderRadius: 0, backgroundColor: '#ffffff', border: 'solid 1px'}}>☆</button>
             </div>
             {/* <p>{this.state.slogan}</p>
             <p>{this.state.description}</p> */}
