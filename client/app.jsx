@@ -47,7 +47,7 @@ class App extends React.Component {
       //put your components in the div!
       <div>
 
-        <ProductDetail productId={productId}/>
+        <ProductDetail productId={productId} getReviewImage={this.getReviewImage}/>
 
       </div>
     );

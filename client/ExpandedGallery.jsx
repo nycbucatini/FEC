@@ -83,6 +83,7 @@ class ExpandedGallery extends React.Component {
 
     //this.props.photos
     //this.props.switchGallery
+    //this.props.startingIndex
     this.state = {
       zoomedIn: false,
       mouseX: LEFT_INNER_OFFSET + LEFT_OUTER_OFFSET,
