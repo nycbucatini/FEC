@@ -1,0 +1,134 @@
+/* imports google fonts */
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@100&display=swap');
+:root {
+  --noto: 'Noto Sans JP', sans-serif;
+  --roboto: 'Roboto', sans-serif;
+  --size-xs: 6px;
+  --size-sm: 8px;
+  --size-m: 10px;
+  --size-lg: 12px;
+}
+
+.box{
+  display:flex;
+  justify-content: space-evenly;
+}
+
+.child {
+  display: flex;
+  flex-direction: column;
+}
+.sub-review-num {
+  margin-bottom: 30px;
+  font-size: var(--size-lg);
+  font-family: var(--roboto);
+}
+.sub-review-num > * {
+  font-size: var(--size-lg);
+  font-family: var(--roboto);
+}
+.sub-review-body {
+  font-size: var(--size-lg);
+  font-family: var(--roboto);
+}
+.sub-recommend {
+  font-size: var(--size-sm);
+  font-family: var(--noto);
+}
+/* review list */
+.review-list {
+  display: flex;
+  flex-direction: column;
+}
+.review-list > div {
+  margin-bottom: 10px;
+}
+.review-star-name-date {
+  display: flex;
+  justify-content: space-between;
+}
+.review-star-name-date > .name-date {
+  font-size: var(--size-xs);
+  font-family: var(--noto);
+}
+
+.sub-helpful {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  font-size: var(--size-xs);
+  font-family: var(--noto);
+}
+.sub-1 {
+  margin-right: 2px;
+}
+.vertLine {
+  margin-left: 7px;
+  margin-right: 7px;
+}
+.helpfulness, .report{
+  border-bottom: 1px solid darkgrey;
+}
+
+hr {
+  height: 1px;
+  border: 0;
+  border-top: 1px solid #ccc;
+  margin: 1em 0;
+  padding: 0;
+  margin-top: auto;
+}
+
+select {
+  border: none;
+  border-bottom: 2px solid black;
+  padding-bottom: 3px;
+  outline: none;
+}
+
+/* star logic */
+
+.star {
+  display: inline-block;
+  position: relative;
+  color: #ddd;
+}
+
+.star-whole:after {
+  content: "\f005";
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  overflow: hidden;
+  color: gold;
+}
+
+.star-3-4:after {
+  content: "\f005";
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 75%;
+  overflow: hidden;
+  color: gold;
+}
+.star-2-4:after {
+  content: "\f005";
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 50%;
+  overflow: hidden;
+  color: gold;
+}
+.star-1-4:after {
+  content: "\f005";
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 25%;
+  overflow: hidden;
+  color: gold;
+}
