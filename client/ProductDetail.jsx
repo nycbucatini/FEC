@@ -99,7 +99,9 @@ class ProductDetail extends React.Component {
         var parseFeatures = function(input) {
           var output = [];
           for (var i = 0; i < input.length; i++) {
-            output.push(`✓ ${input[i].value} ${input[i].feature}`);
+            var value = input[i].value ? input[i].value : '';
+            var feature = input[i].feature ? input[i].feature : '';
+            output.push(`✓ ${value} ${feature}`);
           }
           return output;
         }
