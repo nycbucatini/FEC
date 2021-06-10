@@ -19,6 +19,14 @@
   display: flex;
   flex-direction: column;
 }
+.child > .child-ratingreview {
+  font-size: var(--size-m);
+  font-family: var(--noto);
+}
+
+.box-child-2 {
+  margin-top: 50px;
+}
 .sub-review-num {
   margin-bottom: 30px;
   font-size: var(--size-lg);
@@ -132,3 +140,18 @@ select {
   overflow: hidden;
   color: gold;
 }
+
+/* button css */
+
+.two-Button {
+  display: flex;
+  flex-direction: row;
+}
+.two-Button-child1 {
+  margin-right: 15px;
+}
+.button-moreReview, .button-addReview {
+    font-size: var(--size-sm);
+    font-family: var(--roboto);
+}
+

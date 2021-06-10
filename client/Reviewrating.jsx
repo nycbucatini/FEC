@@ -69,11 +69,11 @@ render() {
   return (
     <main className='box'>
 
-      <div className='child'>
-        <h2>{'RATINGS & REVIEWS'}</h2>
+      <div className='child box-child-1'>
+        <p className='child-ratingreview'>{'RATINGS & REVIEWS'}</p>
       </div>
 
-      <div className='child'>
+      <div className='child box-child-2'>
 
         <div className='sub-review-num'>{this.state.reviewList.length } reviews, sorted by
         <select value={this.state.sortBy} onChange={this.handleChange}>
@@ -115,7 +115,15 @@ render() {
             </div>
           )
         })}
+          <div className='two-Button'>
+          <div className='two-Button-child1'>
+          <button><p className='button-moreReview'>{'MORE REVIEWS'}</p></button>
 
+          </div>
+          <div className='two-Button-child2'>
+          <button><p className='button-addReview'>{`ADD A REVIEW   +`}</p></button>
+          </div>
+          </div>
         </div>
 
     </main>
