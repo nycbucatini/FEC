@@ -8,7 +8,7 @@
   --size-sm: 8px;
   --size-m: 10px;
   --size-lg: 12px;
-  --size-xl: 25px;
+  --size-xl: 45px;
 }
 
 .box{
@@ -33,7 +33,10 @@
   font-family: var(--roboto);
 }
 
-
+.percentage {
+  font-family: var(--noto);
+  font-size: var(--size-m);
+}
 /* bar logic */
 /* Three column layout */
 .side {

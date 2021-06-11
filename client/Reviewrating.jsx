@@ -16,9 +16,8 @@ export default class ReviewRating extends React.Component {
        rating: 5,
        reviewList: [],
        sortBy: 'relevant',
-       ratingLabels: ['1 stars', '2 stars', '3 stars', '4 stars', '5 stars'],
        ratingDistribute: [],
-       numOfReviewer: 0
+       recommendPercentage: 0
      }
      this.handleChange = this.handleChange.bind(this);
      this.convertToStar = this.convertToStar.bind(this);
@@ -63,10 +62,14 @@ export default class ReviewRating extends React.Component {
       var ratingCount = parseHelper(ratingsObject['1']) + parseHelper(ratingsObject['2']) + parseHelper(ratingsObject['3']) + parseHelper(ratingsObject['4']) + parseHelper(ratingsObject['5']);
       var ratingSum = parseHelper(ratingsObject['1']) + 2 * parseHelper(ratingsObject['2']) + 3 * parseHelper(ratingsObject['3']) + 4 * parseHelper(ratingsObject['4']) + 5 * parseHelper(ratingsObject['5']);
       var average = ratingSum / ratingCount;
+      var recommendObject = response.data.recommended;
+      var recommendCount = Number(recommendObject['true']) + Number(recommendObject['false']);
+      console.log('reccoCount', recommendCount)
+      var productRecommend = Math.round((recommendObject['true'] / recommendCount) * 100)
       this.setState({
         rating: isNaN(average) ? 0 : average,
-        numOfReviewer: ratingSum,
-        ratingDistribute: ratingDistributeHelper()
+        ratingDistribute: ratingDistributeHelper(),
+        recommendPercentage: productRecommend
       });
     }).catch((err) => {
       console.log('some errors in loadReview', err);
@@ -121,6 +124,7 @@ render() {
             )
           })}</div>
         </div>
+        <p className='percentage'>{`${this.state.recommendPercentage}% of reviews recommend this product`}</p>
         <div class="row">
   <div class="side">
     <div>5 star</div>
