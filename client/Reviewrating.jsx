@@ -1,8 +1,6 @@
 import React from 'react';
 import axios from 'axios';
 import {getListReviews, loadReviews} from '../helpers/helper.js';
-// import BarChart from './BarChart.jsx';
-import {Bar} from 'react-chartjs-2';
 const config = require('../config.js');
 const API_ROOT = 'https://app-hrsei-api.herokuapp.com/api/fec2/hrnyc'
 const HEADERS = {
@@ -56,8 +54,7 @@ export default class ReviewRating extends React.Component {
       var ratingDistributeHelper = function() {
         var ratingDistrubtionArray = [];
         for (var i = 1; i < 6; i++) {
-            ratingDistrubtionArray.push( ((parseHelper(ratingsObject[`${i}`]) / ratingCount) * 100) );
-
+            ratingDistrubtionArray.push( Number(((parseHelper(ratingsObject[`${i}`]) / ratingCount) * 100).toFixed(1)) );
         }
         return ratingDistrubtionArray
       }
@@ -110,6 +107,7 @@ export default class ReviewRating extends React.Component {
 
 
 render() {
+  {console.log(this.state.ratingDistribute)}
   return (
     <main className='box'>
 
@@ -122,42 +120,64 @@ render() {
               <span className={item}></span>
             )
           })}</div>
-          <div>
-          <Bar
-           data = {{
-           labels: this.state.ratingLabels,
-           datasets: [{
-             data: this.state.ratingDistribute,
-             label: '# of selected rating',
-             backgroundColor:'rgb(0, 0, 0)',
-             borderColor: 'rgb(0, 0, 0)',
-             borderWidth: 1,
-           }]
-          }}
-            options = {{
-              indexAxis: 'y',
-  // Elements options apply to all of the options unless overridden in a dataset
-  // In this case, we are setting the border of each horizontal bar to be 2px wide
-          elements: {
-            bar: {
-            borderWidth: 1,
-          },
-        },
-          responsive: true,
-          maintainAspectRatio: true,
-        plugins: {
-        legend: {
-          position: 'right',
-        },
-          title: {
-            display: true,
-            text: 'Chart.js Horizontal Bar Chart',
-          },
-        },
-      }}
-           />
-           </div>
         </div>
+        <div class="row">
+  <div class="side">
+    <div>5 star</div>
+  </div>
+  <div class="middle">
+    <div class="bar-container">
+      <div style={{width: `${this.state.ratingDistribute[4]}%`}} class="bar-5"></div>
+    </div>
+  </div>
+  <div class="side right">
+    <div>150</div>
+  </div>
+  <div class="side">
+    <div>4 star</div>
+  </div>
+  <div class="middle">
+    <div class="bar-container">
+      <div style={{width: `${this.state.ratingDistribute[3]}%`}} class="bar-4"></div>
+    </div>
+  </div>
+  <div class="side right">
+    <div>150</div>
+  </div>
+  <div class="side">
+    <div>3 star</div>
+  </div>
+  <div class="middle">
+    <div class="bar-container">
+      <div style={{width: `${this.state.ratingDistribute[2]}%`}} class="bar-3"></div>
+    </div>
+  </div>
+  <div class="side right">
+    <div>150</div>
+  </div>
+  <div class="side">
+    <div>2 star</div>
+  </div>
+  <div class="middle">
+    <div class="bar-container">
+      <div style={{width: `${this.state.ratingDistribute[1]}%`}} class="bar-2"></div>
+    </div>
+  </div>
+  <div class="side right">
+    <div>150</div>
+  </div>
+  <div class="side">
+    <div>1 star</div>
+  </div>
+  <div class="middle">
+    <div class="bar-container">
+      <div style={{width: `${this.state.ratingDistribute[0]}%`}} class="bar-1"></div>
+    </div>
+  </div>
+  <div class="side right">
+    <div>150</div>
+  </div>
+</div>
       </div>
 
       <div className='child box-child-2'>

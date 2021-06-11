@@ -32,6 +32,53 @@
   font-size: var(--size-xl);
   font-family: var(--roboto);
 }
+
+
+/* bar logic */
+/* Three column layout */
+.side {
+  float: left;
+  width: 15%;
+  margin-top:10px;
+}
+
+.middle {
+  margin-top:10px;
+  float: left;
+  width: 70%;
+}
+
+/* Place text to the right */
+.right {
+  text-align: right;
+  visibility: hidden;
+}
+
+/* Clear floats after the columns */
+.row:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+
+/* The bar container */
+.bar-container {
+  width: 100%;
+  background-color: #f1f1f1;
+  text-align: center;
+  color: white;
+}
+.flex-row {
+  display: flex;
+}
+.bar-5 { height: 18px; background-color: #000000}
+.bar-4 {width: 30%; height: 18px; background-color: #000000}
+.bar-3 {width: 10%; height: 18px; background-color: #000000}
+.bar-2 {width: 4%; height: 18px; background-color: #000000}
+.bar-1 {width: 15%; height: 18px; background-color: #000000}
+
+
+
 .box-child-2 {
   margin-top: 50px;
 }
