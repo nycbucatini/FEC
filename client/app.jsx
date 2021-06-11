@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 // import ProductDetail from './ProductDetail.jsx';
-import ReviewRating from './Reviewrating.jsx';
+import ReviewRating from './ReviewRating.jsx';
 class App extends React.Component {
   constructor(props) {
     super(props);

@@ -8,6 +8,7 @@
   --size-sm: 8px;
   --size-m: 10px;
   --size-lg: 12px;
+  --size-xl: 25px;
 }
 
 .box{
@@ -23,7 +24,14 @@
   font-size: var(--size-m);
   font-family: var(--noto);
 }
-
+.avgrating-avgstar {
+  display:flex;
+  justify-content: space-evenly;
+}
+.average-rating {
+  font-size: var(--size-xl);
+  font-family: var(--roboto);
+}
 .box-child-2 {
   margin-top: 50px;
 }

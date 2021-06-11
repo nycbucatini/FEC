@@ -1,19 +1,30 @@
 import React from 'react';
 import axios from 'axios';
-import getListReviews from '../helpers/helper.js';
+import {getListReviews, loadReviews} from '../helpers/helper.js';
+// import BarChart from './BarChart.jsx';
+import {Bar} from 'react-chartjs-2';
 const config = require('../config.js');
 const API_ROOT = 'https://app-hrsei-api.herokuapp.com/api/fec2/hrnyc'
-
+const HEADERS = {
+  headers: {
+    'Authorization' : config.TOKEN
+  }
+};
 
 export default class ReviewRating extends React.Component {
    constructor(props) {
      super(props);
      this.state = {
+       rating: 5,
        reviewList: [],
-       sortBy: 'relevant'
+       sortBy: 'relevant',
+       ratingLabels: ['1 stars', '2 stars', '3 stars', '4 stars', '5 stars'],
+       ratingDistribute: [],
+       numOfReviewer: 0
      }
      this.handleChange = this.handleChange.bind(this);
      this.convertToStar = this.convertToStar.bind(this);
+    //  this.loadReviews = this.loadReviews.bind(this);
     //  this.convertToDate = this.convertToDate.bind(this);
    }
 
@@ -32,7 +43,38 @@ export default class ReviewRating extends React.Component {
     getListReviews(this.props.productId).then((response) => {
       // console.log(response);
       this.setState({reviewList: response.data.results})
+  }).catch((err) => {
+    console.log('failed to getListReviews:',err);
   })
+
+    loadReviews(this.props.productId).then((response) => {
+      console.log('loadReview response', response.data);
+      var parseHelper = function(input) {
+        var output = parseInt(input);
+        return isNaN(output) ? 0 : output;
+      };
+      var ratingDistributeHelper = function() {
+        var ratingDistrubtionArray = [];
+        for (var i = 1; i < 6; i++) {
+            ratingDistrubtionArray.push( ((parseHelper(ratingsObject[`${i}`]) / ratingCount) * 100) );
+
+        }
+        return ratingDistrubtionArray
+      }
+      // ratingDistrubtion: [(ratingsObject['1'] / ratingSum) * 100]
+      var ratingsObject = response.data.ratings;
+      var ratingCount = parseHelper(ratingsObject['1']) + parseHelper(ratingsObject['2']) + parseHelper(ratingsObject['3']) + parseHelper(ratingsObject['4']) + parseHelper(ratingsObject['5']);
+      var ratingSum = parseHelper(ratingsObject['1']) + 2 * parseHelper(ratingsObject['2']) + 3 * parseHelper(ratingsObject['3']) + 4 * parseHelper(ratingsObject['4']) + 5 * parseHelper(ratingsObject['5']);
+      var average = ratingSum / ratingCount;
+      this.setState({
+        rating: isNaN(average) ? 0 : average,
+        numOfReviewer: ratingSum,
+        ratingDistribute: ratingDistributeHelper()
+      });
+    }).catch((err) => {
+      console.log('some errors in loadReview', err);
+    })
+
 }
 
   convertToDate(iso) {
@@ -49,28 +91,73 @@ export default class ReviewRating extends React.Component {
       let whole = Number(number.slice(0, 1));
       let left = Number(number.slice(1));
         while (whole > 0) {
-          wholeOutput.push("star star-whole fa fa-star");
+          wholeOutput.push("star star-whole fa fa-star fa-xs");
           whole--;
         }
         // if left is .75 || .5 || .25
         if (left === .75) {
-          leftOutput.push("star star-3-4 fa fa-star")
+          leftOutput.push("star star-3-4 fa fa-star fa-xs")
         }
         if (left === .5) {
-          leftOutput.push("star star-2-4 fa fa-star")
+          leftOutput.push("star star-2-4 fa fa-star fa-xs")
         }
         if (left === .25) {
-          leftOutput.push("star star-1-4 fa fa-star")
+          leftOutput.push("star star-1-4 fa fa-star fa-xs")
         }
         let output = wholeOutput.concat(leftOutput);
         return output;
   }
+
+
 render() {
   return (
     <main className='box'>
 
       <div className='child box-child-1'>
         <p className='child-ratingreview'>{'RATINGS & REVIEWS'}</p>
+        <div className='avgrating-avgstar'>
+          <div className='average-rating'>{this.state.rating}</div>
+          <div className='avgstar'>{this.convertToStar(this.state.rating).map((item) => {
+            return (
+              <span className={item}></span>
+            )
+          })}</div>
+          <div>
+          <Bar
+           data = {{
+           labels: this.state.ratingLabels,
+           datasets: [{
+             data: this.state.ratingDistribute,
+             label: '# of selected rating',
+             backgroundColor:'rgb(0, 0, 0)',
+             borderColor: 'rgb(0, 0, 0)',
+             borderWidth: 1,
+           }]
+          }}
+            options = {{
+              indexAxis: 'y',
+  // Elements options apply to all of the options unless overridden in a dataset
+  // In this case, we are setting the border of each horizontal bar to be 2px wide
+          elements: {
+            bar: {
+            borderWidth: 1,
+          },
+        },
+          responsive: true,
+          maintainAspectRatio: true,
+        plugins: {
+        legend: {
+          position: 'right',
+        },
+          title: {
+            display: true,
+            text: 'Chart.js Horizontal Bar Chart',
+          },
+        },
+      }}
+           />
+           </div>
+        </div>
       </div>
 
       <div className='child box-child-2'>

@@ -21,8 +21,10 @@
   "dependencies": {
     "axios": "^0.21.1",
     "body-parser": "^1.18.2",
+    "chart.js": "^3.3.2",
     "express": "^4.16.2",
     "react": "^16.2.0",
+    "react-chartjs-2": "^3.0.3",
     "react-dom": "^16.2.0"
   }
 }

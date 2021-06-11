@@ -20,4 +20,18 @@ const API_ROOT = 'https://app-hrsei-api.herokuapp.com/api/fec2/hrnyc'
   return axios(options);
 }
 
-export default getListReviews
+  const loadReviews = (productId) => {
+    let options = {
+      method: 'GET',
+      url: `${API_ROOT}/reviews/meta/`,
+      headers: {
+        'Authorization': `${config.TOKEN}`
+      },
+      params: {
+        product_id: productId
+      }
+    }
+    return axios(options);
+  }
+
+export {getListReviews, loadReviews}
