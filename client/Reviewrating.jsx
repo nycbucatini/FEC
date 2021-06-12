@@ -17,7 +17,9 @@ export default class ReviewRating extends React.Component {
        reviewList: [],
        sortBy: 'relevant',
        ratingDistribute: [],
-       recommendPercentage: 0
+       recommendPercentage: 0,
+       comfortPercentage: 0,
+       fitPercentage: 0
      }
      this.handleChange = this.handleChange.bind(this);
      this.convertToStar = this.convertToStar.bind(this);
@@ -66,10 +68,15 @@ export default class ReviewRating extends React.Component {
       var recommendCount = Number(recommendObject['true']) + Number(recommendObject['false']);
       console.log('reccoCount', recommendCount)
       var productRecommend = Math.round((recommendObject['true'] / recommendCount) * 100)
+      var characteristicsObj = response.data.characteristics;
+      var fitPercentage = (Number(characteristicsObj.Fit.value.slice(0, characteristicsObj.Fit.value.indexOf('.') + 3)) / 5) * 100;
+      var comfortPercentage = (Number(characteristicsObj.Comfort.value.slice(0, characteristicsObj.Comfort.value.indexOf('.') + 3)) / 5) * 100;
       this.setState({
         rating: isNaN(average) ? 0 : average,
         ratingDistribute: ratingDistributeHelper(),
-        recommendPercentage: productRecommend
+        recommendPercentage: productRecommend,
+        fitPercentage: fitPercentage,
+        comfortPercentage: comfortPercentage
       });
     }).catch((err) => {
       console.log('some errors in loadReview', err);
@@ -182,6 +189,51 @@ render() {
     <div>150</div>
   </div>
 </div>
+  <div className='gl-vspace-bpall-small'>
+    <div className='remove-intersections___3rBx6'>
+    <div className='gl-comparison-bar gl-comparison-bar--triangle'>
+    <div className='gl-comparison-bar__title'>
+    <p>Size</p>
+    </div>
+      <div class='gl-comparison-bar__bg'>
+        <div style={{left: `${this.state.fitPercentage}%`}} class='gl-comparison-bar__indicator'>
+          <div class='gl-comparison-bar__intersections'>
+          </div>
+        </div>
+      </div>
+      <div class='gl-comparison-bar__labels'>
+            <label class='gl-comparison-bar__label'>Too small</label>
+            <label class="gl-comparison-bar__label gl-comparison-bar__label--active">Perfect</label>
+            <label class='gl-comparison-bar__label'>Too large</label>
+          </div>
+     </div>
+     </div>
+  </div>
+
+  <div className='gl-vspace-bpall-small'>
+    <div className='remove-intersections___3rBx6'>
+    <div className='gl-comparison-bar gl-comparison-bar--triangle'>
+    <div className='gl-comparison-bar__title'>
+    <p>Comfort</p>
+    </div>
+      <div class='gl-comparison-bar__bg'>
+        <div style={{left: `${this.state.comfortPercentage}%`}} class='gl-comparison-bar__indicator'>
+          <div class='gl-comparison-bar__intersections'>
+          </div>
+        </div>
+      </div>
+      <div class='gl-comparison-bar__labels'>
+            <label class='gl-comparison-bar__label'>Poor</label>
+            <label class="gl-comparison-bar__label gl-comparison-bar__label--active"></label>
+            <label class='gl-comparison-bar__label'>Perfect</label>
+          </div>
+     </div>
+     </div>
+  </div>
+
+
+
+
       </div>
 
       <div className='child box-child-2'>
