@@ -1,3 +1,4 @@
+// var isMobile = !!/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
 import DefaultGallery from './DefaultGallery.jsx';
 import ExpandedGallery from './ExpandedGallery.jsx';
 import StyleIcon from './StyleIcon.jsx';

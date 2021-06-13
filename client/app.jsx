@@ -1,6 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import ProductDetail from './ProductDetail.jsx';
+import ReviewRating from './ReviewRating.jsx';
 class App extends React.Component {
   constructor(props) {
     super(props);
@@ -48,6 +49,8 @@ class App extends React.Component {
       <div>
 
         <ProductDetail productId={productId} getReviewImage={this.getReviewImage}/>
+        <ReviewRating productId={productId}/>
+
 
       </div>
     );
