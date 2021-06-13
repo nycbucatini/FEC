@@ -40,7 +40,7 @@ export default class ReviewRating extends React.Component {
   componentDidMount() {
 
     getListReviews(this.props.productId).then((response) => {
-      // console.log(response);
+      console.log('hello new comment', response);
       this.setState({reviewList: response.data.results})
   }).catch((err) => {
     console.log('failed to getListReviews:',err);
