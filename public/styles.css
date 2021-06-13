@@ -1,0 +1,297 @@
+/* imports google fonts */
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@100&display=swap');
+:root {
+  --noto: 'Noto Sans JP', sans-serif;
+  --roboto: 'Roboto', sans-serif;
+  --size-xs: 6px;
+  --size-sm: 8px;
+  --size-m: 10px;
+  --size-lg: 12px;
+  --size-xl: 45px;
+  --gl-color-light-grey: #ebedee;
+  --gl-color-primary: #000000;
+}
+
+.box{
+  display:flex;
+  justify-content: space-evenly;
+}
+
+.child {
+  display: flex;
+  flex-direction: column;
+}
+.child > .child-ratingreview {
+  font-size: var(--size-m);
+  font-family: var(--noto);
+}
+.avgrating-avgstar {
+  display:flex;
+  justify-content: space-evenly;
+}
+.average-rating {
+  font-size: var(--size-xl);
+  font-family: var(--roboto);
+}
+
+.percentage {
+  font-family: var(--noto);
+  font-size: var(--size-m);
+}
+/* bar logic */
+/* Three column layout */
+.side {
+  float: left;
+  width: 15%;
+  margin-top:10px;
+}
+
+.middle {
+  margin-top:10px;
+  float: left;
+  width: 70%;
+}
+
+/* Place text to the right */
+.right {
+  text-align: right;
+  visibility: hidden;
+}
+
+/* Clear floats after the columns */
+.row:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+
+/* The bar container */
+.bar-container {
+  width: 100%;
+  background-color: #f1f1f1;
+  text-align: center;
+  color: white;
+}
+.flex-row {
+  display: flex;
+}
+.bar-5 { height: 18px; background-color: #000000}
+.bar-4 {width: 30%; height: 18px; background-color: #000000}
+.bar-3 {width: 10%; height: 18px; background-color: #000000}
+.bar-2 {width: 4%; height: 18px; background-color: #000000}
+.bar-1 {width: 15%; height: 18px; background-color: #000000}
+
+/* size scales */
+.gl-vspace-bpall-small {
+  margin-top: 50px;
+}
+/* .size-scale {
+  height: 12px;
+  width: calc(100% - 38px);
+  background-color: #eee;
+  position: relative;
+  margin-bottom: 8px;
+} */
+
+/* cut the scale div's width to fit better */
+.gl-comparison-bar__bg, .gl-comparison-bar__labels {
+  width: calc(100% - 38px);
+}
+
+
+.remove-intersections___3rBx6 , .gl-comparison-bar__title {
+  font-size: 14px;
+}
+.gl-comparison-bar--triangle , .gl-comparison-bar__bg {
+  overflow: visible;
+}
+.remove-intersections___3rBx6 .gl-comparison-bar__indicator {
+  border-width: 14px 7px;
+  top: -4px;
+}
+.gl-comparison-bar--triangle .gl-comparison-bar__indicator {
+  background-color: transparent;
+  border: 8px solid transparent;
+  height: auto;
+  width: 0;
+  border-top-color: var(--gl-color-primary);
+}
+.gl-comparison-bar__title > p {
+  font-size: var(--size-sm);
+  font-family: var(--noto);
+}
+.gl-comparison-bar__labels > label {
+  font-size: var(--size-sm);
+  font-family: var(--noto);
+}
+.gl-comparison-bar__indicator {
+  background-color: var(--gl-color-primary);
+  height: 4px;
+  position: absolute;
+  top: 0;
+  width: 49px;
+  z-index: 3;
+}
+.gl-comparison-bar__title {
+  display: inline-flex;
+  font-family: "AdihausDIN",Helvetica, Arial, sans-serif;
+  font-size: 18px;
+  font-style: normal;
+  font-weight: normal;
+  line-height: 24px;
+  margin-bottom: 10px;
+  text-align: left;
+}
+.gl-comparison-bar__bg {
+  background-color: var(--gl-color-light-grey);
+  height: 4px;
+  overflow: hidden;
+  position: relative;
+}
+.gl-comparison-bar__label {
+  color: var(--gl-color-dark-grey);
+  display: block;
+  font-family: "AdihausDIN",Helvetica, Arial, sans-serif;
+  font-size: 12px;
+  font-style: normal;
+  font-weight: normal;
+  line-height: 16px;
+  text-align: center;
+}
+.gl-comparison-bar__labels {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 5px;
+}
+.box-child-2 {
+  margin-top: 50px;
+}
+.sub-review-num {
+  margin-bottom: 30px;
+  font-size: var(--size-lg);
+  font-family: var(--roboto);
+}
+.sub-review-num > * {
+  font-size: var(--size-lg);
+  font-family: var(--roboto);
+}
+.sub-review-body {
+  font-size: var(--size-lg);
+  font-family: var(--roboto);
+}
+.sub-recommend {
+  font-size: var(--size-sm);
+  font-family: var(--noto);
+}
+/* review list */
+.review-list {
+  display: flex;
+  flex-direction: column;
+}
+.review-list > div {
+  margin-bottom: 10px;
+}
+.review-star-name-date {
+  display: flex;
+  justify-content: space-between;
+}
+.review-star-name-date > .name-date {
+  font-size: var(--size-xs);
+  font-family: var(--noto);
+}
+
+.sub-helpful {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  font-size: var(--size-xs);
+  font-family: var(--noto);
+}
+.sub-1 {
+  margin-right: 2px;
+}
+.vertLine {
+  margin-left: 7px;
+  margin-right: 7px;
+}
+.helpfulness, .report{
+  border-bottom: 1px solid darkgrey;
+}
+
+hr {
+  height: 1px;
+  border: 0;
+  border-top: 1px solid #ccc;
+  margin: 1em 0;
+  padding: 0;
+  margin-top: auto;
+}
+
+select {
+  border: none;
+  border-bottom: 2px solid black;
+  padding-bottom: 3px;
+  outline: none;
+}
+
+/* star logic */
+
+.star {
+  display: inline-block;
+  position: relative;
+  color: #ddd;
+}
+
+.star-whole:after {
+  content: "\f005";
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  overflow: hidden;
+  color: gold;
+}
+
+.star-3-4:after {
+  content: "\f005";
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 75%;
+  overflow: hidden;
+  color: gold;
+}
+.star-2-4:after {
+  content: "\f005";
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 50%;
+  overflow: hidden;
+  color: gold;
+}
+.star-1-4:after {
+  content: "\f005";
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 25%;
+  overflow: hidden;
+  color: gold;
+}
+
+/* button css */
+
+.two-Button {
+  display: flex;
+  flex-direction: row;
+}
+.two-Button-child1 {
+  margin-right: 15px;
+}
+.button-moreReview, .button-addReview {
+    font-size: var(--size-sm);
+    font-family: var(--roboto);
+}
+
