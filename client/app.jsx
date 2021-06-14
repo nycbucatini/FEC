@@ -32,7 +32,7 @@ class App extends React.Component {
       8: 'https://i.ibb.co/kK3wbmY/40Star.png',
       9: 'https://i.ibb.co/9pG8cNS/45Star.png',
       10: 'https://i.ibb.co/Jr5z49c/50Star.png'
-    }
+    };
 
     var key = Math.ceil(rating * 2);
     return images[key];

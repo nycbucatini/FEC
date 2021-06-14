@@ -41,6 +41,8 @@ class ProductDetail extends React.Component {
     this.loadReviews = this.loadReviews.bind(this);
 
     this.switchGallery = this.switchGallery.bind(this);
+    this.disableScroll = this.disableScroll.bind(this);
+    this.enableScroll = this.enableScroll.bind(this);
     this.changeStyle = this.changeStyle.bind(this);
     this.selectSku = this.selectSku.bind(this);
     this.selectQuantity = this.selectQuantity.bind(this);
@@ -190,7 +192,23 @@ class ProductDetail extends React.Component {
     this.setState({
       currentPhotoIndex: index,
       expanded: !this.state.expanded
+    }, () => {
+      this.state.expanded ? this.disableScroll() : this.enableScroll();
     });
+  }
+
+  disableScroll() {
+    var scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+    var scrollLeft = window.pageXOffset || document.documentElement.scrollLeft;
+
+    // if any scroll is attempted, set this to the previous value
+    window.onscroll = function() {
+      window.scrollTo(scrollLeft, scrollTop);
+    };
+  }
+
+  enableScroll() {
+    window.onscroll = function() {};
   }
 
   changeStyle(index) {
@@ -263,7 +281,7 @@ class ProductDetail extends React.Component {
     }
 
     return (
-      <div id="productDetail" style={{position: 'relative'}}>
+      <div id="productDetail" style={{position: 'relative', marginBottom: 50}}>
         {this.state.dataReceived && !this.state.expanded &&
           <DefaultGallery photos={this.state.styles[this.state.currentStyleIndex].photos} switchGallery={this.switchGallery} startingIndex={this.state.currentPhotoIndex} logInteraction={this.logInteraction}/>
         }
