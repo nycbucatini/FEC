@@ -229,15 +229,20 @@ class ExpandedGallery extends React.Component {
 
     return (
       <div style={outerCSS}>
-        <svg className="expandedGalleryArrow" style={leftArrowCSS} width={LEFT_INNER_OFFSET * 0.7} height={LEFT_INNER_OFFSET * 0.7} onClick={this.cycleLeft} data-name="arrow_left" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 51.65 97.99"><path d="M51.66 2.65L49 0 2.66 46.34h-.01L0 48.99h.01L0 49l2.65 2.66.01-.01L49 97.99l2.66-2.65L5.31 48.99 51.66 2.65z"/></svg>
         <div id="imagePanel"style={innerCSS} onMouseMove={this._onMouseMove} onClick={this._onClick}>
           <img id="expandedImage" style={imageCSS} src={this.props.photos[this.state.currentIndex].url} />
         </div>
-        <svg className="expandedGalleryArrow" style={rightArrowCSS} width={LEFT_INNER_OFFSET * 0.7} height={LEFT_INNER_OFFSET * 0.7} onClick={this.cycleRight} data-name="arrow-right" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 51.65 97.99"><path d="M0 95.34l2.65 2.65 46.34-46.34.01.01L51.66 49l-.01-.01h.01L49 46.34h-.01L2.65 0 0 2.65l46.34 46.34L0 95.34z"/></svg>
-        <div id="expandedIconRow" style={iconRowCSS}>
-          {iconComponents}
-        </div>
-        <svg id="expandedGalleryClose" style={closeCSS} width={LEFT_INNER_OFFSET * 0.5} height={LEFT_INNER_OFFSET * 0.5} onClick={() => {this.props.switchGallery(this.state.currentIndex)}} data-name="close" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 72 72"><path d="M72 11.77L60.23 0 36 24.23 11.77 0 0 11.77 24.23 36 0 60.23 11.77 72 36 47.77 60.23 72 72 60.23 47.77 36 72 11.77z"/></svg>
+        {!this.state.zoomedIn &&
+          <React.Fragment>
+            <svg className="expandedGalleryArrow" style={leftArrowCSS} width={LEFT_INNER_OFFSET * 0.7} height={LEFT_INNER_OFFSET * 0.7} onClick={this.cycleLeft} data-name="arrow_left" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 51.65 97.99"><path d="M51.66 2.65L49 0 2.66 46.34h-.01L0 48.99h.01L0 49l2.65 2.66.01-.01L49 97.99l2.66-2.65L5.31 48.99 51.66 2.65z"/></svg>
+            <svg className="expandedGalleryArrow" style={rightArrowCSS} width={LEFT_INNER_OFFSET * 0.7} height={LEFT_INNER_OFFSET * 0.7} onClick={this.cycleRight} data-name="arrow-right" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 51.65 97.99"><path d="M0 95.34l2.65 2.65 46.34-46.34.01.01L51.66 49l-.01-.01h.01L49 46.34h-.01L2.65 0 0 2.65l46.34 46.34L0 95.34z"/></svg>
+            <div id="expandedIconRow" style={iconRowCSS}>
+              {iconComponents}
+            </div>
+            <svg id="expandedGalleryClose" style={closeCSS} width={LEFT_INNER_OFFSET * 0.5} height={LEFT_INNER_OFFSET * 0.5} onClick={() => {this.props.switchGallery(this.state.currentIndex)}} data-name="close" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 72 72"><path d="M72 11.77L60.23 0 36 24.23 11.77 0 0 11.77 24.23 36 0 60.23 11.77 72 36 47.77 60.23 72 72 60.23 47.77 36 72 11.77z"/></svg>
+          </React.Fragment>
+        }
+
       </div>
 
     );
