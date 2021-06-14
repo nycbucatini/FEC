@@ -1,6 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import ProductDetail from './ProductDetail.jsx';
+import ReviewRating from './ReviewRating.jsx';
+import Questions from './Questions.jsx';
 class App extends React.Component {
   constructor(props) {
     super(props);
@@ -31,7 +33,7 @@ class App extends React.Component {
       8: 'https://i.ibb.co/kK3wbmY/40Star.png',
       9: 'https://i.ibb.co/9pG8cNS/45Star.png',
       10: 'https://i.ibb.co/Jr5z49c/50Star.png'
-    }
+    };
 
     var key = Math.ceil(rating * 2);
     return images[key];
@@ -47,7 +49,9 @@ class App extends React.Component {
       //put your components in the div!
       <div>
 
-        <ProductDetail productId={productId}/>
+        <ProductDetail productId={productId} getReviewImage={this.getReviewImage}/>
+        <Questions productId={productId}/>
+        <ReviewRating productId={productId}/>
 
       </div>
     );
