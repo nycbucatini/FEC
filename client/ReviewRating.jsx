@@ -40,14 +40,14 @@ export default class ReviewRating extends React.Component {
   componentDidMount() {
 
     getListReviews(this.props.productId).then((response) => {
-      console.log('hello new comment', response);
+      // console.log('hello new comment', response);
       this.setState({reviewList: response.data.results})
   }).catch((err) => {
     console.log('failed to getListReviews:',err);
   })
 
     loadReviews(this.props.productId).then((response) => {
-      console.log('loadReview response', response.data);
+      // console.log('loadReview response', response.data);
       var parseHelper = function(input) {
         var output = parseInt(input);
         return isNaN(output) ? 0 : output;
@@ -66,7 +66,7 @@ export default class ReviewRating extends React.Component {
       var average = ratingSum / ratingCount;
       var recommendObject = response.data.recommended;
       var recommendCount = Number(recommendObject['true']) + Number(recommendObject['false']);
-      console.log('reccoCount', recommendCount)
+      // console.log('reccoCount', recommendCount)
       var productRecommend = Math.round((recommendObject['true'] / recommendCount) * 100)
       var characteristicsObj = response.data.characteristics;
       var fitPercentage = (Number(characteristicsObj.Fit.value.slice(0, characteristicsObj.Fit.value.indexOf('.') + 3)) / 5) * 100;
@@ -117,7 +117,7 @@ export default class ReviewRating extends React.Component {
 
 
 render() {
-  {console.log(this.state.ratingDistribute)}
+  // {console.log(this.state.ratingDistribute)}
   return (
     <main className='box'>
 

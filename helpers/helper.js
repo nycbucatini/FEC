@@ -17,7 +17,7 @@ const API_ROOT = 'https://app-hrsei-api.herokuapp.com/api/fec2/hrnyc'
       product_id: productId
     }
   }
-  console.log(options.headers);
+  // console.log(options.headers);
 
   return axios(options);
 }
@@ -33,7 +33,7 @@ const API_ROOT = 'https://app-hrsei-api.herokuapp.com/api/fec2/hrnyc'
         product_id: productId
       }
     }
-    console.log(options.headers);
+    // console.log(options.headers);
     return axios(options);
   }
 
