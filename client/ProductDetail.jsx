@@ -198,6 +198,7 @@ class ProductDetail extends React.Component {
   }
 
   disableScroll() {
+    window.scrollTo(0, 0);
     var scrollTop = window.pageYOffset || document.documentElement.scrollTop;
     var scrollLeft = window.pageXOffset || document.documentElement.scrollLeft;
 

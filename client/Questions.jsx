@@ -3,6 +3,7 @@ import axios from 'axios';
 import KEY from '../config.js';
 import QuestionSearch from './QuestionSearch.jsx';
 import QuestionBody from './QuestionBody.jsx';
+import QuestionForm from './QuestionForm.jsx';
 const API_ROOT = 'https://app-hrsei-api.herokuapp.com/api/fec2/hrnyc';
 class Questions extends React.Component {
   constructor(props) {
@@ -10,9 +11,12 @@ class Questions extends React.Component {
 
     this.loadQuestions = this.loadQuestions.bind(this);
     this.handleSearch = this.handleSearch.bind(this);
+    this.toggleForm = this.toggleForm.bind(this);
     this.state = {
       questions: [],
       nextPage: 1,
+
+      expanded: false,
 
       dataReceived: false
     };
@@ -39,7 +43,7 @@ class Questions extends React.Component {
       },
       params: {
         page: page,
-        count: 2,
+        count: 20,
         product_id: this.props.productId
       }
     }
@@ -60,6 +64,12 @@ class Questions extends React.Component {
 
   }
 
+  toggleForm() {
+    this.setState({
+      expanded: !this.state.expanded
+    });
+  }
+
   render() {
     return (
       <div id="questionsBody">
@@ -70,6 +80,17 @@ class Questions extends React.Component {
             {this.state.questions.map(question =>
               <QuestionBody questionObject={question} />
             )}
+          </div>
+        }
+        <div className="qaWidgetButtonRow">
+          <h4 className="qaWidgetButton">MORE ANSWERED QUESTIONS</h4>
+          <h4 className="qaWidgetButton" onClick={this.toggleForm}>ADD A QUESTION &nbsp;&#43;</h4>
+        </div>
+        {this.state.expanded &&
+          <div className="addQuestionDiv">
+            <div className="questionFormBox">
+              <QuestionForm close={this.toggleForm} productId={this.props.productId}/>
+            </div>
           </div>
         }
       </div>

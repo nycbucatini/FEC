@@ -54,15 +54,153 @@
   font-family: Verdana;
   font-weight: lighter;
   font-size: small;
+  color: #666666;
+}
+.qaClicked {
+  text-decoration: underline;
+  cursor: pointer;
+  font-family: Verdana;
+  font-weight: lighter;
+  font-size: small;
+  color: fuchsia;
 }
 .qaHeader {
   font-family: Verdana;
   font-weight: 600;
   color: #444444;
 }
+.answerBody {
+  display: flex;
+  flex-direction: column;
+  margin-left: 2%;
+}
+.answerText {
+  font-family: Verdana;
+  width: 67%;
+  margin: 0;
+  color: #444444;
+}
+.answerImageRow {
+  display: flex;
+  flex-direction: row;
+}
+.answerImage {
+  width: 10%;
+  height: 10%;
+  margin: 10px;
+  border: 1px solid black;
+  cursor: pointer;
+}
+.expandedAnswerImage {
+  position: fixed;
+  z-index: 5;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  background-color: transparent;
+  cursor: pointer;
+}
+.addQuestionDiv {
+  position: fixed;
+  z-index: 5;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0,0,0,0.1);
+}
+.formInput {
+  margin-left: 6%;
+  margin-right: 6%;
+  margin-top: 20px;
+  margin-bottom: 20px;
+  padding: 1%;
+  border-radius: 5px;
+  border: 2px solid #666666;
+}
+.questionFormBox {
+  margin: 10% 10% 10% 10%;
+  background-color: #ffffff;
+  padding: 5%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  height: 50%;
+  border: 3px solid green;
+  border-radius: 10px;
+}
+.questionForm {
+  display: flex;
+  flex-direction: column;
+}
+.questionTextArea {
+  font-family: Verdana;
+}
+.answerBottomRow {
+  display: flex;
+  align-items: center;
+}
+.loadAnswersButton {
+  font-family: Verdana;
+  font-variant: small-caps;
+  margin-left: 2%;
+  font-weight: bold;
+  cursor: pointer;
+}
+.qaWidgetButtonRow {
+  display: flex;
+  flex-direction: row;
+}
+.qaWidgetButton {
+  font-family: Verdana;
+  padding-left: 1.3%;
+  padding-right: 1.3%;
+  padding-top: 2%;
+  padding-bottom: 2%;
+  margin: 1%;
+  border: 1px solid black;
+  color: #444444;
+  cursor: pointer;
+}
+.formPrompt {
+  font-family: Verdana;
+  font-variant: small-caps;
+  font-size: larger;
+  margin: 0 0 0 2%;
+  font-weight: normal;
+  color: blue;
+}
+.submitQuestion {
+  position: relative;
+  width: 16%;
+  height: 12%;
+  left: 42%;
+  margin-top: 3%;
+  font-family: Verdana;
+  font-weight: bold;
+  background-color: #ffffff;
+  border-radius: 0;
+  border: solid 2px black;
+  cursor: pointer;
+}
+.submitQuestion:hover {
+  border: solid 2px fuchsia;
+  color: blue;
+}
+.questionAlertsBox {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.questionAlert {
+  margin: 0;
+  color: red;
+}
 input[type="text"]
 {
-  font-size: 20px;
+  font-size: 15px;
   font-family: Verdana;
   font-weight: lighter;
   color: #333333;

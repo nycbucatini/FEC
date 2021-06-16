@@ -19,7 +19,8 @@ class StyleIcon extends React.Component {
       width: RIGHT_PANEL_WIDTH / 7,
       height: RIGHT_PANEL_WIDTH / 7,
       borderRadius: '50%',
-      border: this.props.isSelected ? '3px orange solid' : '2px solid'
+      border: this.props.isSelected ? '3px orange solid' : '2px solid',
+      cursor: 'pointer'
     };
 
     var checkMarkCSS = {
