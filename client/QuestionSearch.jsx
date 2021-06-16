@@ -14,9 +14,7 @@ class QuestionSearch extends React.Component {
     this.setState({
       value: event.target.value
     }, () => {
-      if (this.state.value.length >= 3) {
         this.props.handleSearch(this.state.value);
-      }
     });
   }
 

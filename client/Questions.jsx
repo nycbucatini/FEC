@@ -1,3 +1,5 @@
+import _ from 'lodash';
+
 import React from 'react';
 import axios from 'axios';
 import KEY from '../config.js';
@@ -11,19 +13,26 @@ class Questions extends React.Component {
 
     this.loadQuestions = this.loadQuestions.bind(this);
     this.handleSearch = this.handleSearch.bind(this);
+    this.handleSearch = _.debounce(this.handleSearch, 200);
     this.toggleForm = this.toggleForm.bind(this);
+    this.loadMore = this.loadMore.bind(this);
+    this.checkQuery = this.checkQuery.bind(this);
+    this.filterQuestions = this.filterQuestions.bind(this);
     this.state = {
       questions: [],
-      nextPage: 1,
 
       expanded: false,
+
+      allLoaded: false,
+
+      search: 'dwdnwfbewfubdsijn',
 
       dataReceived: false
     };
   }
 
   componentDidMount() {
-    this.loadQuestions(this.state.nextPage)
+    this.loadQuestions(1, 2)
       .then(() => {
         this.setState({
           dataReceived: true
@@ -34,7 +43,7 @@ class Questions extends React.Component {
       });
   }
 
-  loadQuestions(page) {
+  loadQuestions(page, count = 20, callback = () => {}) {
     var options = {
       method: 'GET',
       url: `${API_ROOT}/qa/questions`,
@@ -43,7 +52,7 @@ class Questions extends React.Component {
       },
       params: {
         page: page,
-        count: 20,
+        count: count,
         product_id: this.props.productId
       }
     }
@@ -52,22 +61,74 @@ class Questions extends React.Component {
     .then((response) => {
       console.log('LoadQuestions', response.data.results);
       this.setState({
+        allLoaded: response.data.results.length < this.state.questions.length ? true : false,
         questions: this.state.questions.concat(response.data.results)
-      });
+      }, callback);
     })
     .catch((err) => {
       console.log('loadQuestions oops', err);
     });
   }
 
+  //Debounced 200ms
   handleSearch(query) {
+    if (query.length < 3) {
+      this.setState({
+        search: 'dwdnwfbewfubdsijn',
+        questions: [],
+        allLoaded: false
+      }, () => {
+        this.loadQuestions(1, 2);
+      });
+    } else if (query.length >= 3) {
+      this.setState({
+        search: query,
+        questions: [],
+        allLoaded: false
+      }, () => {
+        this.loadQuestions(1, 20, () => {this.filterQuestions(query)});
+      });
+    }
 
+  }
+
+  filterQuestions(query) {
+    var newQuestions = [];
+    for (var i = 0; i < this.state.questions.length; i++) {
+      if (this.checkQuery(this.state.questions[i], query)) {
+        newQuestions.push(this.state.questions[i]);
+      }
+    }
+    this.setState({
+      questions: newQuestions
+    });
+  }
+
+  loadMore() {
+    this.loadQuestions(2, this.state.questions.length, () => {
+      if (this.state.search.length >= 3 && this.state.search !== 'dwdnwfbewfubdsijn') {
+        this.filterQuestions(this.state.search);
+      }
+    });
   }
 
   toggleForm() {
     this.setState({
       expanded: !this.state.expanded
     });
+  }
+
+  checkQuery(questionObject, query) {
+    if (questionObject.question_body.split(new RegExp(query, 'i')).length > 1) {
+      return true;
+    }
+    var answers = Object.keys(questionObject.answers).map((key) => questionObject.answers[key]);
+    for (var i = 0; i < answers.length; i++) {
+      if (answers[i].body.split(new RegExp(query, 'i')).length > 1) {
+        return true;
+      }
+    }
+    return false;
   }
 
   render() {
@@ -78,12 +139,14 @@ class Questions extends React.Component {
         {this.state.dataReceived &&
           <div id="questionList">
             {this.state.questions.map(question =>
-              <QuestionBody questionObject={question} />
+              <QuestionBody questionObject={question} search={this.state.search}/>
             )}
           </div>
         }
         <div className="qaWidgetButtonRow">
-          <h4 className="qaWidgetButton">MORE ANSWERED QUESTIONS</h4>
+          {!this.state.allLoaded &&
+            <h4 className="qaWidgetButton" onClick={this.loadMore}>MORE ANSWERED QUESTIONS</h4>
+          }
           <h4 className="qaWidgetButton" onClick={this.toggleForm}>ADD A QUESTION &nbsp;&#43;</h4>
         </div>
         {this.state.expanded &&

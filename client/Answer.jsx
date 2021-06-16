@@ -5,6 +5,7 @@ import KEY from '../config.js';
 const API_ROOT = 'https://app-hrsei-api.herokuapp.com/api/fec2/hrnyc';
 
 //this.props.answerObject
+//this.props.search
 class Answer extends React.Component {
   constructor(props) {
     super(props);
@@ -65,9 +66,17 @@ class Answer extends React.Component {
   }
 
   render() {
+    var answerBodySegments = this.props.answerObject.body.split(new RegExp(this.props.search, 'i'));
+    var styledBody = [];
+    for (var i = 0; i < answerBodySegments.length; i++) {
+      styledBody.push(<React.Fragment>{answerBodySegments[i]}</React.Fragment>);
+      styledBody.push(<mark>{this.props.search}</mark>)
+    }
+    styledBody.pop();
+
     return (
       <div className="answerBody">
-        <p className="answerText"><b>A&#58;&nbsp;</b>{this.props.answerObject.body}</p>
+        <p className="answerText"><b>A&#58;&nbsp;</b>{styledBody}</p>
         <div className="answerImageRow">
           {this.props.answerObject.photos.map(url =>
             <AnswerImage url={url} />
