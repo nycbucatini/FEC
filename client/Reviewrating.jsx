@@ -1,5 +1,6 @@
 import React from 'react';
 import axios from 'axios';
+import Window from './Window.jsx'
 import {getListReviews, loadReviews} from '../helpers/helper.js';
 const config = require('../config.js');
 const API_ROOT = 'https://app-hrsei-api.herokuapp.com/api/fec2/hrnyc'
@@ -281,11 +282,8 @@ render() {
           <div className='two-Button'>
           <div className='two-Button-child1'>
           <button><p className='button-moreReview'>{'MORE REVIEWS'}</p></button>
-
           </div>
-          <div className='two-Button-child2'>
-          <button><p className='button-addReview'>{`ADD A REVIEW   +`}</p></button>
-          </div>
+          <Window />
           </div>
         </div>
 
