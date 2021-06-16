@@ -46,7 +46,7 @@ class AnswerForm extends React.Component {
 
   //have tried multiple image upload apis, nothing works
   uploadImage(file) {
-    console.log(file);
+    console.log('file upload', file);
     var data = new FormData();
     data.append('image', file);
     var options = {
@@ -75,6 +75,7 @@ class AnswerForm extends React.Component {
   }
 
   handleSubmit() {
+    this.props.logInteraction('submitAnswer');
     var newAlerts = [];
     if (this.state.question.length < 10) {
       newAlerts.push("Answer- 10 character minimum");
@@ -140,6 +141,7 @@ class AnswerForm extends React.Component {
           placeholder="Ex: Why did you like the product or not?"
           value={this.state.name}
           onChange={this.handleChange}
+          onClick={() => {this.props.logInteraction('answerFormAnswer')}}
         />
         <h5 className="formPrompt">What's Your Nickname?</h5>
         <input
@@ -149,6 +151,7 @@ class AnswerForm extends React.Component {
           placeholder="For your privacy, please do not use your full name or email"
           value={this.state.nickname}
           onChange={this.handleChange}
+          onClick={() => {this.props.logInteraction('answerFormNickname')}}
         />
         <h5 className="formPrompt">Your Email</h5>
         <input
@@ -158,6 +161,7 @@ class AnswerForm extends React.Component {
           placeholder="You will not be emailed. #nospam"
           value={this.state.email}
           onChange={this.handleChange}
+          onClick={() => {this.props.logInteraction('answerFormEmail')}}
         />
         <div className="fileLoadRow">
         <h5 className="formPrompt">Upload up to 5 Images</h5>
@@ -167,6 +171,7 @@ class AnswerForm extends React.Component {
           type="file"
           accept="image/*"
           onChange={this.loadFile}
+          onClick={() => {this.props.logInteraction('fileButton')}}
         />
         </div>
         <div className="uploadedImages">

@@ -46,6 +46,7 @@ class QuestionBody extends React.Component {
   }
 
   helpful() {
+    this.props.logInteraction('helpfulQuestionButton');
     if (this.props.questionObject.question_helpfulness + 1 === this.state.helpfulCount) {
       return;
     }
@@ -69,13 +70,15 @@ class QuestionBody extends React.Component {
   }
 
   loadAll() {
+    this.props.logInteraction('loadAnswersButton');
     this.setState({
       answersShowing: this.state.answers,
       showingAll: true
-    })
+    });
   }
 
   report() {
+    this.props.logInteraction('reportQuestionButton');
     if (this.state.reported) {
       return;
     }
@@ -99,6 +102,7 @@ class QuestionBody extends React.Component {
   }
 
   toggleForm() {
+    this.props.logInteraction(this.state.expanded ? 'answerFormClose' : 'addAnswerButton');
     this.setState({
       expanded: !this.state.expanded
     });
@@ -128,7 +132,7 @@ class QuestionBody extends React.Component {
         </div>
         <div className="answersContainer">
           {this.state.answersShowing.map(answer =>
-            <Answer answerObject={answer} search={this.props.search}/>
+            <Answer answerObject={answer} search={this.props.search} logInteraction={this.props.logInteraction}/>
           )}
         </div>
         {!this.state.showingAll &&
@@ -139,7 +143,7 @@ class QuestionBody extends React.Component {
         {this.state.expanded &&
           <div className="addQuestionDiv">
             <div className="questionFormBox">
-              <AnswerForm questionId={this.props.questionObject.question_id} close={this.toggleForm}/>
+              <AnswerForm questionId={this.props.questionObject.question_id} close={this.toggleForm} logInteraction={this.props.logInteraction}/>
             </div>
           </div>
         }

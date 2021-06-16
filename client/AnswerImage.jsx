@@ -10,6 +10,7 @@ class AnswerImage extends React.Component {
   }
 
   toggle() {
+    this.props.logInteraction(this.state.opened ? 'expandedAnswerImageClose' : 'answerImage');
     this.setState({
       opened: !this.state.opened
     });

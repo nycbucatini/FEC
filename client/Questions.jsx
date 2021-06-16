@@ -1,5 +1,4 @@
 import _ from 'lodash';
-
 import React from 'react';
 import axios from 'axios';
 import KEY from '../config.js';
@@ -7,6 +6,11 @@ import QuestionSearch from './QuestionSearch.jsx';
 import QuestionBody from './QuestionBody.jsx';
 import QuestionForm from './QuestionForm.jsx';
 const API_ROOT = 'https://app-hrsei-api.herokuapp.com/api/fec2/hrnyc';
+const HEADERS = {
+  headers: {
+    'Authorization' : KEY
+  }
+};
 class Questions extends React.Component {
   constructor(props) {
     super(props);
@@ -18,6 +22,7 @@ class Questions extends React.Component {
     this.loadMore = this.loadMore.bind(this);
     this.checkQuery = this.checkQuery.bind(this);
     this.filterQuestions = this.filterQuestions.bind(this);
+    this.logInteraction.bind(this);
     this.state = {
       questions: [],
 
@@ -43,6 +48,20 @@ class Questions extends React.Component {
       });
   }
 
+  logInteraction(element) {
+    return axios.post(API_ROOT + '/interactions', {
+      element: element,
+      widget: 'Questions and Answers',
+      time: Date.now().toString()
+    }, HEADERS)
+      .then((response) => {
+        console.log('Interaction logged ' + element, response);
+      })
+      .catch((err) => {
+        console.log('danggit');
+      });
+  }
+
   loadQuestions(page, count = 20, callback = () => {}) {
     var options = {
       method: 'GET',
@@ -55,7 +74,7 @@ class Questions extends React.Component {
         count: count,
         product_id: this.props.productId
       }
-    }
+    };
 
     return axios(options)
     .then((response) => {
@@ -106,6 +125,7 @@ class Questions extends React.Component {
 
   loadMore() {
     this.loadQuestions(2, this.state.questions.length, () => {
+      this.logInteraction('moreQuestionsButton');
       if (this.state.search.length >= 3 && this.state.search !== 'dwdnwfbewfubdsijn') {
         this.filterQuestions(this.state.search);
       }
@@ -113,6 +133,7 @@ class Questions extends React.Component {
   }
 
   toggleForm() {
+    this.logInteraction(this.state.expanded ? 'questionFormClose' : 'addQuestionButton');
     this.setState({
       expanded: !this.state.expanded
     });
@@ -135,11 +156,11 @@ class Questions extends React.Component {
     return (
       <div id="questionsBody">
         <h3 id="questionsHeader">QUESTIONS &#38; ANSWERS</h3>
-        <QuestionSearch handleSearch={this.handleSearch} />
+        <QuestionSearch handleSearch={this.handleSearch} logInteraction={this.logInteraction}/>
         {this.state.dataReceived &&
           <div id="questionList">
             {this.state.questions.map(question =>
-              <QuestionBody questionObject={question} search={this.state.search}/>
+              <QuestionBody questionObject={question} search={this.state.search} logInteraction={this.logInteraction}/>
             )}
           </div>
         }
@@ -152,7 +173,7 @@ class Questions extends React.Component {
         {this.state.expanded &&
           <div className="addQuestionDiv">
             <div className="questionFormBox">
-              <QuestionForm close={this.toggleForm} productId={this.props.productId}/>
+              <QuestionForm close={this.toggleForm} productId={this.props.productId} logInteraction={this.logInteraction}/>
             </div>
           </div>
         }

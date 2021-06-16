@@ -20,6 +20,7 @@ class Answer extends React.Component {
   }
 
   helpful() {
+    this.props.logInteraction('helpfulAnswerButton');
     if (this.props.answerObject.helpfulness + 1 === this.state.helpfulCounter) {
       return;
     }
@@ -43,6 +44,7 @@ class Answer extends React.Component {
   }
 
   report() {
+    this.props.logInteraction('reportAnswerButton');
     if (this.props.reported) {
       return;
     }
@@ -79,7 +81,7 @@ class Answer extends React.Component {
         <p className="answerText"><b>A&#58;&nbsp;</b>{styledBody}</p>
         <div className="answerImageRow">
           {this.props.answerObject.photos.map(url =>
-            <AnswerImage url={url} />
+            <AnswerImage url={url} logInteraction={this.props.logInteraction}/>
           )}
         </div>
         <div className="answerBottomRow">

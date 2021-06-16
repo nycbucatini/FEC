@@ -29,6 +29,7 @@ class QuestionForm extends React.Component {
   }
 
   handleSubmit() {
+    this.props.logInteraction('submitQuestion');
     var newAlerts = [];
     if (this.state.question.length < 10) {
       newAlerts.push("Question - 10 character minimum");
@@ -94,6 +95,7 @@ class QuestionForm extends React.Component {
           placeholder="Ex: Why did you like the product or not?"
           value={this.state.name}
           onChange={this.handleChange}
+          onClick={() => {this.props.logInteraction('questionFormEmail')}}
         />
         <h5 className="formPrompt">What's Your Nickname?</h5>
         <input
@@ -103,6 +105,7 @@ class QuestionForm extends React.Component {
           placeholder="For your privacy, please do not use your full name or email"
           value={this.state.nickname}
           onChange={this.handleChange}
+          onClick={() => {this.props.logInteraction('questionFormNickname')}}
         />
         <h5 className="formPrompt">Your Email</h5>
         <input
@@ -112,6 +115,7 @@ class QuestionForm extends React.Component {
           placeholder="You will not be emailed. #nospam"
           value={this.state.email}
           onChange={this.handleChange}
+          onClick={() => {this.props.logInteraction('questionFormEmail')}}
         />
         <div className="questionAlertsBox">
           {this.state.alerts.map(alert =>

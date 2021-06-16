@@ -18,9 +18,11 @@ class QuestionSearch extends React.Component {
     });
   }
 
+
+
   render() {
     return (
-      <input id="questionSearch" type="text" placeholder="Search for answers" value={this.state.value} onChange={this.handleChange} />
+      <input id="questionSearch" type="text" placeholder="Search for answers" value={this.state.value} onChange={this.handleChange} onClick={() =>{this.props.logInteraction('questionSearch')}}/>
     );
   }
 }
