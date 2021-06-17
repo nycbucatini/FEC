@@ -337,3 +337,37 @@ select {
 .rated-by-stars {
   margin-top: 12px;
 }
+
+
+/* form css */
+
+.radio-form {
+  display: flex;
+  justify-content: space-evenly;
+}
+
+.yesNo-radio {
+  display: flex;
+  justify-content: space-evenly;
+}
+
+.reviewsummary-container , .reviewbody-container {
+  display: flex;
+  flex-direction: column;
+}
+textarea {
+  margin-left: 15px;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  width: 300px;
+  height: 140px;
+}
+
+.nickName-input , .Email-input{
+  width: 300px;
+}
+
+.privacy-p {
+  font-family: var(--noto);
+  font-size: var(--size-m);
+}

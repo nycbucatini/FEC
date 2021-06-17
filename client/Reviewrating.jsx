@@ -20,7 +20,11 @@ export default class ReviewRating extends React.Component {
        ratingDistribute: [],
        recommendPercentage: 0,
        comfortPercentage: 0,
-       fitPercentage: 0
+       fitPercentage: 0,
+       comfortId: 0,
+       fitId: 0,
+       LengthId: 0,
+       QualityId: 0
      }
      this.handleChange = this.handleChange.bind(this);
      this.convertToStar = this.convertToStar.bind(this);
@@ -64,7 +68,10 @@ export default class ReviewRating extends React.Component {
       var ratingsObject = response.data.ratings;
       var ratingCount = parseHelper(ratingsObject['1']) + parseHelper(ratingsObject['2']) + parseHelper(ratingsObject['3']) + parseHelper(ratingsObject['4']) + parseHelper(ratingsObject['5']);
       var ratingSum = parseHelper(ratingsObject['1']) + 2 * parseHelper(ratingsObject['2']) + 3 * parseHelper(ratingsObject['3']) + 4 * parseHelper(ratingsObject['4']) + 5 * parseHelper(ratingsObject['5']);
+
       var average = ratingSum / ratingCount;
+      // need to fix average to 1 decimal place.
+      average = Number(average.toFixed(1));
       var recommendObject = response.data.recommended;
       var recommendCount = Number(recommendObject['true']) + Number(recommendObject['false']);
       console.log('reccoCount', recommendCount)
@@ -72,13 +79,24 @@ export default class ReviewRating extends React.Component {
       var characteristicsObj = response.data.characteristics;
       var fitPercentage = (Number(characteristicsObj.Fit.value.slice(0, characteristicsObj.Fit.value.indexOf('.') + 3)) / 5) * 100;
       var comfortPercentage = (Number(characteristicsObj.Comfort.value.slice(0, characteristicsObj.Comfort.value.indexOf('.') + 3)) / 5) * 100;
+
+      var diffCharacteristic = response.data.characteristics;
+      // console.log('diff characteristic', diffCharacteristic.Comfort.id);
       this.setState({
         rating: isNaN(average) ? 0 : average,
         ratingDistribute: ratingDistributeHelper(),
         recommendPercentage: productRecommend,
         fitPercentage: fitPercentage,
-        comfortPercentage: comfortPercentage
+        comfortPercentage: comfortPercentage,
+
+        comfortId: diffCharacteristic.Comfort.id,
+        fitId: diffCharacteristic.Fit.id,
+        LengthId: diffCharacteristic.Length.id,
+        QualityId: diffCharacteristic.Quality.id
+      }, () => {
+        console.log('all id after setState', this.state.comfortId, this.state.fitId, this.state.LengthId, this.state.QualityId)
       });
+
     }).catch((err) => {
       console.log('some errors in loadReview', err);
     })
@@ -283,7 +301,7 @@ render() {
           <div className='two-Button-child1'>
           <button><p className='button-moreReview'>{'MORE REVIEWS'}</p></button>
           </div>
-          <Window />
+          <Window comfortId={this.state.comfortId} fitId={this.state.fitId} LengthId={this.state.LengthId} QualityId={this.state.QualityId}/>
           </div>
         </div>
 

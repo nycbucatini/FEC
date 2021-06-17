@@ -1,0 +1,125 @@
+import React from 'react';
+import Radio from './Radio.jsx';
+import UploadImg from './UploadImg.jsx';
+export default class RadioModal extends React.Component {
+  constructor(props) {
+    super(props);
+    this.options = ['Size', 'Width', 'Comfort', 'Quality', 'Length', 'Fit'];
+    this.sizeOptions = ['A size too small', '1/2 a size too small', 'Perfect', '1/2 a size too big', 'A size too wide']
+    this.state = {
+      selectedOption: null,
+      summaryText: '',
+      summaryBody: '',
+      displayName: '',
+      userEmail: '',
+      summaryCounter: 60,
+      minBodyCounter: 50,
+      bodyCounter: 1000,
+      comfortValue: null,
+      qualityValue: null,
+      lengthValue: null,
+      fitValue: null,
+      characterObj: {}
+    }
+    // console.log('all id after setState******', this.state.comfortId, this.state.fitId, this.state.LengthId, this.state.QualityId)
+
+    this.handleSelection = this.handleSelection.bind(this);
+    this.handleOptionChange = this.handleOptionChange.bind(this);
+    this.handleTextChange = this.handleTextChange.bind(this);
+  }
+
+  handleSelection(title, options) {
+    // console.log('title', title, 'options', options);
+    // this.props.comfortId -- > for title = Comfort
+    // {'SizeId' : value}
+    // ex: {ComfortId : value} --> {'36827': 3}
+
+    // copy the characterObj from state in order to add more item to the object.
+    let characterObj = JSON.parse(JSON.stringify(this.state.characterObj));
+    if (title === 'Comfort') {
+      characterObj[this.props.comfortId] = options
+      this.setState({comfortValue: options, characterObj: characterObj})
+    }
+    if (title === 'Quality') {
+      characterObj[this.props.QualityId] = options
+      this.setState({qualityValue: options, characterObj: characterObj})
+    }
+    if (title === 'Length') {
+      characterObj[this.props.LengthId] = options
+      this.setState({lengthValue: options, characterObj: characterObj})
+    }
+    if (title === 'Fit') {
+      characterObj[this.props.fitId] = options
+      this.setState({fitValue: options, characterObj: characterObj})
+    }
+  }
+  handleOptionChange(e) {
+    this.setState({
+      selectedOption: e.target.value
+    });
+  }
+
+  handleTextChange(e) {
+    this.setState({[e.target.name]: e.target.value});
+      if (e.target.name === 'summaryText') {
+        let summaryCounter = this.state.summaryCounter-1;
+        this.setState({summaryCounter:summaryCounter})
+        console.log('summaryCounter after inputting text', summaryCounter);
+      } else {
+        if (this.state.minBodyCounter > 0) {
+          let minBodyCounter = this.state.minBodyCounter-1;
+          this.setState({minBodyCounter:minBodyCounter})
+        }
+        let bodyCounter = this.state.bodyCounter-1;
+        this.setState({bodyCounter:bodyCounter})
+      }
+  }
+
+  render() {
+    return(
+  <div className="container">
+  <div>
+  <h4>Do you recommend this product</h4>
+  <form className= 'yesNo-radio'>
+  <div className="radio">
+        <label>
+          <input type="radio" value="Yes" onChange={this.handleOptionChange} checked={this.state.selectedOption === 'Yes'} />
+          Yes
+        </label>
+    </div>
+    <div className="radio">
+      <label>
+      <input type="radio" value="No" onChange={this.handleOptionChange} checked={this.state.selectedOption === 'No'}/>
+        No
+    </label>
+  </div>
+  </form>
+  </div>
+  <div className='reviewsummary-container'>
+  <label>Review Summary</label>
+  <textarea onChange={this.handleTextChange} name='summaryText' value={this.state.summaryText} placeholder='Best purchase ever'></textarea>
+  <p>{this.state.summaryCounter}</p>
+  </div>
+  <div className='reviewbody-container'>
+  <label>Review Body</label>
+    <textarea onChange={this.handleTextChange} name='summaryBody' value={this.state.summaryBody} placeholder='Why did you like the product or not?'></textarea>
+    <p>{this.state.minBodyCounter === 0? 'Minimum reached' : `Minimum required characters left ${this.state.minBodyCounter}`
+}</p>
+<UploadImg />
+<label>Nickname</label>
+<input className='nickName-input' onChange={this.handleTextChange} name='displayName' placeholder='Example: jackson11!'></input>
+<p className='privacy-p'>For privacy reasons, do not use your full name or email address</p>
+
+<label>Email</label>
+<input className='Email-input'  onChange={this.handleTextChange} name='userEmail' placeholder='jackson11@email.com'></input>
+<p className='privacy-p'>For authentication reasons, you will not be emailed</p>
+  </div>
+    <Radio selected={this.handleSelection} title={'Comfort'} descriptions={['Uncomfortable', 'Slightly uncomfortable', 'Ok', 'Comfortable', 'Perfect']}/>
+    <Radio selected={this.handleSelection} title={'Quality'} descriptions={['Poor', 'Below average', 'What I expected', 'Pretty great', 'Perfect']}/>
+    <Radio selected={this.handleSelection} title={'Length'} descriptions={['Runs Short', 'Runs slightly short', 'Perfect', 'Runs slightly long', 'Runs long']}/>
+    <Radio selected={this.handleSelection} title={'Fit'} descriptions={['Runs tight', 'Runs slightly tight', 'Perfect', 'Runs slightly long', 'Runs long']} />
+    <button>Submit</button>
+</div>
+    )
+  }
+}
