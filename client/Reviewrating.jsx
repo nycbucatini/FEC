@@ -28,16 +28,14 @@ export default class ReviewRating extends React.Component {
      }
      this.handleChange = this.handleChange.bind(this);
      this.convertToStar = this.convertToStar.bind(this);
-    //  this.loadReviews = this.loadReviews.bind(this);
-    //  this.convertToDate = this.convertToDate.bind(this);
+
    }
 
 
+
   handleChange(event) {
-    // console.log('handle change',event.target.value);
     this.setState({sortBy: event.target.value}, () => {
       getListReviews(this.props.productId, this.state.sortBy).then((response) => {
-        // console.log('response after sortBy', response);
       })
     });
   }
@@ -64,13 +62,11 @@ export default class ReviewRating extends React.Component {
         }
         return ratingDistrubtionArray
       }
-      // ratingDistrubtion: [(ratingsObject['1'] / ratingSum) * 100]
       var ratingsObject = response.data.ratings;
       var ratingCount = parseHelper(ratingsObject['1']) + parseHelper(ratingsObject['2']) + parseHelper(ratingsObject['3']) + parseHelper(ratingsObject['4']) + parseHelper(ratingsObject['5']);
       var ratingSum = parseHelper(ratingsObject['1']) + 2 * parseHelper(ratingsObject['2']) + 3 * parseHelper(ratingsObject['3']) + 4 * parseHelper(ratingsObject['4']) + 5 * parseHelper(ratingsObject['5']);
 
       var average = ratingSum / ratingCount;
-      // need to fix average to 1 decimal place.
       average = Number(average.toFixed(1));
       var recommendObject = response.data.recommended;
       var recommendCount = Number(recommendObject['true']) + Number(recommendObject['false']);
@@ -81,7 +77,6 @@ export default class ReviewRating extends React.Component {
       var comfortPercentage = (Number(characteristicsObj.Comfort.value.slice(0, characteristicsObj.Comfort.value.indexOf('.') + 3)) / 5) * 100;
 
       var diffCharacteristic = response.data.characteristics;
-      // console.log('diff characteristic', diffCharacteristic.Comfort.id);
       this.setState({
         rating: isNaN(average) ? 0 : average,
         ratingDistribute: ratingDistributeHelper(),
@@ -108,9 +103,7 @@ export default class ReviewRating extends React.Component {
   }
 
   convertToStar(number) {
-    // we want to get the number that is to the right of decimal
-      // if .75 we get 75%
-      // if 1 we get 100% of a star
+
       let wholeOutput = [];
       let leftOutput = [];
       number = (Math.round(number * 4) / 4).toFixed(2);
@@ -120,7 +113,6 @@ export default class ReviewRating extends React.Component {
           wholeOutput.push("star star-whole fa fa-star fa-xs");
           whole--;
         }
-        // if left is .75 || .5 || .25
         if (left === .75) {
           leftOutput.push("star star-3-4 fa fa-star fa-xs")
         }
@@ -136,7 +128,6 @@ export default class ReviewRating extends React.Component {
 
 
 render() {
-  {console.log(this.state.ratingDistribute)}
   return (
     <main className='box'>
 
@@ -279,7 +270,6 @@ render() {
                 )
               })
             }
-            {/* <span className='star star-whole fa fa-star'></span> */}
             </div>
             <div className='name-date'>{`${review.reviewer_name}, ${this.convertToDate(review.date)}`}</div>
             </div>
@@ -301,7 +291,7 @@ render() {
           <div className='two-Button-child1'>
           <button><p className='button-moreReview'>{'MORE REVIEWS'}</p></button>
           </div>
-          <Window comfortId={this.state.comfortId} fitId={this.state.fitId} LengthId={this.state.LengthId} QualityId={this.state.QualityId}/>
+          <Window comfortId={this.state.comfortId} fitId={this.state.fitId} LengthId={this.state.LengthId} QualityId={this.state.QualityId} productId={this.props.productId}/>
           </div>
         </div>
 

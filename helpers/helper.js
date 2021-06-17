@@ -34,4 +34,26 @@ const API_ROOT = 'https://app-hrsei-api.herokuapp.com/api/fec2/hrnyc'
     return axios(options);
   }
 
-export {getListReviews, loadReviews}
+  const postReview = (productId, rating, summary, body, recommend, name, email, photos=[], characteristics) => {
+    let options = {
+      method: 'POST',
+      url: `${API_ROOT}/reviews`,
+      headers: {
+        'Authorization': `${config.TOKEN}`
+      },
+      data: {
+        product_id: productId,
+        rating: rating,
+        summary: summary,
+        body: body,
+        recommend: recommend,
+        name: name,
+        email: email,
+        photos: photos,
+        characteristics: characteristics
+      }
+    }
+    return axios(options);
+  }
+
+export {getListReviews, loadReviews, postReview}

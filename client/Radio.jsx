@@ -20,7 +20,7 @@ handleOptionChange(e) {
 render() {
   return (
     <div>
-    <h4>{this.props.title}</h4>
+    <h4 className='character-title'>{this.props.title}</h4>
       <form className='radio-form'>
           <div className="radio">
           <label>

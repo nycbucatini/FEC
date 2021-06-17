@@ -7,7 +7,6 @@ export default class UploadImg extends React.Component {
       files: []
      }
     this.fileChangeHandler = this.fileChangeHandler.bind(this);
-    // this.handleSubmit = this.handleSubmit.bind(this);
   }
 
   fileChangeHandler(e) {
@@ -16,17 +15,13 @@ export default class UploadImg extends React.Component {
     console.log('slicedfile', slicedFile);
     this.setState({ files: slicedFile })
   }
-  // handleSubmit(e) {
-  //   const fileData = new FormData();
-  //   this.state.files.forEach((file) => fileData.append('files[]', file));
-  //   // ... Submit fileData
-  // }
+
 
 
 
   render() {
     return(
-      <div>
+      <div className='imgDiv'>
       {
         this.state.files.map((file) => {
           console.log('each file', file);

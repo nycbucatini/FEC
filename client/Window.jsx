@@ -6,7 +6,8 @@ export default class Window extends React.Component {
     super(props)
     this.state = {
       show: false,
-      blankStar: ['star fa fa-star fa-xs 1' , 'star fa fa-star fa-xs 2', 'star fa fa-star fa-xs 3','star fa fa-star fa-xs 4', 'star fa fa-star fa-xs 5'],
+      blankStar: ['star fa fa-star fa-lg 1' , 'star fa fa-star fa-lg 2', 'star fa fa-star fa-lg 3','star fa fa-star fa-lg 4', 'star fa fa-star fa-lg 5'],
+      star: 0
     }
     this.showModal = this.showModal.bind(this);
     this.hideModal = this.hideModal.bind(this);
@@ -22,13 +23,11 @@ export default class Window extends React.Component {
   }
 
   onClickStyleStar(e) {
-
       let sliceStar = this.state.blankStar.slice();
       let currentStar = Number(e.target.classList[4]);
-    this.setState({blankStar: sliceStar}, () => {
 
+      this.setState({blankStar: sliceStar}, () => {
       let currentIndex = currentStar - 1;
-
       let starsLeft = this.state.blankStar.length - currentStar;
       let wholeArray = [];
       let newArray = [];
@@ -36,40 +35,29 @@ export default class Window extends React.Component {
       for (var i = 0; i <= currentIndex; i++) {
         wholeArray.push(sliceStar[i] + ' star-whole');
       }
-
       for (var j = currentIndex + 2; j <= 5; j++) {
-        newArray.push(`star fa fa-star fa-xs ${j}`);
-        // console.log('newArray 2nd loop ****', newArray);
+        newArray.push(`star fa fa-star fa-lg ${j}`);
       }
+      this.setState({star: wholeArray.length})
       const concatArray = wholeArray.concat(newArray)
-      // console.log('wholeArray after concat', concatArray);
       this.setState({blankStar: concatArray});
     })
 
   }
   render() {
-    console.log('props passed to window.jsx ***', this.props.comfortId);
 
     return (
       <div className='two-Button-child2'>
         <Modal show={this.state.show} handleClose={this.hideModal}>
-        <h1>Title</h1>
-        <h2>sub-title</h2>
+        <h1 className='write-review-h1'>Write Your Review</h1>
         <hr></hr>
         <div className='overall-rating'>
 
         <div>
-        <p>Overall Rating</p>
+        <h4>Overall Rating</h4>
         </div>
 
         <div className='rated-by-stars'>
-        {/* if clicked on fa-rate-3 then we want 3 whole stars , 2 non solid */}
-        {/* for i < current */}
-        {/* <span className='star fa fa-star fa-xs fa-rate-1'></span>
-        <span className='star fa fa-star fa-xs fa-rate-2'></span>
-        <span className='star fa fa-star fa-xs fa-rate-3'></span>
-        <span className='star fa fa-star fa-xs fa-rate-4'></span>
-        <span className='star fa fa-star fa-xs fa-rate-5'></span> */}
         {this.state.blankStar.map((star) => {
           return(
           <span onClick={this.onClickStyleStar} className={star}>
@@ -79,7 +67,7 @@ export default class Window extends React.Component {
         </div>
 
         </div>
-        <RadioModal comfortId={this.props.comfortId} fitId={this.props.fitId} LengthId={this.props.LengthId} QualityId={this.props.QualityId}/>
+        <RadioModal comfortId={this.props.comfortId} fitId={this.props.fitId} LengthId={this.props.LengthId} QualityId={this.props.QualityId} productId={this.props.productId} rating={this.state.star}/>
 
         </Modal>
         <button type="button" onClick={this.showModal}>
