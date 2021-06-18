@@ -1,5 +1,5 @@
 import axios from 'axios';
-import KEY from '../config.js';
+const config = require('../config.js');
 const API_ROOT = 'https://app-hrsei-api.herokuapp.com/api/fec2/hrnyc'
 
 
@@ -8,7 +8,7 @@ const API_ROOT = 'https://app-hrsei-api.herokuapp.com/api/fec2/hrnyc'
     method: 'GET',
     url: `${API_ROOT}/reviews/`,
     headers: {
-      'Authorization': KEY
+      'Authorization': `${config.TOKEN}`
     },
     params: {
       page: 1,
@@ -17,8 +17,6 @@ const API_ROOT = 'https://app-hrsei-api.herokuapp.com/api/fec2/hrnyc'
       product_id: productId
     }
   }
-  // console.log(options.headers);
-
   return axios(options);
 }
 
@@ -27,14 +25,57 @@ const API_ROOT = 'https://app-hrsei-api.herokuapp.com/api/fec2/hrnyc'
       method: 'GET',
       url: `${API_ROOT}/reviews/meta/`,
       headers: {
-        'Authorization': KEY
+        'Authorization': `${config.TOKEN}`
       },
       params: {
         product_id: productId
       }
     }
-    // console.log(options.headers);
     return axios(options);
   }
 
-export {getListReviews, loadReviews}
+  const postReview = (productId, rating, summary, body, recommend, name, email, photos=[], characteristics) => {
+    let options = {
+      method: 'POST',
+      url: `${API_ROOT}/reviews`,
+      headers: {
+        'Authorization': `${config.TOKEN}`
+      },
+      data: {
+        product_id: productId,
+        rating: rating,
+        summary: summary,
+        body: body,
+        recommend: true,
+        name: name,
+        email: email,
+        photos: photos,
+        characteristics: characteristics
+      }
+    }
+    return axios(options);
+  }
+
+  const reportReview = (review_id) => {
+    let options = {
+    method: 'PUT',
+    url: `${API_ROOT}/reviews/${review_id}/report`,
+    headers: {
+    'Authorization': `${config.TOKEN}`
+    }
+  }
+  return axios(options);
+}
+
+const helpfulReview = (review_id) => {
+  let options = {
+    method: 'PUT',
+    url: `${API_ROOT}/reviews/${review_id}/helpful`,
+    headers: {
+    'Authorization': `${config.TOKEN}`
+    }
+  }
+  return axios(options);
+}
+
+export {getListReviews, loadReviews, postReview, reportReview, helpfulReview}
