@@ -30,21 +30,17 @@ export default class ReviewRating extends React.Component {
      this.handleChange = this.handleChange.bind(this);
      this.convertToStar = this.convertToStar.bind(this);
      this.handleMoreReview = this.handleMoreReview.bind(this);
-    //  this.onReport = this.onReport.bind(this);
+     this.onReport = this.onReport.bind(this);
      this.onHelpfulReview = this.onHelpfulReview.bind(this);
    }
 
    onReport(review_id) {
-     console.log('reported');
+
       reportReview(review_id).then((resp) => {
-        console.log('report successful');
+        alert('review has been reported!');
       }).catch((err) => {
         console.log('report not approved', err);
       })
-      // getListReviews(this.props.productId, this.state.sortBy, this.state.reviewCount).then((resp) => {
-      //   const dataAfterReport = resp.data.result;
-      //   this.setState({reviewList: dataAfterReport})
-      // })
    }
   onHelpfulReview(review_id) {
     helpfulReview(review_id).then((resp) => {
@@ -314,7 +310,7 @@ render() {
             <div className='vertLine'><p> {`|`} </p></div>
             {/*             <div className='sub-1'><p onClick={() => {this.onReport(review.review_id)}} className='report'>{`Report`}</p></div>
  */}
-            <div className='sub-1'><p className='report'>{`Report`}</p></div>
+            <div className='sub-1'><p onClick={() => {this.onReport(review.review_id)}} className='report'>{`Report`}</p></div>
             </div>
             <hr></hr>
 
