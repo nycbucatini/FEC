@@ -3,7 +3,7 @@ const config = require('../config.js');
 const API_ROOT = 'https://app-hrsei-api.herokuapp.com/api/fec2/hrnyc'
 
 
- const getListReviews = (productId, sort='relevant', count) => {
+ const getListReviews = (productId, sort='relevant', count=4) => {
   let options = {
     method: 'GET',
     url: `${API_ROOT}/reviews/`,
@@ -53,8 +53,29 @@ const API_ROOT = 'https://app-hrsei-api.herokuapp.com/api/fec2/hrnyc'
         characteristics: characteristics
       }
     }
-    console.log('data obj', options.data);
     return axios(options);
   }
 
-export {getListReviews, loadReviews, postReview}
+  const reportReview = (review_id) => {
+    let options = {
+    method: 'PUT',
+    url: `${API_ROOT}/reviews/${review_id}/report`,
+    headers: {
+    'Authorization': `${config.TOKEN}`
+    }
+  }
+  return axios(options);
+}
+
+const helpfulReview = (review_id) => {
+  let options = {
+    method: 'PUT',
+    url: `${API_ROOT}/reviews/${review_id}/helpful`,
+    headers: {
+    'Authorization': `${config.TOKEN}`
+    }
+  }
+  return axios(options);
+}
+
+export {getListReviews, loadReviews, postReview, reportReview, helpfulReview}
