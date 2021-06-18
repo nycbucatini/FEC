@@ -1,5 +1,5 @@
 import axios from 'axios';
-const config = require('../config.js');
+import KEY from '../config';
 const API_ROOT = 'https://app-hrsei-api.herokuapp.com/api/fec2/hrnyc'
 
 
@@ -8,7 +8,7 @@ const API_ROOT = 'https://app-hrsei-api.herokuapp.com/api/fec2/hrnyc'
     method: 'GET',
     url: `${API_ROOT}/reviews/`,
     headers: {
-      'Authorization': `${config.TOKEN}`
+      'Authorization': KEY
     },
     params: {
       page: 1,
@@ -25,7 +25,7 @@ const API_ROOT = 'https://app-hrsei-api.herokuapp.com/api/fec2/hrnyc'
       method: 'GET',
       url: `${API_ROOT}/reviews/meta/`,
       headers: {
-        'Authorization': `${config.TOKEN}`
+        'Authorization': KEY
       },
       params: {
         product_id: productId
@@ -39,7 +39,7 @@ const API_ROOT = 'https://app-hrsei-api.herokuapp.com/api/fec2/hrnyc'
       method: 'POST',
       url: `${API_ROOT}/reviews`,
       headers: {
-        'Authorization': `${config.TOKEN}`
+        'Authorization': KEY
       },
       data: {
         product_id: productId,
@@ -61,7 +61,7 @@ const API_ROOT = 'https://app-hrsei-api.herokuapp.com/api/fec2/hrnyc'
     method: 'PUT',
     url: `${API_ROOT}/reviews/${review_id}/report`,
     headers: {
-    'Authorization': `${config.TOKEN}`
+    'Authorization': KEY
     }
   }
   return axios(options);
@@ -72,7 +72,7 @@ const helpfulReview = (review_id) => {
     method: 'PUT',
     url: `${API_ROOT}/reviews/${review_id}/helpful`,
     headers: {
-    'Authorization': `${config.TOKEN}`
+    'Authorization': KEY
     }
   }
   return axios(options);
