@@ -1,11 +1,13 @@
+
 import React from 'react';
 import axios from 'axios';
-import {getListReviews, loadReviews} from '../helpers/helper.js';
-import KEY from '../config.js';
+import Window from './Window.jsx'
+import {getListReviews, loadReviews, helpfulReview, reportReview} from '../helpers/helper.js';
+const config = require('../config.js');
 const API_ROOT = 'https://app-hrsei-api.herokuapp.com/api/fec2/hrnyc'
 const HEADERS = {
   headers: {
-    'Authorization' : KEY
+    'Authorization' : config.TOKEN
   }
 };
 
@@ -19,20 +21,50 @@ export default class ReviewRating extends React.Component {
        ratingDistribute: [],
        recommendPercentage: 0,
        comfortPercentage: 0,
-       fitPercentage: 0
+       fitPercentage: 0,
+       comfortId: 0,
+       fitId: 0,
+       LengthId: 0,
+       QualityId: 0,
+       reviewCount: 4
      }
      this.handleChange = this.handleChange.bind(this);
      this.convertToStar = this.convertToStar.bind(this);
-    //  this.loadReviews = this.loadReviews.bind(this);
-    //  this.convertToDate = this.convertToDate.bind(this);
+     this.handleMoreReview = this.handleMoreReview.bind(this);
+     this.onReport = this.onReport.bind(this);
+     this.onHelpfulReview = this.onHelpfulReview.bind(this);
    }
 
+   onReport(review_id) {
+
+      reportReview(review_id).then((resp) => {
+        alert('review has been reported!');
+      }).catch((err) => {
+        console.log('report not approved', err);
+      })
+   }
+  onHelpfulReview(review_id) {
+    helpfulReview(review_id).then((resp) => {
+      getListReviews(this.props.productId, this.state.sortBy, this.state.reviewCount).then((resp) => {
+        const addedResults = resp.data.results;
+        this.setState({reviewList: addedResults})
+      })
+    })
+  }
+  handleMoreReview() {
+    let addReviewCount = this.state.reviewCount + 2;
+    this.setState({reviewCount: addReviewCount})
+    getListReviews(this.props.productId, this.state.sortBy, this.state.reviewCount).then((resp) => {
+      const addedResults = resp.data.results;
+      this.setState({reviewList: addedResults})
+    })
+  }
 
   handleChange(event) {
-    // console.log('handle change',event.target.value);
     this.setState({sortBy: event.target.value}, () => {
-      getListReviews(this.props.productId, this.state.sortBy).then((response) => {
-        // console.log('response after sortBy', response);
+      getListReviews(this.props.productId, this.state.sortBy, this.state.reviewCount).then((resp) => {
+        const sortedResult = resp.data.results;
+        this.setState({reviewList: sortedResult});
       })
     });
   }
@@ -40,14 +72,14 @@ export default class ReviewRating extends React.Component {
   componentDidMount() {
 
     getListReviews(this.props.productId).then((response) => {
-      // console.log('hello new comment', response);
+      console.log('hello new comment', response);
       this.setState({reviewList: response.data.results})
   }).catch((err) => {
     console.log('failed to getListReviews:',err);
   })
 
     loadReviews(this.props.productId).then((response) => {
-      // console.log('loadReview response', response.data);
+      console.log('loadReview response', response.data);
       var parseHelper = function(input) {
         var output = parseInt(input);
         return isNaN(output) ? 0 : output;
@@ -59,25 +91,36 @@ export default class ReviewRating extends React.Component {
         }
         return ratingDistrubtionArray
       }
-      // ratingDistrubtion: [(ratingsObject['1'] / ratingSum) * 100]
       var ratingsObject = response.data.ratings;
       var ratingCount = parseHelper(ratingsObject['1']) + parseHelper(ratingsObject['2']) + parseHelper(ratingsObject['3']) + parseHelper(ratingsObject['4']) + parseHelper(ratingsObject['5']);
       var ratingSum = parseHelper(ratingsObject['1']) + 2 * parseHelper(ratingsObject['2']) + 3 * parseHelper(ratingsObject['3']) + 4 * parseHelper(ratingsObject['4']) + 5 * parseHelper(ratingsObject['5']);
+
       var average = ratingSum / ratingCount;
+      average = Number(average.toFixed(1));
       var recommendObject = response.data.recommended;
       var recommendCount = Number(recommendObject['true']) + Number(recommendObject['false']);
-      // console.log('reccoCount', recommendCount)
+      console.log('reccoCount', recommendCount)
       var productRecommend = Math.round((recommendObject['true'] / recommendCount) * 100)
       var characteristicsObj = response.data.characteristics;
       var fitPercentage = (Number(characteristicsObj.Fit.value.slice(0, characteristicsObj.Fit.value.indexOf('.') + 3)) / 5) * 100;
       var comfortPercentage = (Number(characteristicsObj.Comfort.value.slice(0, characteristicsObj.Comfort.value.indexOf('.') + 3)) / 5) * 100;
+
+      var diffCharacteristic = response.data.characteristics;
       this.setState({
         rating: isNaN(average) ? 0 : average,
         ratingDistribute: ratingDistributeHelper(),
         recommendPercentage: productRecommend,
         fitPercentage: fitPercentage,
-        comfortPercentage: comfortPercentage
+        comfortPercentage: comfortPercentage,
+
+        comfortId: diffCharacteristic.Comfort.id,
+        fitId: diffCharacteristic.Fit.id,
+        LengthId: diffCharacteristic.Length.id,
+        QualityId: diffCharacteristic.Quality.id
+      }, () => {
+        console.log('all id after setState', this.state.comfortId, this.state.fitId, this.state.LengthId, this.state.QualityId)
       });
+
     }).catch((err) => {
       console.log('some errors in loadReview', err);
     })
@@ -89,9 +132,7 @@ export default class ReviewRating extends React.Component {
   }
 
   convertToStar(number) {
-    // we want to get the number that is to the right of decimal
-      // if .75 we get 75%
-      // if 1 we get 100% of a star
+
       let wholeOutput = [];
       let leftOutput = [];
       number = (Math.round(number * 4) / 4).toFixed(2);
@@ -101,7 +142,6 @@ export default class ReviewRating extends React.Component {
           wholeOutput.push("star star-whole fa fa-star fa-xs");
           whole--;
         }
-        // if left is .75 || .5 || .25
         if (left === .75) {
           leftOutput.push("star star-3-4 fa fa-star fa-xs")
         }
@@ -117,10 +157,8 @@ export default class ReviewRating extends React.Component {
 
 
 render() {
-  // {console.log(this.state.ratingDistribute)}
   return (
     <main className='box'>
-
       <div className='child box-child-1'>
         <p className='child-ratingreview'>{'RATINGS & REVIEWS'}</p>
         <div className='avgrating-avgstar'>
@@ -248,7 +286,7 @@ render() {
           <option value='newest'>newest</option>
         </select>
       </div>
-
+        <section className='review-sect'>
         {this.state.reviewList.map((review) => {
           return (
             <div className='review-list'>
@@ -260,32 +298,33 @@ render() {
                 )
               })
             }
-            {/* <span className='star star-whole fa fa-star'></span> */}
             </div>
             <div className='name-date'>{`${review.reviewer_name}, ${this.convertToDate(review.date)}`}</div>
             </div>
+            <div className='sub-review-summary'>{review.summary}</div>
             <div className='sub-review-body'>{review.body}</div>
             <div className='sub-recommend'>{review.recommend ? 'I recommend this product' : null}</div>
             <div>{review.response ? review.response : null}</div>
             <div className='sub-helpful'>
             <div className='sub-1'><p>{'Helpful?'}</p></div>
-            <div className='sub-1'><p className='helpfulness'>{`Yes (${review.helpfulness})`}</p></div>
+            <div className='sub-1'><p onClick={() => {this.onHelpfulReview(review.review_id)}} className='helpfulness'>{`Yes (${review.helpfulness})`}</p></div>
             <div className='vertLine'><p> {`|`} </p></div>
-            <div className='sub-1'><p className='report'>{`Report`}</p></div>
+            {/*             <div className='sub-1'><p onClick={() => {this.onReport(review.review_id)}} className='report'>{`Report`}</p></div>
+ */}
+            <div className='sub-1'><p onClick={() => {this.onReport(review.review_id)}} className='report'>{`Report`}</p></div>
             </div>
             <hr></hr>
 
             </div>
           )
         })}
+        </section>
+
           <div className='two-Button'>
           <div className='two-Button-child1'>
-          <button><p className='button-moreReview'>{'MORE REVIEWS'}</p></button>
-
+          <button onClick={this.handleMoreReview}><p className='button-moreReview'>{'MORE REVIEWS'}</p></button>
           </div>
-          <div className='two-Button-child2'>
-          <button><p className='button-addReview'>{`ADD A REVIEW   +`}</p></button>
-          </div>
+          <Window comfortId={this.state.comfortId} fitId={this.state.fitId} LengthId={this.state.LengthId} QualityId={this.state.QualityId} productId={this.props.productId}/>
           </div>
         </div>
 
