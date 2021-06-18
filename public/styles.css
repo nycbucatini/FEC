@@ -17,6 +17,7 @@ mark {
 #questionsBody {
   margin-left: 13%;
   margin-right: 13%;
+  margin-top: 50px;
   display: flex;
   flex-direction: column;
   margin-bottom: 50px;
@@ -522,3 +523,135 @@ select {
     font-family: var(--roboto);
 }
 
+/* iva css */
+
+.Related-Product-Gallery {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+}
+
+.product-photo {
+  height: 200px;
+  width: 200px;
+  object-fit: cover;
+}
+.relatedProductBox {
+  display: flex;
+  flex-direction: column;
+  border: solid 2px black;
+  margin: 5px;
+}
+.relatedProductCategory{
+  font-size: smaller;
+  font-variant: small-caps;
+  font-weight: lighter;
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  margin: 5px;
+}
+.relatedProductName {
+  font-weight: bold;
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  margin: 5px;
+  color: black;
+  text-decoration: none;
+
+}
+.relatedProductPrice{
+  font-size: smaller;
+  font-variant: small-caps;
+  font-weight: lighter;
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  margin: 5px;
+}
+.product-star{
+  position: relative;
+  top: -63%;
+  left: 85%;
+  width: 20px;
+  height: 20px;
+  z-index: 3;
+}
+
+.outfit-close{
+  position: relative;
+  top: -60%;
+  left: 85%;
+  width: 20px;
+  height: 20px;
+  z-index: 3;
+}
+
+.relatedProductsStar{
+  width: 75px;
+  height: 15px;
+}
+
+.relatedProductLeftArrow{
+  height: 30px;
+  width: 30px;
+
+}
+.relatedProductRightArrow{
+  height: 30px;
+  width: 30px;
+}
+.transparentCompareBox{
+  position: fixed;
+  z-index: 5;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0,0,0,0.1);
+}
+.compareBox{
+  margin: 5% 5% 5% 5%;
+  background-color: #ffffff;
+  padding: 5%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  height: 60%;
+  border: 3px solid green;
+  border-radius: 10px;
+}
+.compareInfo{
+  flex-direction: column;
+  display: flex;
+}
+.compareInfoRow{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  border-top: solid 1px black;
+}
+
+.nameCompare{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+}
+.priceCompare{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+}
+.compareHeader{
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  font-weight: bold;
+  font-size: larger;
+}
+.priceHeader{
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  font-weight: bold;
+  color: blue;
+}
+.compareInfoText{
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+.galleryHeader{
+  margin-left: 14%;
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+}

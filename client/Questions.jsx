@@ -55,7 +55,7 @@ class Questions extends React.Component {
       time: Date.now().toString()
     }, HEADERS)
       .then((response) => {
-        console.log('Interaction logged ' + element, response);
+        // console.log('Interaction logged ' + element, response);
       })
       .catch((err) => {
         console.log('danggit');
