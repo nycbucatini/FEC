@@ -3,7 +3,7 @@ const config = require('../config.js');
 const API_ROOT = 'https://app-hrsei-api.herokuapp.com/api/fec2/hrnyc'
 
 
- const getListReviews = (productId, sort='relevant', count=4) => {
+ const getListReviews = (productId, sort='relevant', count) => {
   let options = {
     method: 'GET',
     url: `${API_ROOT}/reviews/`,
@@ -46,13 +46,14 @@ const API_ROOT = 'https://app-hrsei-api.herokuapp.com/api/fec2/hrnyc'
         rating: rating,
         summary: summary,
         body: body,
-        recommend: recommend,
+        recommend: true,
         name: name,
         email: email,
         photos: photos,
         characteristics: characteristics
       }
     }
+    console.log('data obj', options.data);
     return axios(options);
   }
 

@@ -21,7 +21,8 @@ export default class RadioModal extends React.Component {
       qualityValue: null,
       lengthValue: null,
       fitValue: null,
-      characterObj: {}
+      characterObj: {},
+      submitted: false
     }
 
     this.handleSelection = this.handleSelection.bind(this);
@@ -33,19 +34,23 @@ export default class RadioModal extends React.Component {
   handleSelection(title, options) {
     let characterObj = JSON.parse(JSON.stringify(this.state.characterObj));
     if (title === 'Comfort') {
-      characterObj[this.props.comfortId] = options
+      const integer  = parseInt(options, 10)
+      characterObj[this.props.comfortId] = integer
       this.setState({comfortValue: options, characterObj: characterObj})
     }
     if (title === 'Quality') {
-      characterObj[this.props.QualityId] = options
+      const integer  = parseInt(options, 10)
+      characterObj[this.props.QualityId] = integer
       this.setState({qualityValue: options, characterObj: characterObj})
     }
     if (title === 'Length') {
-      characterObj[this.props.LengthId] = options
+      const integer  = parseInt(options, 10)
+      characterObj[this.props.LengthId] = integer
       this.setState({lengthValue: options, characterObj: characterObj})
     }
     if (title === 'Fit') {
-      characterObj[this.props.fitId] = options
+      const integer  = parseInt(options, 10)
+      characterObj[this.props.fitId] = integer
       this.setState({fitValue: options, characterObj: characterObj})
     }
   }
@@ -71,12 +76,12 @@ export default class RadioModal extends React.Component {
   }
 
   postRequest() {
-    console.log(this.props.productId, this.props.rating, this.state.summaryText,
-      this.state.summaryBody, this.state.selectedOption, this.state.displayName,
-      this.state.userEmail,this.state.characterObj);
+    this.setState({submitted:true})
+    console.log(this.state.characterObj, this.state.selectedOption);
+
     postReview(this.props.productId, this.props.rating, this.state.summaryText,
       this.state.summaryBody, this.state.selectedOption, this.state.displayName,
-      this.state.userEmail,this.state.characterObj)
+      this.state.userEmail,[] ,this.state.characterObj)
       .then(() => {
           console.log('form submission success');
       })
@@ -93,13 +98,13 @@ export default class RadioModal extends React.Component {
   <form className= 'yesNo-radio'>
   <div className="radio">
         <label>
-          <input type="radio" value="Yes" onChange={this.handleOptionChange} checked={this.state.selectedOption === 'Yes'} />
+          <input type="radio" value='true' onChange={this.handleOptionChange} checked={this.state.selectedOption === 'true'} />
           Yes
         </label>
     </div>
     <div className="radio">
       <label>
-      <input type="radio" value="No" onChange={this.handleOptionChange} checked={this.state.selectedOption === 'No'}/>
+      <input type="radio" value='false' onChange={this.handleOptionChange} checked={this.state.selectedOption === 'false'}/>
         No
     </label>
   </div>
@@ -129,7 +134,7 @@ export default class RadioModal extends React.Component {
     <Radio selected={this.handleSelection} title={'Length'} descriptions={['Runs Short', 'Runs slightly short', 'Perfect', 'Runs slightly long', 'Runs long']}/>
     <Radio selected={this.handleSelection} title={'Fit'} descriptions={['Runs tight', 'Runs slightly tight', 'Perfect', 'Runs slightly long', 'Runs long']} />
     <div className='submit-wrapper'>
-    <button onClick={this.postRequest}>Submit</button>
+    <button onClick={this.postRequest}>{!this.state.submitted ? 'Submit' : 'Your review has been Submitted'}</button>
     </div>
 </div>
     )

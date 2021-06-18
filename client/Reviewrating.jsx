@@ -24,18 +24,29 @@ export default class ReviewRating extends React.Component {
        comfortId: 0,
        fitId: 0,
        LengthId: 0,
-       QualityId: 0
+       QualityId: 0,
+       reviewCount: 4
      }
      this.handleChange = this.handleChange.bind(this);
      this.convertToStar = this.convertToStar.bind(this);
-
+     this.handleMoreReview = this.handleMoreReview.bind(this);
    }
 
 
+  handleMoreReview() {
+    let addReviewCount = this.state.reviewCount + 2;
+    this.setState({reviewCount: addReviewCount})
+    getListReviews(this.props.productId, this.state.sortBy, this.state.reviewCount).then((resp) => {
+      const addedResults = resp.data.results;
+      this.setState({reviewList: addedResults})
+    })
+  }
 
   handleChange(event) {
     this.setState({sortBy: event.target.value}, () => {
-      getListReviews(this.props.productId, this.state.sortBy).then((response) => {
+      getListReviews(this.props.productId, this.state.sortBy, this.state.reviewCount).then((resp) => {
+        const sortedResult = resp.data.results;
+        this.setState({reviewList: sortedResult});
       })
     });
   }
@@ -130,7 +141,6 @@ export default class ReviewRating extends React.Component {
 render() {
   return (
     <main className='box'>
-
       <div className='child box-child-1'>
         <p className='child-ratingreview'>{'RATINGS & REVIEWS'}</p>
         <div className='avgrating-avgstar'>
@@ -289,7 +299,7 @@ render() {
         })}
           <div className='two-Button'>
           <div className='two-Button-child1'>
-          <button><p className='button-moreReview'>{'MORE REVIEWS'}</p></button>
+          <button onClick={this.handleMoreReview}><p className='button-moreReview'>{'MORE REVIEWS'}</p></button>
           </div>
           <Window comfortId={this.state.comfortId} fitId={this.state.fitId} LengthId={this.state.LengthId} QualityId={this.state.QualityId} productId={this.props.productId}/>
           </div>
