@@ -14,15 +14,15 @@ class QuestionSearch extends React.Component {
     this.setState({
       value: event.target.value
     }, () => {
-      if (this.state.value.length >= 3) {
         this.props.handleSearch(this.state.value);
-      }
     });
   }
 
+
+
   render() {
     return (
-      <input id="questionSearch" type="text" placeholder="Search for answers" value={this.state.value} onChange={this.handleChange} />
+      <input id="questionSearch" type="text" placeholder="Search for answers" value={this.state.value} onChange={this.handleChange} onClick={() =>{this.props.logInteraction('questionSearch')}}/>
     );
   }
 }

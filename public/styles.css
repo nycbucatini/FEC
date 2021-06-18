@@ -11,77 +11,23 @@
   color: purple !important;
   border: solid 2px purple !important;
 }
-#questionsBody {
-  margin-left: 13%;
-  margin-right: 13%;
-  display: flex;
-  flex-direction: column;
-  margin-bottom: 50px;
-  color: #444444;
-}
-#questionsHeader {
-  font-family: Verdana;
-  font-weight: lighter;
-}
-#questionSearch {
-  padding: 10px;
-  border-radius: 0;
-  border: 1px solid black
-}
-.question {
-  display: flex;
-  flex-direction: column;
-}
-.questionHeaderRow {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-.questionButtonRow {
-  font-weight: lighter;
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-}
-.qaLinkButton {
-  text-decoration: underline;
-  cursor: pointer;
-  font-family: Verdana;
-  font-weight: lighter;
-  font-size: small;
-}
-.qaNonLink {
-  font-family: Verdana;
-  font-weight: lighter;
-  font-size: small;
-}
-.qaHeader {
-  font-family: Verdana;
-  font-weight: 600;
-  color: #444444;
-}
-input[type="text"]
-{
-  font-size: 20px;
-  font-family: Verdana;
-  font-weight: lighter;
-  color: #333333;
-}
+/* david css */
+
 :root {
   --noto: 'Noto Sans JP', sans-serif;
   --roboto: 'Roboto', sans-serif;
-  --size-xs: 12px;
-  --size-sm: 16px;
-  --size-m: 20px;
-  --size-lg: 24px;
-  --size-xl: 90px;
+  --size-xs: 6px;
+  --size-sm: 8px;
+  --size-m: 10px;
+  --size-lg: 12px;
+  --size-xl: 45px;
   --gl-color-light-grey: #ebedee;
   --gl-color-primary: #000000;
 }
 
 .box{
   display:flex;
-  justify-content: space-around;
+  justify-content: space-evenly;
 }
 
 .child {
@@ -142,11 +88,11 @@ input[type="text"]
 .flex-row {
   display: flex;
 }
-.bar-5 { height: 18px; background-color: #000000}
-.bar-4 {width: 30%; height: 18px; background-color: #000000}
-.bar-3 {width: 10%; height: 18px; background-color: #000000}
-.bar-2 {width: 4%; height: 18px; background-color: #000000}
-.bar-1 {width: 15%; height: 18px; background-color: #000000}
+.bar-5 { height: 18px; background-color: #FFA41C}
+.bar-4 {width: 30%; height: 18px; background-color: #FFA41C}
+.bar-3 {width: 10%; height: 18px; background-color: #FFA41C}
+.bar-2 {width: 4%; height: 18px; background-color: #FFA41C}
+.bar-1 {width: 15%; height: 18px; background-color: #FFA41C}
 
 /* size scales */
 .gl-vspace-bpall-small {
@@ -197,7 +143,7 @@ input[type="text"]
   position: absolute;
   top: 0;
   width: 49px;
-  z-index: 3;
+  /* z-index: 3; */
 }
 .gl-comparison-bar__title {
   display: inline-flex;
@@ -242,13 +188,23 @@ input[type="text"]
   font-size: var(--size-lg);
   font-family: var(--roboto);
 }
+.sub-review-summary {
+  font-size: 20px;
+  font-family: var(--roboto);
+}
 .sub-review-body {
   font-size: var(--size-lg);
-  font-family: var(--roboto);
+  font-family: var(--noto);
 }
 .sub-recommend {
   font-size: var(--size-sm);
   font-family: var(--noto);
+}
+
+/* making scrollable css for review-list */
+.review-sect {
+  overflow-y: scroll;
+  height: 70vh;
 }
 /* review list */
 .review-list {
@@ -316,7 +272,7 @@ select {
   top: 0;
   width: 100%;
   overflow: hidden;
-  color: gold;
+  color: #FFA41C;
 }
 
 .star-3-4:after {
@@ -326,7 +282,7 @@ select {
   top: 0;
   width: 75%;
   overflow: hidden;
-  color: gold;
+  color:#FFA41C;
 }
 .star-2-4:after {
   content: "\f005";
@@ -335,7 +291,7 @@ select {
   top: 0;
   width: 50%;
   overflow: hidden;
-  color: gold;
+  color: #FFA41C;
 }
 .star-1-4:after {
   content: "\f005";
@@ -344,7 +300,7 @@ select {
   top: 0;
   width: 25%;
   overflow: hidden;
-  color: gold;
+  color: #FFA41C;
 }
 
 /* button css */
@@ -361,3 +317,487 @@ select {
     font-family: var(--roboto);
 }
 
+
+
+/* modal logic */
+
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width:100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.6);
+}
+
+.modal-main {
+  position:fixed;
+  background: white;
+  width: 80%;
+  height: 90vh;
+  top:50%;
+  left:50%;
+  transform: translate(-50%,-50%);
+  text-align: center;
+  overflow-y: scroll;
+}
+
+.display-block {
+  display: block;
+}
+
+.display-none {
+  display: none;
+}
+
+
+/* overall rating divs & stars */
+
+.overall-rating {
+  display:flex;
+  justify-content: center;
+}
+
+.rated-by-stars {
+  margin-left: 80px;
+  margin-top: 19px;
+}
+
+
+/* form css */
+
+
+.character-title {
+  text-align: center;
+}
+.radio {
+
+  margin-right: 50px;
+}
+.radio-form {
+  display: flex;
+  justify-content: center;
+}
+
+.yesNo-radio {
+  display: flex;
+  justify-content: center;
+}
+
+.reviewsummary-container , .reviewbody-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.reviewbody-container > label {
+  font-family: var(--roboto);
+}
+textarea {
+  margin-left: 15px;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  width: 300px;
+  height: 140px;
+}
+
+.nickName-input , .Email-input{
+  width: 300px;
+}
+
+.privacy-p {
+  font-family: var(--noto);
+  font-size: var(--size-m);
+}
+
+.write-review-h1 {
+  text-align: center;
+  font-family: var(--roboto);
+}
+
+.recommend-h4 {
+  text-align: center;
+}
+
+
+.review-label {
+  font-family: var(--roboto);
+  margin-top: 50px;
+}
+
+.charLeft {
+  font-family: var(--noto);
+  font-size: var(--size-lg);
+  margin-left: 120px;
+  margin-bottom: 50px;
+}
+
+.imgDiv {
+  margin-bottom: 30px;
+}
+
+.summary-word-counter {
+  font-family: var(--noto);
+    font-size: var(--size-lg);
+    margin-left: 300px;
+}
+
+.submit-wrapper {
+  text-align: center;
+  margin-top: 20px;
+}
+.close-window {
+  margin-top: 20px;
+}
+/*anthony css */
+mark {
+  background-color: cyan;
+}
+#questionsBody {
+  margin-left: 13%;
+  margin-right: 13%;
+  margin-top: 50px;
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 50px;
+  color: #444444;
+}
+#questionsHeader {
+  font-family: Verdana;
+  font-weight: lighter;
+}
+#questionSearch {
+  padding: 10px;
+  border-radius: 0;
+  border: 1px solid black
+}
+.question {
+  display: flex;
+  flex-direction: column;
+}
+.questionHeaderRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.questionButtonRow {
+  font-weight: lighter;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+.qaLinkButton {
+  text-decoration: underline;
+  cursor: pointer;
+  font-family: Verdana;
+  font-weight: lighter;
+  font-size: small;
+}
+.qaNonLink {
+  font-family: Verdana;
+  font-weight: lighter;
+  font-size: small;
+  color: #666666;
+}
+.qaClicked {
+  text-decoration: underline;
+  cursor: pointer;
+  font-family: Verdana;
+  font-weight: lighter;
+  font-size: small;
+  color: fuchsia;
+}
+.qaHeader {
+  font-family: Verdana;
+  font-weight: 600;
+  color: #444444;
+}
+.answerBody {
+  display: flex;
+  flex-direction: column;
+  margin-left: 2%;
+}
+.answerText {
+  font-family: Verdana;
+  width: 67%;
+  margin: 0;
+  color: #444444;
+}
+.answerImageRow {
+  display: flex;
+  flex-direction: row;
+}
+.answerImage {
+  width: 10%;
+  height: 10%;
+  margin: 10px;
+  border: 1px solid black;
+  cursor: pointer;
+}
+.expandedAnswerImage {
+  position: fixed;
+  z-index: 5;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  background-color: transparent;
+  cursor: pointer;
+}
+.addQuestionDiv {
+  position: fixed;
+  z-index: 5;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0,0,0,0.1);
+}
+.formInput {
+  margin-left: 6%;
+  margin-right: 6%;
+  margin-top: 20px;
+  margin-bottom: 20px;
+  padding: 1%;
+  border-radius: 5px;
+  border: 2px solid #666666;
+}
+.questionFormBox {
+  margin: 5% 5% 5% 5%;
+  background-color: #ffffff;
+  padding: 5%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  height: 60%;
+  border: 3px solid green;
+  border-radius: 10px;
+}
+.questionForm {
+  display: flex;
+  flex-direction: column;
+}
+.questionTextArea {
+  font-family: Verdana;
+}
+.answerBottomRow {
+  display: flex;
+  align-items: center;
+}
+.loadAnswersButton {
+  font-family: Verdana;
+  font-variant: small-caps;
+  margin-left: 2%;
+  font-weight: bold;
+  cursor: pointer;
+}
+.qaWidgetButtonRow {
+  display: flex;
+  flex-direction: row;
+}
+.qaWidgetButton {
+  font-family: Verdana;
+  padding-left: 1.3%;
+  padding-right: 1.3%;
+  padding-top: 2%;
+  padding-bottom: 2%;
+  margin: 1%;
+  border: 1px solid black;
+  color: #444444;
+  cursor: pointer;
+}
+.formPrompt {
+  font-family: Verdana;
+  font-variant: small-caps;
+  font-size: larger;
+  margin: 0 0 0 2%;
+  font-weight: normal;
+  color: blue;
+}
+.submitQuestion {
+  position: relative;
+  width: 16%;
+  height: 12%;
+  left: 42%;
+  margin-top: 3%;
+  font-family: Verdana;
+  font-weight: bold;
+  background-color: #ffffff;
+  border-radius: 0;
+  border: solid 2px black;
+  cursor: pointer;
+}
+.submitQuestion:hover {
+  border: solid 2px fuchsia;
+  color: blue;
+}
+.questionAlertsBox {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.questionAlert {
+  margin: 0;
+  color: red;
+  font-family: Verdana;
+}
+.uploadedImages {
+  display: flex;
+  margin-top: 2%;
+  margin-left: 5%;
+}
+.uploadedImage {
+  border: 0;
+  width: 100px;
+  height: 100px;
+  padding: 8px;
+  object-fit: cover;
+}
+.fileLoadRow {
+  display: flex;
+  flex-direction: row;
+}
+.fileButton {
+  margin-left: 5px;
+}
+input[type="text"]
+{
+  font-size: 15px;
+  font-family: Verdana;
+  font-weight: lighter;
+  color: #333333;
+}
+
+
+/* iva css */
+
+.Related-Product-Gallery {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+}
+
+.product-photo {
+  height: 200px;
+  width: 200px;
+  object-fit: cover;
+}
+.relatedProductBox {
+  display: flex;
+  flex-direction: column;
+  border: solid 2px black;
+  margin: 5px;
+}
+.relatedProductCategory{
+  font-size: smaller;
+  font-variant: small-caps;
+  font-weight: lighter;
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  margin: 5px;
+}
+.relatedProductName {
+  font-weight: bold;
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  margin: 5px;
+  color: black;
+  text-decoration: none;
+
+}
+.relatedProductPrice{
+  font-size: smaller;
+  font-variant: small-caps;
+  font-weight: lighter;
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  margin: 5px;
+}
+.product-star{
+  position: relative;
+  top: -63%;
+  left: 85%;
+  width: 20px;
+  height: 20px;
+  z-index: 3;
+}
+
+.outfit-close{
+  position: relative;
+  top: -60%;
+  left: 85%;
+  width: 20px;
+  height: 20px;
+  z-index: 3;
+}
+
+.relatedProductsStar{
+  width: 75px;
+  height: 15px;
+}
+
+.relatedProductLeftArrow{
+  height: 30px;
+  width: 30px;
+
+}
+.relatedProductRightArrow{
+  height: 30px;
+  width: 30px;
+}
+.transparentCompareBox{
+  position: fixed;
+  z-index: 5;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0,0,0,0.1);
+}
+.compareBox{
+  margin: 5% 5% 5% 5%;
+  background-color: #ffffff;
+  padding: 5%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  height: 60%;
+  border: 3px solid green;
+  border-radius: 10px;
+}
+.compareInfo{
+  flex-direction: column;
+  display: flex;
+}
+.compareInfoRow{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  border-top: solid 1px black;
+}
+
+.nameCompare{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+}
+.priceCompare{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+}
+.compareHeader{
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  font-weight: bold;
+  font-size: larger;
+}
+.priceHeader{
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  font-weight: bold;
+  color: blue;
+}
+.compareInfoText{
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+.galleryHeader{
+  margin-left: 14%;
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
