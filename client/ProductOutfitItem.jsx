@@ -114,7 +114,9 @@ render() {
   return (
     <div class='relatedProductBox'>
       <img class='product-photo' src={this.state.photo === null ? 'https://www.lynbrooklibrary.org/wp-content/uploads/2020/06/coming-soon-neon-sign.jpg' : this.state.photo} />
-      <img class='outfit-close' src={'https://cdn4.vectorstock.com/i/1000x1000/91/98/icon-close-button-vector-20409198.jpg'} onClick={this.removeItemClick}/>
+      {/* <img class='outfit-close' src={'https://cdn4.vectorstock.com/i/1000x1000/91/98/icon-close-button-vector-20409198.jpg'} onClick={this.removeItemClick}/> */}
+      <svg id="questionFormClose"
+        style={{zIndex: 3, position: 'relative', top: '-60%%', left: '85%', cursor: 'pointer'}} width={20} height={20} onClick={this.removeItemClick} data-name="close" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 72 72"><path fill={'red'} d="M72 11.77L60.23 0 36 24.23 11.77 0 0 11.77 24.23 36 0 60.23 11.77 72 36 47.77 60.23 72 72 60.23 47.77 36 72 11.77z"/></svg>
       <p class='relatedProductCategory'>
         {this.state.category}
       </p>
