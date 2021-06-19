@@ -150,7 +150,7 @@ class DefaultGallery extends React.Component {
     }
     return (
       <div style={outerCSS}>
-          <img id="defaultImage" style={imageCSS} onClick={() => {this.props.switchGallery(this.state.currentIndex);}} src={this.props.photos[this.state.currentIndex].url} />
+          <img id="defaultImage" style={imageCSS} onClick={() => {this.props.switchGallery(this.state.currentIndex);}} src={this.props.photos[this.state.currentIndex].url === null ? 'https://www.lynbrooklibrary.org/wp-content/uploads/2020/06/coming-soon-neon-sign.jpg' : this.props.photos[this.state.currentIndex].url} />
           <div id="defaultIconCol" style={iconColCSS}>
             {iconComponents}
           </div>

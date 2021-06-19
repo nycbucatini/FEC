@@ -230,7 +230,7 @@ class ExpandedGallery extends React.Component {
     return (
       <div style={outerCSS}>
         <div id="imagePanel"style={innerCSS} onMouseMove={this._onMouseMove} onClick={this._onClick}>
-          <img id="expandedImage" style={imageCSS} src={this.props.photos[this.state.currentIndex].url} />
+          <img id="expandedImage" style={imageCSS} src={this.props.photos[this.state.currentIndex].url === null ? 'https://www.lynbrooklibrary.org/wp-content/uploads/2020/06/coming-soon-neon-sign.jpg' : this.props.photos[this.state.currentIndex].url} />
         </div>
         {!this.state.zoomedIn &&
           <React.Fragment>

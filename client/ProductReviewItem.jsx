@@ -107,7 +107,7 @@ class ProductReviewItem extends React.Component {
 render() {
   return (
     <div class='relatedProductBox'>
-      <img class='product-photo' src={this.state.photo} />
+      <img class='product-photo' src={this.state.photo === null ? 'https://www.lynbrooklibrary.org/wp-content/uploads/2020/06/coming-soon-neon-sign.jpg' : this.state.photo} />
       <img class='product-star' src={'https://png.pngtree.com/png-clipart/20190705/original/pngtree-vector-star-icon-png-image_4187383.jpg'} onClick={this.starClick}/>
       <p class='relatedProductCategory'>
         {this.state.category}
