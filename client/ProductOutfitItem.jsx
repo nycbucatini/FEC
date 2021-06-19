@@ -113,7 +113,7 @@ class ProductOutfitItem extends React.Component {
 render() {
   return (
     <div class='relatedProductBox'>
-      <img class='product-photo' src={this.state.photo} />
+      <img class='product-photo' src={this.state.photo === null ? 'https://www.lynbrooklibrary.org/wp-content/uploads/2020/06/coming-soon-neon-sign.jpg' : this.state.photo} />
       <img class='outfit-close' src={'https://cdn4.vectorstock.com/i/1000x1000/91/98/icon-close-button-vector-20409198.jpg'} onClick={this.removeItemClick}/>
       <p class='relatedProductCategory'>
         {this.state.category}

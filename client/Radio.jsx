@@ -3,7 +3,6 @@ import React from 'react';
 export default class Radio extends React.Component {
   constructor(props) {
     super(props);
-    console.log('props', props);
 
     this.state = {selectedOption: null}
     this.handleOptionChange = this.handleOptionChange.bind(this);
