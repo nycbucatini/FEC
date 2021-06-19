@@ -720,15 +720,6 @@ input[type="text"]
   z-index: 3;
 }
 
-.outfit-close{
-  position: relative;
-  top: -60%;
-  left: 85%;
-  width: 20px;
-  height: 20px;
-  z-index: 3;
-}
-
 .relatedProductsStar{
   width: 75px;
   height: 15px;
