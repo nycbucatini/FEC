@@ -17,7 +17,7 @@ class Questions extends React.Component {
 
     this.loadQuestions = this.loadQuestions.bind(this);
     this.handleSearch = this.handleSearch.bind(this);
-    this.handleSearch = _.debounce(this.handleSearch, 200);
+    // this.handleSearch = _.debounce(this.handleSearch, 200);
     this.toggleForm = this.toggleForm.bind(this);
     this.loadMore = this.loadMore.bind(this);
     this.checkQuery = this.checkQuery.bind(this);
@@ -78,10 +78,11 @@ class Questions extends React.Component {
 
     return axios(options)
     .then((response) => {
-      console.log('LoadQuestions', response.data.results);
+
+      var newArray = this.state.questions.concat(response.data.results).slice();
       this.setState({
         allLoaded: response.data.results.length < this.state.questions.length ? true : false,
-        questions: this.state.questions.concat(response.data.results)
+        questions: newArray
       }, callback);
     })
     .catch((err) => {
@@ -124,7 +125,11 @@ class Questions extends React.Component {
   }
 
   loadMore() {
-    this.loadQuestions(2, this.state.questions.length, () => {
+    var numberToLoad = this.state.questions.length;
+    if (this.state.search.length >= 3 && this.state.search !== 'dwdnwfbewfubdsijn') {
+      numberToLoad = 20;
+    }
+    this.loadQuestions(2, numberToLoad, () => {
       this.logInteraction('moreQuestionsButton');
       if (this.state.search.length >= 3 && this.state.search !== 'dwdnwfbewfubdsijn') {
         this.filterQuestions(this.state.search);
@@ -160,7 +165,7 @@ class Questions extends React.Component {
         {this.state.dataReceived &&
           <div id="questionList">
             {this.state.questions.map(question =>
-              <QuestionBody questionObject={question} search={this.state.search} logInteraction={this.logInteraction}/>
+              <QuestionBody key={Math.random()} questionObject={question} search={this.state.search} logInteraction={this.logInteraction}/>
             )}
           </div>
         }

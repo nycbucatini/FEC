@@ -58,7 +58,7 @@ class ProductReviewItem extends React.Component {
   getRating() {
     return axios.get(API_ROOT + `/reviews/meta/?product_id=${this.props.productId}`, HEADERS)
       .then((response) => {
-        console.log('GET RATING', response.data);
+        // console.log('GET RATING', response.data);
 
         var parseHelper = function(input) {
           var output = parseInt(input);
