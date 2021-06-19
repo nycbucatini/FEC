@@ -157,7 +157,7 @@ export default class ReviewRating extends React.Component {
 
 render() {
   return (
-    <main className='box'>
+    <main className='box' id='reviewsAndRatingsComponent'>
       <div className='child box-child-1'>
         <p className='child-ratingreview'>{'RATINGS & REVIEWS'}</p>
         <div className='avgrating-avgstar'>

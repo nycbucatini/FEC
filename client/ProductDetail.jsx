@@ -49,6 +49,7 @@ class ProductDetail extends React.Component {
     this.addToCart = this.addToCart.bind(this);
     this.addOutfit = this.addOutfit.bind(this);
     this.logInteraction = this.logInteraction.bind(this);
+    this.scrollToReviews = this.scrollToReviews.bind(this);
 
     this.state = {
       rating: 5,
@@ -273,6 +274,12 @@ class ProductDetail extends React.Component {
     alert('Added to saved outfits');
   }
 
+  scrollToReviews() {
+    this.logInteraction('reviewLink');
+    var element = document.getElementById('reviewsAndRatingsComponent');
+    element.scrollIntoView();
+  }
+
   render() {
 
     var starsURL = this.props.getReviewImage(this.state.rating);
@@ -293,7 +300,7 @@ class ProductDetail extends React.Component {
           <div id="rightPanel" style={rightPanelCSS}>
             <div id="productInfoReviewStar"style={{display: 'flex', alignItems: 'center'}}>
               <img style={{width: 75, height: 15}} src={starsURL}/>
-              <a href="/" id="reviewLink" onClick={() => {this.logInteraction('reviewLink');}} style={{fontFamily: 'Verdana', fontSize: 12, color: 'black', marginLeft: 10}}>Read All Reviews</a>
+              <a id="reviewLink" onClick={this.scrollToReviews} style={{fontFamily: 'Verdana', fontSize: 12, color: 'black', marginLeft: 10}}>Read All Reviews</a>
             </div>
             <p id="categoryName" style={{fontFamily: 'Verdana', fontWeight: 'lighter', fontVariant: 'small-caps', marginBottom: 0}}>{this.state.category}</p>
             <h2 id="productName" style={{fontFamily: 'Copperplate', marginTop: 0, marginBottom: 0, fontSize: 40 * window.innerHeight / 820}}>{this.state.name}</h2>
