@@ -1,4 +1,4 @@
-# FEC
+# catwalk37
 [atelier37.herokuapp.com](http://atelier37.herokuapp.com)
 An e-commerce platform. Minimalist with bright colors, designed with younger consumers in mind.
 
