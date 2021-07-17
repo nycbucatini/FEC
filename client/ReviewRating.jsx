@@ -117,7 +117,7 @@ export default class ReviewRating extends React.Component {
         LengthId: diffCharacteristic.Length.id,
         QualityId: diffCharacteristic.Quality.id
       }, () => {
-        console.log('all id after setState', this.state.comfortId, this.state.fitId, this.state.LengthId, this.state.QualityId)
+        // console.log('all id after setState', this.state.comfortId, this.state.fitId, this.state.LengthId, this.state.QualityId)
       });
 
     }).catch((err) => {
