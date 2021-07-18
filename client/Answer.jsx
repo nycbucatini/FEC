@@ -1,6 +1,6 @@
 import React from 'react';
 import axios from 'axios';
-import AnswerImage from './answerImage.jsx';
+import AnswerImage from './AnswerImage.jsx';
 import KEY from '../config.js';
 const API_ROOT = 'https://app-hrsei-api.herokuapp.com/api/fec2/hrnyc';
 
