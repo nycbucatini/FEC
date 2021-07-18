@@ -1,18 +1,7 @@
 import React from 'react';
 //this.props.skus - each sku key has object with properties quantity and size
 //this.props.selectSku(sku)
-const RIGHT_PANEL_WIDTH = 0.3 * window.innerWidth;
-const css = {
-  width: RIGHT_PANEL_WIDTH * 0.55,
-  paddingLeft: 0.03 * RIGHT_PANEL_WIDTH,
-  height: 0.1 * RIGHT_PANEL_WIDTH,
-  borderRadius: 0,
-  fontFamily: 'Verdana',
-  marginTop: 0.02 * RIGHT_PANEL_WIDTH,
-  fontWeight: 'bold',
-  border: 'solid 1px',
-  color: '#555555'
-};
+
 class SelectSize extends React.Component {
   constructor(props) {
     super(props);
@@ -39,7 +28,7 @@ class SelectSize extends React.Component {
     }
     optionTags.unshift(<option value='none' disabled>{optionTags.length > 0 ? 'SELECT SIZE' : 'OUT OF STOCK'}</option>);
     return (
-      <select id="selectSize" style={css} value={this.state.value} onChange={this._onChange}>
+      <select id="selectSize" value={this.state.value} onChange={this._onChange}>
         {optionTags}
       </select>
     );

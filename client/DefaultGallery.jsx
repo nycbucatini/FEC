@@ -1,68 +1,6 @@
 import React from 'react';
 import DefaultIconImage from './DefaultIconImage.jsx';
 
-const WIDTH = 0.5 * window.innerWidth;
-const HEIGHT = 0.73 * window.innerHeight;
-const TOP_OFFSET = 50;
-const LEFT_OFFSET = 0.15 * window.innerHeight;
-const ICON_COL_WIDTH = 0.15 * window.innerHeight;
-
-const outerCSS = {
-  position: 'relative',
-  top: TOP_OFFSET,
-  left: LEFT_OFFSET,
-  height: HEIGHT,
-  width: WIDTH,
-  backgroundColor: '#ffffff',
-};
-
-const imageCSS = {
-  objectFit: 'contain',
-  width: WIDTH,
-  height: HEIGHT,
-  cursor: 'zoom-in'
-};
-
-const topArrowCSS = {
-  position: 'absolute',
-  top: TOP_OFFSET,
-  left: ICON_COL_WIDTH * -0.7,
-  zIndex: 3
-};
-
-const downArrowCSS = {
-  position: 'absolute',
-  top: TOP_OFFSET + HEIGHT - 1.2 * ICON_COL_WIDTH,
-  left: ICON_COL_WIDTH * -0.7,
-  zIndex: 3
-};
-
-const leftArrowCSS = {
-  position: 'absolute',
-  top: TOP_OFFSET + HEIGHT * 0.375,
-  left: LEFT_OFFSET * 0.25
-};
-
-const rightArrowCSS = {
-  position: 'absolute',
-  top: TOP_OFFSET + HEIGHT * 0.375,
-  left: WIDTH + ICON_COL_WIDTH * 0.4 - LEFT_OFFSET
-};
-
-const iconColCSS = {
-  position: 'relative',
-  top: TOP_OFFSET - HEIGHT + 0.3 * ICON_COL_WIDTH,
-  left: -1 * ICON_COL_WIDTH,
-  height: HEIGHT,
-  width: ICON_COL_WIDTH,
-  backgroundColor: 'transparent',
-  display: 'flex',
-  flexDirection: 'column',
-  justifyContent: 'flex-start',
-  alignItems: 'center',
-  zIndex: 3
-}
-
 class DefaultGallery extends React.Component {
   constructor(props) {
     super(props);
@@ -144,26 +82,25 @@ class DefaultGallery extends React.Component {
   render() {
     var icons = this.getIconArray();
     var iconComponents = [];
+    if (this.state.iconIndex > 0) {
+      iconComponents.push(<svg id="defaultIconUpArrow" width={'60%'} onClick={this.shiftIconsLeft} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 330 330"><path d="M324 209.3L174 96.8c-5.3-4-12.7-4-18 0L6 209.3c-6.6 5-8 14.4-3 21 2.9 3.9 7.5 6 12 6 3.1 0 6.3-1 9-3L165 127.5l141 105.8c6.6 5 16 3.6 21-3C332 223.6 330.6 214.2 324 209.3z"/></svg>);
+    }
     for (var i = 0; i< icons.length; i++) {
       var index = this.getPhotoIndexFromIconPosition(i);
       iconComponents.push(<DefaultIconImage image={icons[i].thumbnail_url} index={index} isSelected={index === this.state.currentIndex} clickHandler={this.iconClicked}/>);
     }
+    if (this.state.iconIndex < (this.props.photos.length - 5)) {
+      iconComponents.push(<svg id="defaultIconDownArrow" transform="rotate(180)" width={'60%'} onClick={this.shiftIconsRight} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 330 330"><path d="M324 209.3L174 96.8c-5.3-4-12.7-4-18 0L6 209.3c-6.6 5-8 14.4-3 21 2.9 3.9 7.5 6 12 6 3.1 0 6.3-1 9-3L165 127.5l141 105.8c6.6 5 16 3.6 21-3C332 223.6 330.6 214.2 324 209.3z"/></svg>);
+    }
     return (
-      <div style={outerCSS}>
-          <img id="defaultImage" style={imageCSS} onClick={() => {this.props.switchGallery(this.state.currentIndex);}} src={this.props.photos[this.state.currentIndex].url === null ? 'https://www.lynbrooklibrary.org/wp-content/uploads/2020/06/coming-soon-neon-sign.jpg' : this.props.photos[this.state.currentIndex].url} />
-          <div id="defaultIconCol" style={iconColCSS}>
+      <div id="defaultGallery">
+          <img id="defaultImage" onClick={() => {this.props.switchGallery(this.state.currentIndex);}} src={this.props.photos[this.state.currentIndex].url === null ? 'https://www.lynbrooklibrary.org/wp-content/uploads/2020/06/coming-soon-neon-sign.jpg' : this.props.photos[this.state.currentIndex].url} />
+          <div id="defaultIconCol">
             {iconComponents}
           </div>
-          {this.state.iconIndex > 0 &&
-            <svg className="defaultIconArrow" style={topArrowCSS} width={ICON_COL_WIDTH * 0.4} height={ICON_COL_WIDTH * 0.4} onClick={this.shiftIconsLeft} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 330 330"><path d="M324 209.3L174 96.8c-5.3-4-12.7-4-18 0L6 209.3c-6.6 5-8 14.4-3 21 2.9 3.9 7.5 6 12 6 3.1 0 6.3-1 9-3L165 127.5l141 105.8c6.6 5 16 3.6 21-3C332 223.6 330.6 214.2 324 209.3z"/></svg>
-          }
-          {this.state.iconIndex < (this.props.photos.length - 5) &&
-            <svg className="defaultIconArrow" style={downArrowCSS} transform="rotate(180)" width={ICON_COL_WIDTH * 0.4} height={ICON_COL_WIDTH * 0.4} onClick={this.shiftIconsRight} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 330 330"><path d="M324 209.3L174 96.8c-5.3-4-12.7-4-18 0L6 209.3c-6.6 5-8 14.4-3 21 2.9 3.9 7.5 6 12 6 3.1 0 6.3-1 9-3L165 127.5l141 105.8c6.6 5 16 3.6 21-3C332 223.6 330.6 214.2 324 209.3z"/></svg>
-          }
-          <svg className="defaultGalleryArrow" style={leftArrowCSS} width={LEFT_OFFSET * 0.4} height={LEFT_OFFSET * 0.4} onClick={this.cycleLeft} data-name="arrow_left" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 51.65 97.99"><path fill="#ff0000" d="M51.66 2.65L49 0 2.66 46.34h-.01L0 48.99h.01L0 49l2.65 2.66.01-.01L49 97.99l2.66-2.65L5.31 48.99 51.66 2.65z"/></svg>
-          <svg className="defaultGalleryArrow" style={rightArrowCSS} width={LEFT_OFFSET * 0.4} height={LEFT_OFFSET * 0.4} onClick={this.cycleRight} data-name="arrow-right" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 51.65 97.99"><path fill="#ff0000" d="M0 95.34l2.65 2.65 46.34-46.34.01.01L51.66 49l-.01-.01h.01L49 46.34h-.01L2.65 0 0 2.65l46.34 46.34L0 95.34z"/></svg>
+          <svg id="defaultGalleryLeftArrow" width={'8%'} height={'8%'} onClick={this.cycleLeft} data-name="arrow_left" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 51.65 97.99"><path fill="#ff00ff" d="M51.66 2.65L49 0 2.66 46.34h-.01L0 48.99h.01L0 49l2.65 2.66.01-.01L49 97.99l2.66-2.65L5.31 48.99 51.66 2.65z"/></svg>
+          <svg id="defaultGalleryRightArrow" width={'8%'} height={'8%'} onClick={this.cycleRight} data-name="arrow-right" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 51.65 97.99"><path fill="#ff00ff" d="M0 95.34l2.65 2.65 46.34-46.34.01.01L51.66 49l-.01-.01h.01L49 46.34h-.01L2.65 0 0 2.65l46.34 46.34L0 95.34z"/></svg>
       </div>
-
     );
   }
 }

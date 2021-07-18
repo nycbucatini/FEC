@@ -49,13 +49,13 @@ class App extends React.Component {
     return (
 
       //put your components in the div!
-      <div>
+      <React.Fragment>
         <ProductDetail productId={productId} getReviewImage={this.getReviewImage}/>
         <ProductReviewBody productId={productId}  stars={this.getReviewImage}/>
         <Questions productId={productId}/>
         <ReviewRating productId={productId}/>
 
-      </div>
+      </React.Fragment>
     );
   }
 }

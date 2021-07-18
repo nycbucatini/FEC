@@ -1,13 +1,6 @@
 import React from 'react';
 import ExpandedIconImage from './ExpandedIconImage.jsx';
-const OUTER_WIDTH = 1 * window.innerWidth;
-const OUTER_HEIGHT = 1 * window.innerHeight;
-const INNER_WIDTH  = 0.9 * window.innerWidth;
-const INNER_HEIGHT = 0.87 * window.innerHeight;
-const LEFT_OUTER_OFFSET = 0 * window.innerWidth;
-const LEFT_INNER_OFFSET = 0.05 * window.innerWidth; //using css relative position
-const TOP_OUTER_OFFSET = 0; //inner and outer share this edge
-const FRAME_ASPECT = INNER_WIDTH / INNER_HEIGHT;
+
 
 /**
  * Will receive this.props.photos, array of photos for selected style.,
@@ -15,56 +8,6 @@ const FRAME_ASPECT = INNER_WIDTH / INNER_HEIGHT;
  * this.props.startingIndex: Photo to start on. used if you switched from another gallery
  * this.props.logInteraction(element) log clicks
  */
-
-const outerCSS = {
-  position: 'relative',
-  top: TOP_OUTER_OFFSET,
-  left: LEFT_OUTER_OFFSET,
-  height: OUTER_HEIGHT,
-  width: OUTER_WIDTH,
-  backgroundColor: '#ffffff',
-};
-
-const innerCSS = {
-  position: 'relative',
-  left: LEFT_INNER_OFFSET,
-  height: INNER_HEIGHT,
-  width: INNER_WIDTH,
-  backgroundColor: '#ffffff',
-  overflow: 'hidden'
-};
-
-const iconRowCSS = {
-  position: 'relative',
-  left: LEFT_INNER_OFFSET,
-  height: OUTER_HEIGHT - INNER_HEIGHT,
-  width: INNER_WIDTH,
-  backgroundColor: '#ffffff',
-  display: 'flex',
-  justifyContent: 'center',
-  alignItems: 'center'
-};
-
-const leftArrowCSS = {
-  position: 'absolute',
-  top: TOP_OUTER_OFFSET + INNER_HEIGHT * 0.5 - LEFT_OUTER_OFFSET * 0.3,
-  left: LEFT_INNER_OFFSET * 0.2,
-  zIndex: 3
-};
-
-const rightArrowCSS = {
-  position: 'absolute',
-  top: TOP_OUTER_OFFSET + INNER_HEIGHT * 0.5 - LEFT_OUTER_OFFSET * 0.3,
-  left: LEFT_INNER_OFFSET * 1.1 + INNER_WIDTH,
-  zIndex: 3
-};
-
-const closeCSS = {
-  position: 'absolute',
-  top: 0,
-  left: window.innerWidth - LEFT_INNER_OFFSET * 0.7,
-  zIndex: 3
-};
 
 class ExpandedGallery extends React.Component {
   constructor(props) {
@@ -87,8 +30,8 @@ class ExpandedGallery extends React.Component {
     //this.props.startingIndex
     this.state = {
       zoomedIn: false,
-      mouseX: LEFT_INNER_OFFSET + LEFT_OUTER_OFFSET,
-      mouseY: TOP_OUTER_OFFSET,
+      mouseX: 0.05 * window.innerWidth,
+      mouseY: 0,
       imageAspect: 1,
       currentIndex: this.props.startingIndex,
       iconIndex: this.props.startingIndex
@@ -186,19 +129,27 @@ class ExpandedGallery extends React.Component {
   getImageCSS(pageX, pageY) {
     if (!this.state.zoomedIn) {
       return {
+        position: 'relative',
         objectFit: 'contain',
-        width: INNER_WIDTH,
-        height: INNER_HEIGHT,
+        width: '100%',
+        height: '100%',
+        margin: 0,
         cursor: 'cell'
       };
     }
 
     //Math is off somehow but results are acceptable.
     //Will come back to this and try to figure out the right equation using an inductive approach
+    var INNER_WIDTH  = 0.9 * window.innerWidth;
+    var INNER_HEIGHT = 0.87 * window.innerHeight;
+    var FRAME_ASPECT = INNER_WIDTH / INNER_HEIGHT;
+    var LEFT_INNER_OFFSET = 0.05 * window.innerWidth; //using css relative position
+
+
 
     var aspectMultiplier = (this.state.imageAspect / FRAME_ASPECT) ** 2;
-    var percentageX = (pageX - LEFT_INNER_OFFSET - LEFT_OUTER_OFFSET) / INNER_WIDTH;
-    var percentageY = (pageY - TOP_OUTER_OFFSET) / INNER_HEIGHT;
+    var percentageX = (pageX - LEFT_INNER_OFFSET) / INNER_WIDTH;
+    var percentageY = (pageY) / INNER_HEIGHT;
     var xMultiplier = 0.6 * -2.5 * INNER_WIDTH * aspectMultiplier;
     var yMultiplier = 0.6 * -2.5 * INNER_HEIGHT;
     var posX = this.state.imageAspect <= 0.8 ? 0 : Math.floor(percentageX * xMultiplier);
@@ -217,29 +168,29 @@ class ExpandedGallery extends React.Component {
     var icons = this.getIconArray();
     var iconComponents = [];
     if (this.props.photos.length > 7) { //leftIconArrow
-      iconComponents.push(<svg className="expandedIconArrow" width={LEFT_INNER_OFFSET * 0.4} height={LEFT_INNER_OFFSET * 0.4} onClick={this.shiftIconsLeft} data-name="arrow_left" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 51.65 97.99"><path d="M51.66 2.65L49 0 2.66 46.34h-.01L0 48.99h.01L0 49l2.65 2.66.01-.01L49 97.99l2.66-2.65L5.31 48.99 51.66 2.65z"/></svg>);
+      iconComponents.push(<svg id="expandedIconLeftArrow" width={30} height={30} onClick={this.shiftIconsLeft} data-name="arrow_left" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 51.65 97.99"><path d="M51.66 2.65L49 0 2.66 46.34h-.01L0 48.99h.01L0 49l2.65 2.66.01-.01L49 97.99l2.66-2.65L5.31 48.99 51.66 2.65z"/></svg>);
     }
     for (var i = 0; i< icons.length; i++) {
       var index = this.getPhotoIndexFromIconPosition(i);
       iconComponents.push(<ExpandedIconImage image={icons[i].thumbnail_url} index={index} isSelected={index === this.state.currentIndex} clickHandler={this.iconClicked}/>);
     }
     if (this.props.photos.length > 7) { //rightIconArrow
-      iconComponents.push(<svg className="expandedIconArrow" width={LEFT_INNER_OFFSET * 0.4} height={LEFT_INNER_OFFSET * 0.4} onClick={this.shiftIconsRight} data-name="arrow-right" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 51.65 97.99"><path d="M0 95.34l2.65 2.65 46.34-46.34.01.01L51.66 49l-.01-.01h.01L49 46.34h-.01L2.65 0 0 2.65l46.34 46.34L0 95.34z"/></svg>);
+      iconComponents.push(<svg id="expandedIconRightArrow" width={30} height={30} onClick={this.shiftIconsRight} data-name="arrow-right" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 51.65 97.99"><path d="M0 95.34l2.65 2.65 46.34-46.34.01.01L51.66 49l-.01-.01h.01L49 46.34h-.01L2.65 0 0 2.65l46.34 46.34L0 95.34z"/></svg>);
     }
 
     return (
-      <div style={outerCSS}>
-        <div id="imagePanel"style={innerCSS} onMouseMove={this._onMouseMove} onClick={this._onClick}>
+      <div id="expandedGallery">
+        <div id="imagePanel" onMouseMove={this._onMouseMove} onClick={this._onClick}>
           <img id="expandedImage" style={imageCSS} src={this.props.photos[this.state.currentIndex].url === null ? 'https://www.lynbrooklibrary.org/wp-content/uploads/2020/06/coming-soon-neon-sign.jpg' : this.props.photos[this.state.currentIndex].url} />
         </div>
         {!this.state.zoomedIn &&
           <React.Fragment>
-            <svg className="expandedGalleryArrow" style={leftArrowCSS} width={LEFT_INNER_OFFSET * 0.7} height={LEFT_INNER_OFFSET * 0.7} onClick={this.cycleLeft} data-name="arrow_left" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 51.65 97.99"><path d="M51.66 2.65L49 0 2.66 46.34h-.01L0 48.99h.01L0 49l2.65 2.66.01-.01L49 97.99l2.66-2.65L5.31 48.99 51.66 2.65z"/></svg>
-            <svg className="expandedGalleryArrow" style={rightArrowCSS} width={LEFT_INNER_OFFSET * 0.7} height={LEFT_INNER_OFFSET * 0.7} onClick={this.cycleRight} data-name="arrow-right" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 51.65 97.99"><path d="M0 95.34l2.65 2.65 46.34-46.34.01.01L51.66 49l-.01-.01h.01L49 46.34h-.01L2.65 0 0 2.65l46.34 46.34L0 95.34z"/></svg>
-            <div id="expandedIconRow" style={iconRowCSS}>
+            <svg id="expandedGalleryLeftArrow" width={'8%'} height={'8%'} onClick={this.cycleLeft} data-name="arrow_left" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 51.65 97.99"><path d="M51.66 2.65L49 0 2.66 46.34h-.01L0 48.99h.01L0 49l2.65 2.66.01-.01L49 97.99l2.66-2.65L5.31 48.99 51.66 2.65z"/></svg>
+            <svg id="expandedGalleryRightArrow" width={'8%'} height={'8%'} onClick={this.cycleRight} data-name="arrow-right" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 51.65 97.99"><path d="M0 95.34l2.65 2.65 46.34-46.34.01.01L51.66 49l-.01-.01h.01L49 46.34h-.01L2.65 0 0 2.65l46.34 46.34L0 95.34z"/></svg>
+            <div id="expandedIconRow">
               {iconComponents}
             </div>
-            <svg id="expandedGalleryClose" style={closeCSS} width={LEFT_INNER_OFFSET * 0.5} height={LEFT_INNER_OFFSET * 0.5} onClick={() => {this.props.switchGallery(this.state.currentIndex)}} data-name="close" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 72 72"><path d="M72 11.77L60.23 0 36 24.23 11.77 0 0 11.77 24.23 36 0 60.23 11.77 72 36 47.77 60.23 72 72 60.23 47.77 36 72 11.77z"/></svg>
+            <svg id="expandedGalleryClose" width={'5%'} height={'5%'} onClick={() => {this.props.switchGallery(this.state.currentIndex)}} data-name="close" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 72 72"><path d="M72 11.77L60.23 0 36 24.23 11.77 0 0 11.77 24.23 36 0 60.23 11.77 72 36 47.77 60.23 72 72 60.23 47.77 36 72 11.77z"/></svg>
           </React.Fragment>
         }
 

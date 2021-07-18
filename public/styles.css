@@ -3,13 +3,355 @@
 @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@700&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@100&display=swap');
 #bagButton:hover {
-  color: purple !important;
-  font-weight: bold !important;
-  border: solid 2px purple !important;
+  color: purple;
+  font-weight: bold;
+  border: solid 2px purple;
 }
 #addOutfitButton:hover {
-  color: purple !important;
-  border: solid 2px purple !important;
+  color: purple;
+  border: solid 2px purple;
+}
+
+#app {
+  position: absolute;
+  display: flex;
+  flex-flow: column;
+  width: 100%;
+  height: 100%;
+}
+
+/* product detail css */
+
+#rightPanel {
+  position: absolute;
+  top: 5%;
+  left: 70%;
+  width: 30%;
+  height: 77%;
+  background-color: #ffffff;
+  margin-top: 1%;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+}
+#productInfoReviewRow{
+  display: flex;
+  align-items: center;
+}
+#productInfoReviewStars{
+  width: 75px;
+  height: 15px;
+}
+#reviewLink {
+  font-family: Verdana;
+  font-size: smaller;
+  color: black;
+  margin-left: 10px;
+}
+#categoryName {
+  font-family: Verdana;
+  font-weight: lighter;
+  font-variant: small-caps;
+  margin-bottom: 0;
+}
+#prices {
+  display: flex;
+}
+#productName {
+  font-family: Copperplate;
+  margin-top: 0;
+  margin-bottom: 0;
+  font-size: 5vh;
+}
+#salePrice {
+  color: red;
+  font-family: Verdana;
+  font-variant: small-caps;
+  font-weight: bold;
+  margin-right: 20px;
+  margin-top: 10px;
+  margin-bottom: 0;
+}
+#normalPriceStrikethrough {
+  font-family: Verdana;
+  text-decoration: line-through;
+  margin-top: 10px;
+  margin-bottom: 0;
+}
+#normalPrice {
+  font-family: Verdana;
+  margin-top: 10px;
+  margin-bottom: 0;
+  font-weight: bold;
+}
+#stylesHeader {
+  display: flex;
+  align-items: center;
+}
+#stylesPrompt {
+  font-family: Verdana;
+  font-weight: bold;
+}
+#selectedStyle {
+  font-family: Verdana;
+  margin-left: 6px;
+}
+#styleIcons {
+  min-height: 40%;
+  width: 85%;
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: flex-start;
+  align-content: center;
+  align-items: center;
+  margin-top: 5%;
+  margin-bottom: 5%;
+}
+#dropdownRow {
+  display: flex;
+  position: relative;
+  height: 6.5%;
+  width: 100%;
+  margin-top: 1.2%;
+}
+#bagRow {
+  position: relative;
+  display: flex;
+  width: 100%;
+  height: 6.5%;
+  margin-top: 3.5%;
+}
+#bagButton {
+  z-index: 4;
+  width: 65%;
+  height: 100%;
+  margin-right: 4%;
+  background-color: #ffffff;
+  border: solid 1px;
+  font-family: Verdana;
+  font-weight: bold;
+  color: #555555;
+  cursor: pointer;
+}
+#addOutfitButton {
+  z-index: 4;
+  height: 100%;
+  width: 10%;
+  border-radius: 0;
+  background-color: #ffffff;
+  border: solid 1px;
+  cursor: pointer
+}
+#detailPanel {
+  display: flex;
+  position: relative;
+  margin-top: 5%;
+  width: 100%;
+}
+#descriptionPanel {
+  position: relative;
+  left: 12%;
+  width: 54%;
+  padding-right: 1.5%;
+  border-right: solid 2px #222222;
+}
+#descriptionHead {
+  font-family: Verdana;
+  color: #555555;
+  margin-top: 0;
+}
+#descriptionText{
+  font-family: Verdana;
+  font-size: 15;
+  font-weight: lighter;
+  color: #222222;
+}
+#featurePanel {
+  position: relative;
+  left: 12%;
+  padding-left: 3%;
+}
+#featureList {
+  list-style-type: none;
+  padding: 0;
+}
+.featureItem {
+  font-family: Verdana;
+  font-variant: small-caps;
+  padding: 2px;
+}
+#selectSize {
+  position: relative;
+  width: 55%;
+  padding-left: 3%;
+  height: 100%;
+  border-radius: 0;
+  font-family: Verdana;
+  font-weight: bold;
+  border: solid 1px;
+  color: #555555;
+}
+#selectQuantity {
+  position: relative;
+  width: 20%;
+  height: 100%;
+  margin-left: 4%;
+  padding-left: 3%;
+  border-radius: 0;
+  border: solid 1px;
+  color: #555555;
+  font-family: Verdana;
+  font-weight: bold;
+}
+#defaultGallery {
+  position: relative;
+  display: flex;
+  align-items: center;
+  top: 6%;
+  left: 15%;
+  height: 77%;
+  width: 50%;
+  background-color: #ffffff;
+}
+#defaultImage {
+  position: relative;
+  object-fit: contain;
+  width: 100%;
+  height: 100%;
+  cursor: zoom-in;
+}
+#defaultIconCol {
+  position: absolute;
+  top: 7.5%;
+  left: -20%;
+  height: 75%;
+  width: 10%;
+  background-color: transparent;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+  z-index: 3;
+}
+#defaultGalleryLeftArrow {
+  position: absolute;
+  top: 45%;
+  left: 0%;
+  cursor: pointer;
+}
+#defaultGalleryRightArrow {
+  position: absolute;
+  top: 45%;
+  left: 90%;
+  cursor: pointer;
+}
+#defaultIconUpArrow{
+  z-index: 3;
+  cursor: pointer;
+}
+#defaultIconDownArrow{
+  z-index: 3;
+  cursor: pointer;
+}
+.defaultIconImage {
+  position: relative;
+  object-fit: cover;
+  width: 4.5vw;
+  height: 4.5vw;
+  background-color: white;
+  user-select: none;
+  border: solid black 1px;
+}
+.selectedDefaultIconImage {
+  border: solid orange 2px;
+}
+.styleIconContainer {
+  position: relative;
+  height: 4.5vw;
+  width: 4.5vw;
+  margin-left: 0;
+  margin-right: 7%;
+  margin-top: 3%;
+  margin-bottom: 3%;
+}
+.styleIcon {
+  position: relative;
+  object-fit: cover;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  border: 2px solid;
+  cursor: pointer;
+}
+.selectedStyleIcon {
+  border: 3px orange solid;
+}
+#styleIconCheck {
+  position: absolute;
+  top: 0;
+  left: 75%;
+  z-index: 3;
+}
+#expandedGallery {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100vh;
+  width: 100%;
+  background-color: #ffffff;
+  z-index: 20;
+}
+#imagePanel {
+  position: absolute;
+  left: 5%;
+  height: 87%;
+  width: 90%;
+  background-color: #ffffff;
+  overflow: hidden;
+}
+#expandedIconRow {
+  position: absolute;
+  left: 5%;
+  top: 87%;
+  height: 13%;
+  width: 90%;
+  background-color: #ffffff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+#expandedGalleryClose {
+  position: absolute;
+  top: 0;
+  left: 95%;
+  z-index: 3;
+  cursor: pointer;
+}
+#expandedGalleryLeftArrow {
+  position: absolute;
+  top: 46%;
+  left: 0%;
+  z-index: 3;
+  cursor: pointer;
+}
+#expandedGalleryRightArrow {
+  position: absolute;
+  top: 46%;
+  left: 92.5%;
+  z-index: 3;
+  cursor: pointer;
+}
+.expandedIconImage {
+  object-fit: contain;
+  height: 6vh;
+  width: 7vh;
+  background-color: white;
+  margin-left: 0.5vh;
+  margin-right: 0.5vh;
+  border: solid black 1px;
+}
+.expandedIconImageSelected {
+  border: solid orange 2px;
 }
 /* david css */
 
@@ -451,6 +793,11 @@ textarea {
 /*anthony css */
 mark {
   background-color: cyan;
+}
+#productDetail {
+  position: relative;
+  width: 100%;
+  min-height: 800px;
 }
 #questionsBody {
   margin-left: 13%;

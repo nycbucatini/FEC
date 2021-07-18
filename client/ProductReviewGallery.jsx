@@ -27,7 +27,7 @@ class ProductReviewGallery extends React.Component {
   loadRelatedProducts() {
     return axios.get(API_ROOT + `/products/${this.props.productId}/related`, HEADERS)
       .then((response) => {
-        // console.log("THIS IS RESPONSE DATA", response.data)
+        console.log("THIS IS RESPONSE DATA", response.data)
         var unique = Array.from(new Set(response.data));
         // console.log("THIS IS UNIQUE ARRAY", unique);
         this.setState({

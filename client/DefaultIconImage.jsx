@@ -1,5 +1,4 @@
 import React from 'react';
-const ICON_HEIGHT = 0.075 * window.innerHeight;
 
 /**
  *
@@ -10,20 +9,9 @@ const ICON_HEIGHT = 0.075 * window.innerHeight;
  */
 
 var DefaultIconImage = function(props) {
-  var iconCSS = {
-    objectFit: 'cover',
-    height: ICON_HEIGHT,
-    width: ICON_HEIGHT,
-    backgroundColor: 'white',
-    marginTop: 0.125 * ICON_HEIGHT,
-    marginBottom: 0.125 * ICON_HEIGHT,
-    border: props.isSelected ? 'solid orange 2px' : 'solid black 1px'
-  };
 
   return (
-    <div onClick={() => {props.clickHandler(props.index)}}>
-      <img style={iconCSS} src={props.image}/>
-    </div>
+      <img className={props.isSelected ? "selectedDefaultIconImage defaultIconImage" : "defaultIconImage"} src={props.image} onClick={() => {props.clickHandler(props.index)}}/>
   );
 };
 

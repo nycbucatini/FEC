@@ -15,23 +15,6 @@ const HEADERS = {
   }
 };
 
-const TOP_OFFSET = 50;
-const HEIGHT = 0.73 * window.innerHeight;
-const RIGHT_PANEL_WIDTH = 0.3 * window.innerWidth;
-
-const rightPanelCSS = {
-  position: 'absolute',
-  top: TOP_OFFSET,
-  left: 0.65 * window.innerWidth,
-  width: RIGHT_PANEL_WIDTH,
-  height: HEIGHT - 1.5 * TOP_OFFSET,
-  backgroundColor: '#ffffff',
-  marginTop: 0.05 * window.innerHeight,
-  display: 'flex',
-  flexDirection: 'column',
-  justifyContent: 'flex-start'
-};
-
 class ProductDetail extends React.Component {
   constructor(props) {
     super(props);
@@ -194,7 +177,7 @@ class ProductDetail extends React.Component {
       currentPhotoIndex: index,
       expanded: !this.state.expanded
     }, () => {
-      this.state.expanded ? this.disableScroll() : this.enableScroll();
+      // this.state.expanded ? this.disableScroll() : this.enableScroll();
     });
   }
 
@@ -289,7 +272,7 @@ class ProductDetail extends React.Component {
     }
 
     return (
-      <div id="productDetail" style={{position: 'relative', marginBottom: 50}}>
+      <div id="productDetail">
         {this.state.dataReceived && !this.state.expanded &&
           <DefaultGallery photos={this.state.styles[this.state.currentStyleIndex].photos} switchGallery={this.switchGallery} startingIndex={this.state.currentPhotoIndex} logInteraction={this.logInteraction}/>
         }
@@ -297,24 +280,24 @@ class ProductDetail extends React.Component {
           <ExpandedGallery photos={this.state.styles[this.state.currentStyleIndex].photos} switchGallery={this.switchGallery} startingIndex={this.state.currentPhotoIndex} logInteraction={this.logInteraction}/>
         }
         {!this.state.expanded && this.state.dataReceived &&
-          <div id="rightPanel" style={rightPanelCSS}>
-            <div id="productInfoReviewStar"style={{display: 'flex', alignItems: 'center'}}>
-              <img style={{width: 75, height: 15}} src={starsURL}/>
-              <a id="reviewLink" onClick={this.scrollToReviews} style={{fontFamily: 'Verdana', fontSize: 12, color: 'black', marginLeft: 10}}>Read All Reviews</a>
+          <div id="rightPanel">
+            <div id="productInfoReviewRow">
+              <img id="productInfoReviewStars" src={starsURL}/>
+              <a id="reviewLink" onClick={this.scrollToReviews}>Read All Reviews</a>
             </div>
-            <p id="categoryName" style={{fontFamily: 'Verdana', fontWeight: 'lighter', fontVariant: 'small-caps', marginBottom: 0}}>{this.state.category}</p>
-            <h2 id="productName" style={{fontFamily: 'Copperplate', marginTop: 0, marginBottom: 0, fontSize: 40 * window.innerHeight / 820}}>{this.state.name}</h2>
-            <div id="prices" style={{display: 'flex'}}>
+            <p id="categoryName">{this.state.category}</p>
+            <h2 id="productName">{this.state.name}</h2>
+            <div id="prices">
               {this.state.styles[this.state.currentStyleIndex].sale_price &&
-                <p style={{color: 'red', fontFamily: 'Verdana', fontVariant: 'small-caps', fontWeight: 'bold', marginRight: 20, marginTop: 10, marginBottom: 0}}>{'$' + Math.floor(this.state.styles[this.state.currentStyleIndex].sale_price) + ' On sale!'}</p>
+                <p id="salePrice">{'$' + Math.floor(this.state.styles[this.state.currentStyleIndex].sale_price) + ' On sale!'}</p>
               }
-              <p style={this.state.styles[this.state.currentStyleIndex].sale_price ? {fontFamily: 'Verdana', textDecoration: 'line-through', marginTop: 10, marginBottom: 0} : {fontFamily: 'Verdana', marginTop: 10, marginBottom: 0, fontWeight: 'bold'}}>{'$' + Math.floor(this.state.styles[this.state.currentStyleIndex].original_price)}</p>
+              <p id={this.state.styles[this.state.currentStyleIndex].sale_price ? 'normalPriceStrikethrough' : 'normalPrice'}>{'$' + Math.floor(this.state.styles[this.state.currentStyleIndex].original_price)}</p>
             </div>
-            <div id="stylesHeader" style={{display: 'flex', alignItems: 'center'}}>
-              <p style={{fontFamily: 'Verdana', fontWeight: 'bold'}}>STYLE >  </p>
-              <p style={{fontFamily: 'Verdana', marginLeft: 6}}>{this.state.styles[this.state.currentStyleIndex].name.toUpperCase()}</p>
+            <div id="stylesHeader">
+              <p id="stylesPrompt">STYLE >  </p>
+              <p id="selectedStyle">{this.state.styles[this.state.currentStyleIndex].name.toUpperCase()}</p>
             </div>
-            <div id="styleIcons" style={{minHeight: RIGHT_PANEL_WIDTH * 0.45, width: RIGHT_PANEL_WIDTH * 0.8, display: 'flex', flexFlow: 'row wrap', justifyContent: 'flex-start', alignContent: 'center', alignItems: 'center'}}>
+            <div id="styleIcons">
               {styleIconComponents}
             </div>
             <div id="dropdownRow">
@@ -323,21 +306,21 @@ class ProductDetail extends React.Component {
               <SelectQuantity key={this.state.selectedSku + (this.state.quantity === 0 ? 1 : 0)} quantity={this.state.styles[this.state.currentStyleIndex].skus[this.state.selectedSku] ? this.state.styles[this.state.currentStyleIndex].skus[this.state.selectedSku].quantity : 0} selectQuantity={this.selectQuantity}/>
             </div>
             <div id="bagRow">
-              <button id="bagButton" onClick={this.addToCart} style={{zIndex: 4, width: RIGHT_PANEL_WIDTH * 0.65, height: 0.1 * RIGHT_PANEL_WIDTH, marginTop: 0.04 * RIGHT_PANEL_WIDTH, marginRight: 0.04 * RIGHT_PANEL_WIDTH, backgroundColor: '#ffffff', border: 'solid 1px', fontFamily: 'Verdana', fontWeight: 'bold', color: '#555555'}}>ADD TO BAG</button>
-              <button id="addOutfitButton" onClick={this.addOutfit} style={{zIndex: 4, height: 0.1 * RIGHT_PANEL_WIDTH, width: 0.1 * RIGHT_PANEL_WIDTH, borderRadius: 0, backgroundColor: '#ffffff', border: 'solid 1px'}}>☆</button>
+              <button id="bagButton" onClick={this.addToCart}>ADD TO BAG</button>
+              <button id="addOutfitButton" onClick={this.addOutfit}>☆</button>
             </div>
           </div>
         }
         {!this.state.expanded && this.state.dataReceived &&
-          <div id="detailPanel" style={{display: 'flex', position: 'relative', marginTop: 0.1 * window.innerHeight}}>
-            <div id="descriptionPanel" style={{position: 'relative', left: 0.12 * window.innerWidth, width: 0.5 * window.innerWidth, paddingRight: 0.015 * window.innerWidth, borderRight: 'solid 2px #222222'}}>
-              <h4 style={{fontFamily: 'Verdana', color: '#555555', marginTop: 0}}>{this.state.slogan}</h4>
-              <p style={{fontFamily: 'Verdana', fontSize: 15, fontWeight: 'lighter', color: '#222222'}}>{this.state.description}</p>
+          <div id="detailPanel">
+            <div id="descriptionPanel">
+              <h4 id="descriptionHead">{this.state.slogan}</h4>
+              <p id="descriptionText">{this.state.description}</p>
             </div>
-            <div id="featurePanel" style={{position: 'relative', left: .12 * window.innerWidth, paddingLeft: 0.03 * window.innerWidth}}>
-              <ul style={{listStyleType: 'none', padding: 0}}>
+            <div id="featurePanel">
+              <ul id="featureList">
                 {this.state.features.map(feature =>
-                  <li style={{fontFamily: 'Verdana', fontVariant: 'small-caps', padding: '2px'}}>{feature}</li>
+                  <li class="featureItem">{feature}</li>
                 )}
               </ul>
             </div>
