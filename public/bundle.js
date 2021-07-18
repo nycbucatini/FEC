@@ -16,7 +16,7 @@
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"default\": () => (__WEBPACK_DEFAULT_EXPORT__)\n/* harmony export */ });\n\nconst IMGKEY = 'b1a20bd700badd2';\nconst imgbbKey ='80657138e7d82e45089d1e42304f693f';\nconst KEY = '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';\n/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (KEY);\n\n\n\n//# sourceURL=webpack://FEC/./config.js?");
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"default\": () => (__WEBPACK_DEFAULT_EXPORT__)\n/* harmony export */ });\nconsole.log(process.env.REACT_APP_CLIENT_ID)\nconst IMGKEY = 'b1a20bd700badd2';\nconst imgbbKey ='80657138e7d82e45089d1e42304f693f';\nconst KEY = process.env.REACT_APP_API_KEY;\n/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (KEY);\n\n\n\n//# sourceURL=webpack://FEC/./config.js?");
 
 /***/ }),
 
