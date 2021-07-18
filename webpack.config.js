@@ -20,7 +20,7 @@ module.exports = {
   externals: {
     'Config': JSON.stringify(
     {
-      API_KEY: process.env.API_KEY
+      API_KEY: process.env.REACT_APP_API_KEY
     })
  },
   // plugins: [
