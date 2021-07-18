@@ -1,4 +1,6 @@
-const Dotenv = require('dotenv-webpack');
+require('dotenv').config();
+// console.log(process.env);
+const webpack = require('webpack');
 module.exports = {
   entry: __dirname + "/client/app.jsx",
   module: {
@@ -17,13 +19,9 @@ module.exports = {
     filename: "bundle.js",
     path: __dirname + "/public"
   },
-  externals: {
-    'Config': JSON.stringify(
-    {
-      API_KEY: process.env.REACT_APP_API_KEY
+  plugins: [
+    new webpack.DefinePlugin({
+      GITHUB: JSON.stringify(process.env)
     })
- },
-  // plugins: [
-  //   new Dotenv()
-  // ]
+  ]
 };
