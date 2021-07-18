@@ -17,7 +17,13 @@ module.exports = {
     filename: "bundle.js",
     path: __dirname + "/public"
   },
-  plugins: [
-    new Dotenv()
-  ]
+  externals: {
+    'Config': JSON.stringify(
+    {
+      API_KEY: process.env.API_KEY
+    })
+ },
+  // plugins: [
+  //   new Dotenv()
+  // ]
 };
