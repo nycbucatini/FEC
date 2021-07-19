@@ -1,8 +1,8 @@
 import React from 'react';
 import axios from 'axios';
 import Window from './Window.jsx'
-import {getListReviews, loadReviews, helpfulReview, reportReview} from '../helpers/helper.js';
-import KEY from '../config.js';
+import {getListReviews, loadReviews, helpfulReview, reportReview} from '../../helpers/helper.js';
+import KEY from '../../config.js';
 const API_ROOT = 'https://app-hrsei-api.herokuapp.com/api/fec2/hrnyc'
 const HEADERS = {
   headers: {
