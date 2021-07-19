@@ -1,9 +1,9 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import ProductDetail from './ProductDetail.jsx';
-import ReviewRating from './ReviewRating.jsx';
-import Questions from './Questions.jsx';
-import ProductReviewBody from './ProductReviewBody.jsx';
+import ProductDetail from './ProductDetail/ProductDetail.jsx';
+import ReviewRating from './ReviewRating/ReviewRating.jsx';
+import Questions from './Questions/Questions.jsx';
+import ProductReviewBody from './ProductReviewBody/ProductReviewBody.jsx';
 
 class App extends React.Component {
   constructor(props) {

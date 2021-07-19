@@ -3,7 +3,7 @@ import React from 'react';
 import Radio from './Radio.jsx';
 import UploadImg from './UploadImg.jsx';
 import axios from 'axios';
-import {postReview} from '../helpers/helper.js';
+import {postReview} from '../../helpers/helper.js';
 export default class RadioModal extends React.Component {
   constructor(props) {
     super(props);

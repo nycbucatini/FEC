@@ -1,7 +1,7 @@
 
 import React from 'react';
 import axios from 'axios';
-import KEY from '../config.js';
+import KEY from '../../config.js';
 import CompareBox from './CompareBox.jsx'
 const API_ROOT = 'https://app-hrsei-api.herokuapp.com/api/fec2/hrnyc';
 //https://app-hrsei-api.herokuapp.com/api/fec2/hrnyc/products?count=10

@@ -6,7 +6,7 @@ import SelectSize from './SelectSize.jsx';
 import SelectQuantity from './SelectQuantity.jsx';
 import React from 'react';
 import axios from 'axios';
-import KEY from '../config.js';
+import KEY from '../../config.js';
 const API_ROOT = 'https://app-hrsei-api.herokuapp.com/api/fec2/hrnyc';
 //https://app-hrsei-api.herokuapp.com/api/fec2/hrnyc/products?count=10
 const HEADERS = {

@@ -1,7 +1,7 @@
 import React from 'react';
 import axios from 'axios';
 import Answer from './Answer.jsx';
-import KEY from '../config.js';
+import KEY from '../../config.js';
 import AnswerForm from './AnswerForm.jsx';
 const API_ROOT = 'https://app-hrsei-api.herokuapp.com/api/fec2/hrnyc';
 //this.props.questionObject
