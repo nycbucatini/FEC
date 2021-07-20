@@ -3,11 +3,11 @@
 An e-commerce platform. Minimalist with bright colors, designed with younger consumers in mind.
 
 # Team
-- Anthony Ye : [Product Overview](#Product-Overview), [Questions and Answers](#Questions-and-Answers)
+- Anthony Ye: [Product Overview](#Product-Overview), [Questions and Answers](#Questions-and-Answers)
 
-- David Wang : [Ratings and Reviews](#Ratings-and-Reviews)
+- David Wang: [Ratings and Reviews](#Ratings-and-Reviews)
 
-- Iva Pierotic : [Related Items](#Related-Items)
+- Iva Pierotic: [Related Items](#Related-Items)
 
 ---
 
